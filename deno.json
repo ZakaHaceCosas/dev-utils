@@ -12,6 +12,7 @@
     "@std/assert": "jsr:@std/assert@1"
   },
   "exclude": [
-    "mod.test.ts"
+    "mod.test.ts",
+    "LICENSE"
   ]
 }
