@@ -68,7 +68,7 @@ export const StringUtils: {
    *
    * @returns True if it's valid and false if otherwise.
    */
-  validate(str: UnknownString): boolean;
+  validate(str: UnknownString): str is string;
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
