@@ -1,4 +1,11 @@
 /**
+ * Variable that's _possibly_ a string.
+ *
+ * @export
+ */
+export type UnknownString = undefined | null | string | "";
+
+/**
  * A set of utilities for interacting with strings.
  * @author ZakaHaceCosas
  */
@@ -46,6 +53,22 @@ export const StringUtils: {
    * @returns The truncated string.
    */
   truncate(str: string, length: number): string;
+  /**
+   * Takes an argument that's _possibly_ a string and validates it.
+   * @param str The string to test.
+   *
+   * @example
+   * ```ts
+   * const argument: UnknownString = Deno.args[1]; // Deno.args[1] is maybe not defined, or maybe an empty string which you might don't want
+   * if (!StringUtils.validate(argument)) {
+   *    throw new Error("No argument given!");
+   * }
+   * console.log("Arg:", secondCliArgument); // here we know it's not null, not undefined, and not "" (or "     ")
+   * ```
+   *
+   * @returns True if it's valid and false if otherwise.
+   */
+  validate(str: UnknownString): boolean;
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -92,5 +115,16 @@ export const StringUtils: {
   truncate(str: string, length: number): string {
     if (str.length <= length) return str;
     return str.substring(0, length) + "...";
+  },
+
+  validate(str: UnknownString): str is string {
+    if (
+      str === undefined || str === null || typeof str !== "string" ||
+      str.trim() === ""
+    ) {
+      return false;
+    }
+
+    return true;
   },
 };

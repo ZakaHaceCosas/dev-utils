@@ -13,6 +13,7 @@
   },
   "exclude": [
     "mod.test.ts",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG"
   ]
 }
