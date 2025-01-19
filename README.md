@@ -23,7 +23,7 @@ bunx jsr add @zakahacecosas/string-utils
 
 The module is fully documented in `jsr.io`, [click here for module documentation](https://jsr.io/@zakahacecosas/string-utils/doc/~/StringUtils).
 
-----
+---
 
 ###### Fun fact
 

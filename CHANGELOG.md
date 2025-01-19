@@ -1,10 +1,14 @@
 # changelog
 
+## 1.3.0
+
+- new functions:
+  - `sortAlphabetically(strArr)`, alphabetically sorts a string array and returns a new array
+
 ## 1.2.0
 
 - new functions:
-  - `normalize(str)`, normalizes a string so it can be used for things like
-    search queries, tags, etc...
+  - `normalize(str)`, normalizes a string so it can be used for things like search queries, tags, etc...
 - added two examples to the module doc
 
 ## 1.1.0
@@ -22,8 +26,7 @@
 (should've been 1.1.0 (new function), but i typed wrong version code, my bad)
 
 - new functions:
-  - `validate(str)`, validates if a string is, indeed, a string, or anything
-    else (undefined, null, etc...). considers `""` invalid.
+  - `validate(str)`, validates if a string is, indeed, a string, or anything else (undefined, null, etc...). considers `""` invalid.
 - new type:
   - `UnknownString` (export)
 

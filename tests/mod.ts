@@ -115,3 +115,27 @@ Deno.test({
     );
   },
 });
+
+Deno.test({
+  name: "normalize works",
+  fn: () => {
+    assertEquals(
+      StringUtils.normalize(
+        "              heLLo mY    fAnTÁsTiCo    AmigO   ",
+      ),
+      "hello my fantastico amigo",
+    );
+  },
+});
+
+Deno.test({
+  name: "sortAlphabetically works",
+  fn: () => {
+    assertEquals(
+      StringUtils.sortAlphabetically(
+        ["delta", "charlie", "alpha", "zulu", "bravo"],
+      ),
+      ["alpha", "bravo", "charlie", "delta", "zulu"],
+    );
+  },
+});

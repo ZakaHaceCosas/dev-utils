@@ -180,6 +180,13 @@ export const StringUtils: {
    * @returns {string} The normalized string.
    */
   normalize(str: string): string;
+  /**
+   * Alphabetically sorts an array of strings. Returns a new, sorted array.
+   *
+   * @param {string[]} strArr The string array to be sorted.
+   * @returns {string[]} The sorted array.
+   */
+  sortAlphabetically(strArr: string[]): string[];
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -250,5 +257,11 @@ export const StringUtils: {
       .replace(/\s+/g, " ") // turn "my      search  query" into "my search query"
       .trim()
       .toLowerCase();
+  },
+
+  sortAlphabetically(strArr: string[]): string[] {
+    return strArr.toSorted((a: string, b: string) =>
+      this.normalize(a).localeCompare(this.normalize(b))
+    );
   },
 };
