@@ -1,5 +1,10 @@
 # changelog
 
+## 1.1.0
+
+- new functions:
+  - `getLastChar(str)`, gets the last character of a string
+
 ## 1.0.2
 
 - fix return type of `validate(str)` so TS knows it asserts `str`'s type

@@ -97,3 +97,21 @@ Deno.test({
     );
   },
 });
+
+Deno.test({
+  name: "getLastChar works",
+  fn: () => {
+    assertEquals(
+      StringUtils.getLastChar(
+        "hi!",
+      ),
+      "!",
+    );
+    assertEquals(
+      StringUtils.getLastChar(
+        "line break\n",
+      ),
+      "\n",
+    );
+  },
+});

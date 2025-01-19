@@ -124,6 +124,20 @@ export const StringUtils: {
    * @returns True if it's valid and false if otherwise.
    */
   validate(str: UnknownString): str is string;
+  /**
+   * Returns the last character of a string.
+   *
+   * @param {string} str The string to look inside of.
+   *
+   * @example
+   * ```ts
+   * const str = StringUtils.getLastChar("Hello!");
+   * console.log(str) // outputs "!"
+   * ```
+   *
+   * @returns {string} The last character of the string.
+   */
+  getLastChar(str: string): string;
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -181,5 +195,9 @@ export const StringUtils: {
     }
 
     return true;
+  },
+
+  getLastChar(str: string): string {
+    return str.charAt(str.length - 1);
   },
 };
