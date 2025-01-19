@@ -73,3 +73,27 @@ Deno.test({
     );
   },
 });
+
+Deno.test({
+  name: "validate works",
+  fn: () => {
+    assertEquals(
+      StringUtils.validate(
+        "valid",
+      ),
+      true,
+    );
+    assertEquals(
+      StringUtils.validate(
+        "",
+      ),
+      false,
+    );
+    assertEquals(
+      StringUtils.validate(
+        undefined,
+      ),
+      false,
+    );
+  },
+});
