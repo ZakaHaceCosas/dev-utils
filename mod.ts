@@ -1,4 +1,10 @@
 /**
+ * A set of utilities for interacting with strings.
+ * @author ZakaHaceCosas
+ * @module
+ */
+
+/**
  * Variable that's _possibly_ a string.
  *
  * @export
@@ -13,36 +19,78 @@ export const StringUtils: {
   /**
    * Capitalizes the first letter of the string.
    * @param str The string to modify.
+   *
+   * @example
+   * ```ts
+   * const str = StringUtils.toUpperCaseFirst("deno the Runtime");
+   * console.log(str); // Deno the Runtime
+   * ```
+   *
    * @returns The string with the first letter capitalized.
    */
   toUpperCaseFirst(str: string): string;
   /**
    * Lowercases the first letter of the string.
    * @param str The string to modify.
+   *
+   * @example
+   * ```ts
+   * const str = StringUtils.toLowerCaseFirst("Deno the Runtime");
+   * console.log(str); // deno the Runtime
+   * ```
+   *
    * @returns The string with the first letter in lowercase.
    */
   toLowerCaseFirst(str: string): string;
   /**
    * Capitalizes the first letter of each word in the string.
    * @param str The string to modify.
+   *
+   * @example
+   * ```ts
+   * const str = StringUtils.capitalizeWords("deno the javaScript runtime");
+   * console.log(str); // Deno The JavaScript Runtime
+   * ```
+   *
    * @returns The string with each word capitalized.
    */
   capitalizeWords(str: string): string;
   /**
-   * Capitalizes the first letter of each word except small words.
+   * Capitalizes the first letter of each word except small words, like "the" or "and".
    * @param str The string to modify.
+   *
+   * @example
+   * ```ts
+   * const str = StringUtils.toTitleCase("deno the javaScript runtime");
+   * console.log(str); // Deno the JavaScript Runtime
+   * ```
+   *
    * @returns The string with title-case formatting.
    */
   toTitleCase(str: string): string;
   /**
    * Reverses the characters of a string.
    * @param str The string to reverse.
+   *
+   * @example
+   * ```ts
+   * const str = StringUtils.reverseString("JavaScript");
+   * console.log(str); // tpircSavaJ
+   * ```
+   *
    * @returns The reversed string.
    */
   reverseString(str: string): string;
   /**
    * Removes all whitespace from the string.
    * @param str The string to modify.
+   *
+   * @example
+   * ```ts
+   * const str = StringUtils.removeWhitespace("One Two Three!");
+   * console.log(str); // OneTwoThree!
+   * ```
+   *
    * @returns The string without any whitespace.
    */
   removeWhitespace(str: string): string;
@@ -50,6 +98,13 @@ export const StringUtils: {
    * Truncates a string to a specified length and appends "..." if needed.
    * @param str The string to truncate.
    * @param length The length to truncate to.
+   *
+   * @example
+   * ```ts
+   * const str = StringUtils.truncate("Hello, world!", 5);
+   * console.log(str) // Hello...
+   * ```
+   *
    * @returns The truncated string.
    */
   truncate(str: string, length: number): string;
