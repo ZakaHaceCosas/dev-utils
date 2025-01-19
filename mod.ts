@@ -1,6 +1,35 @@
 /**
  * A set of utilities for interacting with strings.
  * @author ZakaHaceCosas
+ *
+ * @example
+ * ```ts
+ * import { StringUtils, type UnknownString } from "@zakahacecosas/string-utils";
+ *
+ * const searchQuery: UnknownString = getSearchQuery() // example
+ * if (!StringUtils.validate(searchQuery)) return []; // ensure it's not an empty or undefined string
+ *
+ * const cleanSearchQuery = StringUtils.normalize(searchQuery); // normalize accents, trailing space, etc...
+ * return searchResults(cleanSearchQuery); // example
+ * ```
+ *
+ * @example
+ * ```ts
+ * function createBook(title: string, author: string) {
+ *  const bookTitle = StringUtils.toTitleCase(title);
+ *  const bookAuthor = StringUtils.capitalizeWords(author);
+ *
+ *  return {
+ *   bookTitle,
+ *   bookAuthor,
+ *   publishedAt: new Date(),
+ *   ISBN: getIsbn()
+ *  }
+ * }
+ *
+ * const book = createBook("war and peace", "sir john doe");
+ * console.log(book.bookTitle, book.bookAuthor) // "War and Peace, Sir John Doe"
+ *
  * @module
  */
 
@@ -138,6 +167,19 @@ export const StringUtils: {
    * @returns {string} The last character of the string.
    */
   getLastChar(str: string): string;
+  /**
+   * Normalizes a string so it's easier to work with it. Removes external and internal trailing spaces, lowercases the string, and normalizes accents too.
+   *
+   * @param {string} str The string to normalize.
+   *
+   * @example
+   * ```ts
+   * const str = StringUtils.normalize("   mY  sEaRcH      qUÉry    ")
+   * console.log(str); // "my search query"
+   *
+   * @returns {string} The normalized string.
+   */
+  normalize(str: string): string;
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -199,5 +241,14 @@ export const StringUtils: {
 
   getLastChar(str: string): string {
     return str.charAt(str.length - 1);
+  },
+
+  normalize(str: string): string {
+    return str
+      .normalize("NFD") // normalize á, é, etc.
+      .replace(/[\u0300-\u036f]/g, "") // remove accentuation
+      .replace(/\s+/g, " ") // turn "my      search  query" into "my search query"
+      .trim()
+      .toLowerCase();
   },
 };

@@ -1,5 +1,12 @@
 # changelog
 
+## 1.2.0
+
+- new functions:
+  - `normalize(str)`, normalizes a string so it can be used for things like
+    search queries, tags, etc...
+- added two examples to the module doc
+
 ## 1.1.0
 
 - new functions:
