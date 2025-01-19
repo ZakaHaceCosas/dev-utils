@@ -4,6 +4,7 @@
 
 - new functions:
   - `sortAlphabetically(strArr)`, alphabetically sorts a string array and returns a new array
+  - `spaceString(str)`, to append or prepend space to a string
 
 ## 1.2.0
 

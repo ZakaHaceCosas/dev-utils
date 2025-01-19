@@ -184,9 +184,32 @@ export const StringUtils: {
    * Alphabetically sorts an array of strings. Returns a new, sorted array.
    *
    * @param {string[]} strArr The string array to be sorted.
+   *
+   * @example
+   * ```ts
+   * const sortedArr = StringUtils.sortAlphabetically(["zulu", "bravo", "delta", "alpha"]);
+   * console.log(sortedArr); // ["alpha", "bravo", "delta", "zulu"]
+   * ```
+   *
    * @returns {string[]} The sorted array.
    */
   sortAlphabetically(strArr: string[]): string[];
+  /**
+   * Prepends, appends, or both, whitespace to a string.
+   *
+   * @param {string} str String to space.
+   * @param {number} spaceBefore Space to be added before the actual string.
+   * @param {number} spaceAfter Space to be added after the actual string.
+   *
+   * @example
+   * ```ts
+   * const str = StringUtils.spaceString("text", 2, 4);
+   * console.log(str); // "  text    "
+   * ```
+   *
+   * @returns {string} The spaced string.
+   */
+  spaceString(str: string, spaceBefore: number, spaceAfter: number): string;
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -263,5 +286,12 @@ export const StringUtils: {
     return strArr.toSorted((a: string, b: string) =>
       this.normalize(a).localeCompare(this.normalize(b))
     );
+  },
+
+  spaceString(str: string, spaceBefore: number, spaceAfter: number): string {
+    function space(n: number): string {
+      return n === 0 ? "" : " ".repeat(n);
+    }
+    return `${space(spaceBefore)}${str}${space(spaceAfter)}`;
   },
 };

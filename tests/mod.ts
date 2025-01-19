@@ -139,3 +139,17 @@ Deno.test({
     );
   },
 });
+
+Deno.test({
+  name: "spaceString works",
+  fn: () => {
+    assertEquals(
+      StringUtils.spaceString(
+        "hi chat",
+        2,
+        4,
+      ),
+      "  hi chat    ",
+    );
+  },
+});
