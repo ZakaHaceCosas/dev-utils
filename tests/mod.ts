@@ -125,6 +125,13 @@ Deno.test({
       ),
       "hello my fantastico amigo",
     );
+    assertEquals(
+      StringUtils.normalize(
+        "              123_heLLo mY    fAnTÁsTiCo    AmigO   ",
+        true,
+      ),
+      "123hellomyfantasticoamigo",
+    );
   },
 });
 
@@ -150,6 +157,32 @@ Deno.test({
         4,
       ),
       "  hi chat    ",
+    );
+  },
+});
+
+Deno.test({
+  name: "isPalindrome works",
+  fn: () => {
+    assertEquals(
+      StringUtils.isPalindrome(
+        "Hannah",
+      ),
+      true,
+    );
+
+    assertEquals(
+      StringUtils.isPalindrome(
+        "not a palindrome",
+      ),
+      false,
+    );
+
+    assertEquals(
+      StringUtils.isPalindrome(
+        "Do geese see God?",
+      ),
+      true,
     );
   },
 });

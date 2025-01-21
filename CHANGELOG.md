@@ -1,5 +1,13 @@
 # changelog
 
+## unreleased
+
+- new functions:
+  - `isPalindrome(str)`, checks if the given string is a palindrome or not
+
+- changes:
+  - `normalize(str)` now can take a second `true` argument to make the normalization stricter (less human readable but more compact).
+
 ## 1.3.0
 
 - new functions:

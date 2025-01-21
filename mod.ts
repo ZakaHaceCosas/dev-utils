@@ -171,15 +171,20 @@ export const StringUtils: {
    * Normalizes a string so it's easier to work with it. Removes external and internal trailing spaces, lowercases the string, and normalizes accents too.
    *
    * @param {string} str The string to normalize.
+   * @param {boolean} strict If true, it'll also remove underscores, hyphens, and other non-alphanumeric characters.
    *
    * @example
    * ```ts
-   * const str = StringUtils.normalize("   mY  sEaRcH      qUÉry    ")
-   * console.log(str); // "my search query"
+   * const query = "   mY  sEaRcH      qUÉry_1  "
+   *
+   * const str = StringUtils.normalize(query)
+   * const str2 = StringUtils.normalize(query, true)
+   * console.log(str); // "my search query_a"
+   * console.log(str); // "my search query1"
    *
    * @returns {string} The normalized string.
    */
-  normalize(str: string): string;
+  normalize(str: string, strict?: boolean): string;
   /**
    * Alphabetically sorts an array of strings. Returns a new, sorted array.
    *
@@ -210,6 +215,20 @@ export const StringUtils: {
    * @returns {string} The spaced string.
    */
   spaceString(str: string, spaceBefore: number, spaceAfter: number): string;
+
+  /**
+   * Returns true if the given string is a palindrome. This means, it reads the same forwards and backwards.
+   *
+   * @param {string} str The string to check.
+   *
+   * @example
+   * ```ts
+   * const str = "Hannah"
+   * console.log(StringUtils.isPalindrome(str)) // true
+   *
+   * @returns {boolean} Whether it's a palindrome or ot.
+   */
+  isPalindrome(str: string): boolean;
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -273,13 +292,15 @@ export const StringUtils: {
     return str.charAt(str.length - 1);
   },
 
-  normalize(str: string): string {
-    return str
+  normalize(str: string, strict?: boolean): string {
+    const normalizedStr = str
       .normalize("NFD") // normalize á, é, etc.
       .replace(/[\u0300-\u036f]/g, "") // remove accentuation
       .replace(/\s+/g, " ") // turn "my      search  query" into "my search query"
       .trim()
       .toLowerCase();
+
+    return strict ? normalizedStr.replace(/[\s\W_]/g, "") : normalizedStr;
   },
 
   sortAlphabetically(strArr: string[]): string[] {
@@ -293,5 +314,10 @@ export const StringUtils: {
       return n === 0 ? "" : " ".repeat(n);
     }
     return `${space(spaceBefore)}${str}${space(spaceAfter)}`;
+  },
+
+  isPalindrome(str: string): boolean {
+    const normalized = this.normalize(str, true);
+    return normalized === this.reverseString(normalized);
   },
 };
