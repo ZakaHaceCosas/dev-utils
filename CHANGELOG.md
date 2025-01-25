@@ -1,6 +1,6 @@
 # changelog
 
-## unreleased
+## 1.4.0
 
 - new functions:
   - `isPalindrome(str)`, checks if the given string is a palindrome or not
