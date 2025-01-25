@@ -6,7 +6,9 @@
   - `isPalindrome(str)`, checks if the given string is a palindrome or not
 
 - changes:
-  - `normalize(str)` now can take a second `true` argument to make the normalization stricter (less human readable but more compact).
+  - `normalize(str)` now can take:
+    - a second `true` argument to make the normalization stricter (less human readable but more compact).
+    - a third `true` argument to strip CLI colors (ensuring CLI-ish strings are normalized as well).
 
 ## 1.3.0
 

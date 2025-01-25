@@ -172,6 +172,7 @@ export const StringUtils: {
    *
    * @param {string} str The string to normalize.
    * @param {boolean} strict If true, it'll also remove underscores, hyphens, and other non-alphanumeric characters.
+   * @param {boolean}stripCliColors If true, it'll also remove CLI-coloring control characters.
    *
    * @example
    * ```ts
@@ -184,7 +185,7 @@ export const StringUtils: {
    *
    * @returns {string} The normalized string.
    */
-  normalize(str: string, strict?: boolean): string;
+  normalize(str: string, strict?: boolean, stripCliColors?: boolean): string;
   /**
    * Alphabetically sorts an array of strings. Returns a new, sorted array.
    *
@@ -292,15 +293,18 @@ export const StringUtils: {
     return str.charAt(str.length - 1);
   },
 
-  normalize(str: string, strict?: boolean): string {
+  normalize(str: string, strict?: boolean, stripCliColors?: boolean): string {
     const normalizedStr = str
       .normalize("NFD") // normalize á, é, etc.
       .replace(/[\u0300-\u036f]/g, "") // remove accentuation
       .replace(/\s+/g, " ") // turn "my      search  query" into "my search query"
       .trim()
-      .toLowerCase();
+      .toLowerCase()
+      .replace(strict ? /[\s\W_]/g : "", "")
+      // deno-lint-ignore no-control-regex
+      .replace(stripCliColors ? /\x1b\[[0-9;]*m/g : "", "");
 
-    return strict ? normalizedStr.replace(/[\s\W_]/g, "") : normalizedStr;
+    return normalizedStr;
   },
 
   sortAlphabetically(strArr: string[]): string[] {
