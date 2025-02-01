@@ -1,5 +1,13 @@
 # changelog
 
+## 1.4.1 (unreleased)
+
+- changes:
+  - now `validate(str)` will `normalize(str)`, meaning it'll be more precise
+
+- fixes:
+  - fixed some messed up JSDoc
+
 ## 1.4.0
 
 - new functions:

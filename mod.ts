@@ -1,5 +1,5 @@
 /**
- * A set of utilities for interacting with strings.
+ * A set of utilities for interacting with strings. Serving 13 functions.
  * @author ZakaHaceCosas
  *
  * @example
@@ -29,19 +29,20 @@
  *
  * const book = createBook("war and peace", "sir john doe");
  * console.log(book.bookTitle, book.bookAuthor) // "War and Peace, Sir John Doe"
+ * ```
  *
  * @module
  */
 
 /**
- * Variable that's _possibly_ a string.
+ * A variable that's _possibly_ a string. `""`, or `"    "`, aren't considered strings.
  *
  * @export
  */
 export type UnknownString = undefined | null | string | "";
 
 /**
- * A set of utilities for interacting with strings.
+ * A set of utilities for interacting with strings. Serving 13 functions.
  * @author ZakaHaceCosas
  */
 export const StringUtils: {
@@ -103,8 +104,8 @@ export const StringUtils: {
    *
    * @example
    * ```ts
-   * const str = StringUtils.reverseString("JavaScript");
-   * console.log(str); // tpircSavaJ
+   * const str = StringUtils.reverseString("Deno");
+   * console.log(str); // oneD
    * ```
    *
    * @returns The reversed string.
@@ -182,6 +183,7 @@ export const StringUtils: {
    * const str2 = StringUtils.normalize(query, true)
    * console.log(str); // "my search query_a"
    * console.log(str); // "my search query1"
+   * ```
    *
    * @returns {string} The normalized string.
    */
@@ -226,6 +228,7 @@ export const StringUtils: {
    * ```ts
    * const str = "Hannah"
    * console.log(StringUtils.isPalindrome(str)) // true
+   * ```
    *
    * @returns {boolean} Whether it's a palindrome or ot.
    */
@@ -281,7 +284,7 @@ export const StringUtils: {
   validate(str: UnknownString): str is string {
     if (
       str === undefined || str === null || typeof str !== "string" ||
-      str.trim() === ""
+      this.validate(str) === false
     ) {
       return false;
     }
