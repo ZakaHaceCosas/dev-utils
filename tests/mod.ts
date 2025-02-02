@@ -223,3 +223,7 @@ Deno.test({
     );
   },
 });
+
+console.log(
+    `Testing ${Object.keys(StringUtils).length} functions.`
+)

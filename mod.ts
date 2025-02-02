@@ -1,5 +1,5 @@
 /**
- * A set of utilities for interacting with strings. Serving 13 functions.
+ * A set of utilities for interacting with strings. Serving 16 functions.
  * @author ZakaHaceCosas
  *
  * @example
@@ -42,7 +42,7 @@
 export type UnknownString = undefined | null | string | "";
 
 /**
- * A set of utilities for interacting with strings. Serving 13 functions.
+ * A set of utilities for interacting with strings. Serving 16 functions.
  * @author ZakaHaceCosas
  */
 export const StringUtils: {
@@ -374,6 +374,7 @@ export const StringUtils: {
     const normalized = strArr.map((str) => this.normalize(str));
     return normalized.filter((str) => this.validate(str));
   },
+
   softlyNormalizeArray(strArr: string[], lowercase?: boolean): string[] {
     const normalized = strArr.map((str) => {
       return (lowercase === true) ? str.trim().toLowerCase() : str.trim();
