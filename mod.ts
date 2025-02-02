@@ -218,7 +218,6 @@ export const StringUtils: {
    * @returns {string} The spaced string.
    */
   spaceString(str: string, spaceBefore: number, spaceAfter: number): string;
-
   /**
    * Returns true if the given string is a palindrome. This means, it reads the same forwards and backwards.
    *
@@ -230,9 +229,52 @@ export const StringUtils: {
    * console.log(StringUtils.isPalindrome(str)) // true
    * ```
    *
-   * @returns {boolean} Whether it's a palindrome or ot.
+   * @returns {boolean} Whether it's a palindrome or not.
    */
   isPalindrome(str: string): boolean;
+  /**
+   * Takes a string array and returns it with all strings normalized and invalid strings removed. For better preservation of strings, use {@link softlyNormalizeArray}. For stricter normalization, use {@link strictlyNormalizeArray}.
+   *
+   * @param {string[]} strArr Array of strings.
+   *
+   * @example
+   * ```ts
+   * const strArr = ["    hIi ", "", "", " yés! ", ""]
+   * console.log(StringUtils.normalizeArray(strArr)) // ["hii", "yes!"]
+   * ```
+   *
+   * @returns {string[]} Array of normalized strings.
+   */
+  normalizeArray(strArr: string[]): string[];
+  /**
+   * Takes a string array and returns it with all strings trimmed and invalid strings removed. For balanced normalization of strings, use {@link normalizeArray}. For stricter normalization, use {@link strictlyNormalizeArray}.
+   *
+   * @param {string[]} strArr Array of strings.
+   * @param {?boolean} [lowercase] If true, strings will be lowercased as well.
+   *
+   * @example
+   * ```ts
+   * const strArr = ["    hIi ", "", "", " yés! ", ""]
+   * console.log(StringUtils.softlyNormalizeArray(strArr, false)) // ["hIi", "yés!"]
+   * ```
+   *
+   * @returns {string[]} Array of softly normalized strings.
+   */
+  softlyNormalizeArray(strArr: string[], lowercase?: boolean): string[];
+  /**
+   * Takes a string array and returns it with all strings strictly normalized and invalid strings removed. For better preservation of strings, use {@link softlyNormalizeArray}. For balanced normalization, use {@link normalizeArray}.
+   *
+   * @param {string[]} strArr Array of strings.
+   *
+   * @example
+   * ```ts
+   * const strArr = ["    hIi ", "", "", " yés! ", " 123_some thing", ""]
+   * console.log(StringUtils.strictlyNormalizeArray(strArr)) // ["hii", "yes!", "123something"]
+   * ```
+   *
+   * @returns {string[]} Array of normalized strings.
+   */
+  strictlyNormalizeArray(strArr: string[]): string[];
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -284,7 +326,7 @@ export const StringUtils: {
   validate(str: UnknownString): str is string {
     if (
       str === undefined || str === null || typeof str !== "string" ||
-      this.validate(str) === false
+      this.normalize(str) === ""
     ) {
       return false;
     }
@@ -326,5 +368,21 @@ export const StringUtils: {
   isPalindrome(str: string): boolean {
     const normalized = this.normalize(str, true);
     return normalized === this.reverseString(normalized);
+  },
+
+  normalizeArray(strArr: string[]): string[] {
+    const normalized = strArr.map((str) => this.normalize(str));
+    return normalized.filter((str) => this.validate(str));
+  },
+  softlyNormalizeArray(strArr: string[], lowercase?: boolean): string[] {
+    const normalized = strArr.map((str) => {
+      return (lowercase === true) ? str.trim().toLowerCase() : str.trim();
+    });
+    return normalized.filter((str) => this.validate(str));
+  },
+
+  strictlyNormalizeArray(strArr: string[]): string[] {
+    const normalized = strArr.map((str) => this.normalize(str, true, true));
+    return normalized.filter((str) => this.validate(str));
   },
 };

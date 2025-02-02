@@ -1,12 +1,16 @@
 # changelog
 
-## 1.4.1 (unreleased)
+## 1.5.0 (unreleased)
+
+- new functions:
+  - `normalizeArray(strArr)`, and `softly` and `strictly` variants, to normalize all strings of an array.
 
 - changes:
   - now `validate(str)` will `normalize(str)`, meaning it'll be more precise
 
 - fixes:
   - fixed some messed up JSDoc
+  - fixed typos
 
 ## 1.4.0
 

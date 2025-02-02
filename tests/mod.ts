@@ -186,3 +186,40 @@ Deno.test({
     );
   },
 });
+
+const abnormalStringArray = ["", "", "   hÉlLo    ", "", "wöRld", "  123_abc ", ""];
+
+Deno.test({
+  name: "normalizeArray works",
+  fn: () => {
+    assertEquals(
+      StringUtils.normalizeArray(abnormalStringArray),
+      ["hello", "world", "123_abc"],
+    );
+  },
+});
+
+Deno.test({
+  name: "softlyNormalizeArray works",
+  fn: () => {
+    assertEquals(
+      StringUtils.softlyNormalizeArray(abnormalStringArray, false),
+      ["hÉlLo", "wöRld", "123_abc"],
+    );
+
+    assertEquals(
+      StringUtils.softlyNormalizeArray(abnormalStringArray, true),
+      ["héllo", "wörld", "123_abc"],
+    );
+  },
+});
+
+Deno.test({
+  name: "strictlyNormalizeArray works",
+  fn: () => {
+    assertEquals(
+      StringUtils.strictlyNormalizeArray(abnormalStringArray),
+      ["hello", "world", "123abc"],
+    );
+  },
+});
