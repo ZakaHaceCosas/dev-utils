@@ -5,6 +5,9 @@
 - new functions:
   - `table(strArr)`, taking an array of KV pairs and formatting them as a cool looking table
 
+- fixes
+  - fixed minor typos with JSDoc
+
 ## 1.5.0
 
 - new functions:

@@ -181,8 +181,8 @@ export const StringUtils: {
    *
    * const str = StringUtils.normalize(query)
    * const str2 = StringUtils.normalize(query, true)
-   * console.log(str); // "my search query_a"
-   * console.log(str); // "my search query1"
+   * console.log(str); // "my search query_1"
+   * console.log(str2); // "my search query1"
    * ```
    *
    * @returns {string} The normalized string.
