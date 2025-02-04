@@ -1,6 +1,11 @@
 # changelog
 
-## 1.5.0 (unreleased)
+## 1.6.0 (unreleased)
+
+- new functions:
+  - `table(strArr)`, taking an array of KV pairs and formatting them as a cool looking table
+
+## 1.5.0
 
 - new functions:
   - `normalizeArray(strArr)`, and `softly` and `strictly` variants, to normalize all strings of an array.

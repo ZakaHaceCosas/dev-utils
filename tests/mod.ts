@@ -224,6 +224,26 @@ Deno.test({
   },
 });
 
+Deno.test({
+  name: "table works",
+  fn: () => {
+    assertEquals(
+      StringUtils.table([
+        { Name: "Zaka", Age: 50, Country: "Spain" },
+        { Name: "Someone", Age: 25, Country: "Poland" },
+      ]),
+      `
+┌──────────────────────┬──────────────────────┬──────────────────────┐
+│ Name                 │ Age                  │ Country              │
+├──────────────────────┼──────────────────────┼──────────────────────┤
+│ Zaka                 │ 50                   │ Spain                │
+│ Someone              │ 25                   │ Poland               │
+└──────────────────────┴──────────────────────┴──────────────────────┘
+            `.trim(),
+    );
+  },
+});
+
 console.log(
-    `Testing ${Object.keys(StringUtils).length} functions.`
-)
+  `Testing ${Object.keys(StringUtils).length} functions.`,
+);

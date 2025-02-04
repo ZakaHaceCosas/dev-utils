@@ -1,5 +1,5 @@
 /**
- * A set of utilities for interacting with strings. Serving 16 functions.
+ * A set of utilities for interacting with strings. Serving 17 functions.
  * @author ZakaHaceCosas
  *
  * @example
@@ -42,7 +42,7 @@
 export type UnknownString = undefined | null | string | "";
 
 /**
- * A set of utilities for interacting with strings. Serving 16 functions.
+ * A set of utilities for interacting with strings. Serving 17 functions.
  * @author ZakaHaceCosas
  */
 export const StringUtils: {
@@ -275,6 +275,26 @@ export const StringUtils: {
    * @returns {string[]} Array of normalized strings.
    */
   strictlyNormalizeArray(strArr: string[]): string[];
+  /**
+   * Takes a `{"K": "V"}` value pair array and returns a formatted table string. Similar to `console.table()`, but allows to passed CLI-formatted strings.
+   *
+   * @param {Record<string, string | number | unknown[]>[]} strObj Array of KV pairs.
+   *
+   * @example
+   * ```ts
+   * const strArr = [{"Name": "Zaka", "Age": 55}]
+   * console.log(StringUtils.table(strArr))
+   * // ┌──────────────────────┬──────────────────────┐
+   * // │ Name                 │ Age                  │
+   * // ├──────────────────────┼──────────────────────┤
+   * // │ Zaka                 │ 55                   │
+   * // └──────────────────────┴──────────────────────┘
+   *
+   * ```
+   *
+   * @returns {string} Formatted table.
+   */
+  table(strArr: Record<string, string | number | unknown[]>[]): string;
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -385,5 +405,50 @@ export const StringUtils: {
   strictlyNormalizeArray(strArr: string[]): string[] {
     const normalized = strArr.map((str) => this.normalize(str, true, true));
     return normalized.filter((str) => this.validate(str));
+  },
+
+  table(strArr: Record<string, string | number | unknown[]>[]): string {
+    if (strArr.length === 0) return "No data to display.";
+
+    /** Separator characters */
+    const chars = {
+      y: " │ ",
+      x: "─",
+      full: "┼",
+      xDown: "┬",
+      xUp: "┴",
+    };
+    const headers = Object.keys(strArr[0]);
+    const columnWidth = 20;
+
+    const fmtCell = (value: string) => value.padEnd(columnWidth);
+
+    // create the separator rows
+    const baseSeparator = headers.map(() => chars.x.repeat(columnWidth)).join(
+      "─┼─",
+    );
+
+    const separators = {
+      middle: baseSeparator,
+      top: baseSeparator.replaceAll(chars.full, chars.xDown),
+      bottom: baseSeparator.replaceAll(chars.full, chars.xUp),
+    };
+
+    // format headers
+    const headerRow = headers.map(fmtCell).join(chars.y);
+
+    // format data rows
+    const dataRows = strArr.map((row) =>
+      headers.map((header) => fmtCell(row[header].toString())).join(chars.y)
+    );
+
+    // construct the table
+    return [
+      `┌─${separators.top}─┐`,
+      `│ ${headerRow} │`,
+      `├─${separators.middle}─┤`,
+      ...dataRows.map((row) => `│ ${row} │`),
+      `└─${separators.bottom}─┘`,
+    ].join("\n");
   },
 };
