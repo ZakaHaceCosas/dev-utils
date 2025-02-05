@@ -1,11 +1,12 @@
 # changelog
 
-## 1.6.0 (unreleased)
+## 1.6.0
 
 - new functions:
   - `table(strArr)`, taking an array of KV pairs and formatting them as a cool looking table
 
 - fixes
+  - fixed TS demanding valid string arrays for `normalizeArr(strArr)` even tho invalid strings are innerly handled
   - fixed minor typos with JSDoc
 
 ## 1.5.0

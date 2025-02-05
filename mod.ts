@@ -235,7 +235,7 @@ export const StringUtils: {
   /**
    * Takes a string array and returns it with all strings normalized and invalid strings removed. For better preservation of strings, use {@link softlyNormalizeArray}. For stricter normalization, use {@link strictlyNormalizeArray}.
    *
-   * @param {string[]} strArr Array of strings.
+   * @param {UnknownString[]} strArr Array of strings.
    *
    * @example
    * ```ts
@@ -245,11 +245,11 @@ export const StringUtils: {
    *
    * @returns {string[]} Array of normalized strings.
    */
-  normalizeArray(strArr: string[]): string[];
+  normalizeArray(strArr: UnknownString[]): string[];
   /**
    * Takes a string array and returns it with all strings trimmed and invalid strings removed. For balanced normalization of strings, use {@link normalizeArray}. For stricter normalization, use {@link strictlyNormalizeArray}.
    *
-   * @param {string[]} strArr Array of strings.
+   * @param {UnknownString[]} strArr Array of strings.
    * @param {?boolean} [lowercase] If true, strings will be lowercased as well.
    *
    * @example
@@ -260,11 +260,11 @@ export const StringUtils: {
    *
    * @returns {string[]} Array of softly normalized strings.
    */
-  softlyNormalizeArray(strArr: string[], lowercase?: boolean): string[];
+  softlyNormalizeArray(strArr: UnknownString[], lowercase?: boolean): string[];
   /**
    * Takes a string array and returns it with all strings strictly normalized and invalid strings removed. For better preservation of strings, use {@link softlyNormalizeArray}. For balanced normalization, use {@link normalizeArray}.
    *
-   * @param {string[]} strArr Array of strings.
+   * @param {UnknownString[]} strArr Array of strings.
    *
    * @example
    * ```ts
@@ -274,7 +274,7 @@ export const StringUtils: {
    *
    * @returns {string[]} Array of normalized strings.
    */
-  strictlyNormalizeArray(strArr: string[]): string[];
+  strictlyNormalizeArray(strArr: UnknownString[]): string[];
   /**
    * Takes a `{"K": "V"}` value pair array and returns a formatted table string. Similar to `console.table()`, but allows to passed CLI-formatted strings.
    *
@@ -390,21 +390,20 @@ export const StringUtils: {
     return normalized === this.reverseString(normalized);
   },
 
-  normalizeArray(strArr: string[]): string[] {
-    const normalized = strArr.map((str) => this.normalize(str));
-    return normalized.filter((str) => this.validate(str));
+  normalizeArray(strArr: UnknownString[]): string[] {
+    const validated = strArr.filter((str) => this.validate(str));
+    return validated.map((str) => this.normalize(str));
   },
 
-  softlyNormalizeArray(strArr: string[], lowercase?: boolean): string[] {
-    const normalized = strArr.map((str) => {
+  softlyNormalizeArray(strArr: UnknownString[], lowercase?: boolean): string[] {
+    return strArr.filter((str) => this.validate(str)).map((str) => {
       return (lowercase === true) ? str.trim().toLowerCase() : str.trim();
     });
-    return normalized.filter((str) => this.validate(str));
   },
 
-  strictlyNormalizeArray(strArr: string[]): string[] {
-    const normalized = strArr.map((str) => this.normalize(str, true, true));
-    return normalized.filter((str) => this.validate(str));
+  strictlyNormalizeArray(strArr: UnknownString[]): string[] {
+    const validated = strArr.filter((str) => this.validate(str));
+    return validated.map((str) => this.normalize(str, true, true));
   },
 
   table(strArr: Record<string, string | number | unknown[]>[]): string {
