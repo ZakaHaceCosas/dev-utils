@@ -416,29 +416,48 @@ export const StringUtils: {
       full: "┼",
       xDown: "┬",
       xUp: "┴",
+      yLeft: "├",
+      yRight: "┤",
+      xlUp: "┌",
+      xlDown: "└",
+      xrUp: "┐",
+      xrDown: "┘",
     };
-    const headers = Object.keys(strArr[0]);
+    const headers: string[] = Object.keys(strArr[0]);
     // compute max width for each column (including headers)
-    const columnWidths = headers.map((header) =>
+    const columnWidths: number[] = headers.map((header) =>
       Math.max(
         header.length,
-        ...strArr.map((row) => row[header]?.toString().length ?? 0),
+        ...strArr.map((row) => {
+          const str = row[header]?.toString() ?? "";
+          const strLength = this.normalize(str, false, true).length;
+          return (strLength + 1);
+        }),
       )
     );
 
-    const fmtCell = (value: string, index: number) => value.padEnd(columnWidths[index]);
+    const fmtCell = (value: string, index: number): string => {
+      const diff = value.trim().length - this.normalize(value, false, true).length;
+      return value.trim().padEnd(columnWidths[index] + diff);
+    };
 
     // create the separator rows
-    const baseSeparator = columnWidths.map((w) => chars.x.repeat(w + 2)).join(chars.full);
+    const createSeparator = (left: string, middle: string, right: string): string => {
+      return `${left}${
+        columnWidths.map((w) => chars.x.repeat(w + 2)).join(middle)
+      }${right}`;
+    };
 
     const separators = {
-      middle: baseSeparator,
-      top: baseSeparator.replaceAll(chars.full, chars.xDown),
-      bottom: baseSeparator.replaceAll(chars.full, chars.xUp),
+      middle: createSeparator(chars.yLeft, chars.full, chars.yRight),
+      top: createSeparator(chars.xlUp, chars.xDown, chars.xrUp),
+      bottom: createSeparator(chars.xlDown, chars.xUp, chars.xrDown),
     };
 
     // format headers
-    const headerRow = headers.map(fmtCell).join(chars.y);
+    const headerRow: string = `${chars.y.trimStart()}${
+      headers.map((h, i) => fmtCell(h, i)).join(chars.y)
+    }${chars.y.trimEnd()}`;
 
     // format data rows
     try {
@@ -458,11 +477,11 @@ export const StringUtils: {
 
       // construct the table
       return [
-        `┌${separators.top}┐`,
-        `│ ${headerRow} │`,
-        `├${separators.middle}┤`,
+        separators.top,
+        headerRow,
+        separators.middle,
         ...dataRows.map((row) => `│ ${row} │`),
-        `└${separators.bottom}┘`,
+        separators.bottom,
       ].join("\n");
     } catch (e) {
       return String(e);

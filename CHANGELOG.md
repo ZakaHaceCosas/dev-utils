@@ -1,5 +1,10 @@
 # changelog
 
+## 1.6.3
+
+- okay i swear i think i fixed tables
+- fixed them in CLIs too
+
 ## 1.6.2
 
 - attempt to fix previous release

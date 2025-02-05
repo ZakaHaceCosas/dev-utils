@@ -233,12 +233,12 @@ Deno.test({
         { Name: "Someone", Age: 25, Country: "Poland" },
       ]),
       `
-┌─────────┬─────┬─────────┐
-│ Name    │ Age │ Country │
-├─────────┼─────┼─────────┤
-│ Zaka    │ 50  │ Spain   │
-│ Someone │ 25  │ Poland  │
-└─────────┴─────┴─────────┘
+┌──────────┬─────┬─────────┐
+│ Name     │ Age │ Country │
+├──────────┼─────┼─────────┤
+│ Zaka     │ 50  │ Spain   │
+│ Someone  │ 25  │ Poland  │
+└──────────┴─────┴─────────┘
             `.trim(),
     );
 
