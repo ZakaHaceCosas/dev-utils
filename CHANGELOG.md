@@ -1,5 +1,9 @@
 # changelog
 
+## 1.6.2
+
+- attempt to fix previous release
+
 ## 1.6.1
 
 - fixes

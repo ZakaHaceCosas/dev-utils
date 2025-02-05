@@ -418,18 +418,18 @@ export const StringUtils: {
       xUp: "┴",
     };
     const headers = Object.keys(strArr[0]);
-    const columnWidth = Math.max(
-      ...strArr.flatMap((entry) =>
-        Object.entries(entry).flatMap(([k, v]) => [k.length, v.toString().length])
-      ),
+    // compute max width for each column (including headers)
+    const columnWidths = headers.map((header) =>
+      Math.max(
+        header.length,
+        ...strArr.map((row) => row[header]?.toString().length ?? 0),
+      )
     );
 
-    const fmtCell = (value: string) => value.padEnd(columnWidth);
+    const fmtCell = (value: string, index: number) => value.padEnd(columnWidths[index]);
 
     // create the separator rows
-    const baseSeparator = headers.map(() => chars.x.repeat(columnWidth)).join(
-      "─┼─",
-    );
+    const baseSeparator = columnWidths.map((w) => chars.x.repeat(w + 2)).join(chars.full);
 
     const separators = {
       middle: baseSeparator,
@@ -443,7 +443,7 @@ export const StringUtils: {
     // format data rows
     try {
       const dataRows = strArr.map((row) =>
-        headers.map((header) => {
+        headers.map((header, i) => {
           if (!row[header] || !this.validate(row[header]?.toString() ?? "")) {
             throw new Error(
               `Unable to represent data. Row ${
@@ -451,17 +451,18 @@ export const StringUtils: {
               } is not consistent with the rest of the table.`,
             );
           }
-          return fmtCell(row[header].toString());
+          const value = row[header].toString();
+          return fmtCell(value, i);
         }).join(chars.y)
       );
 
       // construct the table
       return [
-        `┌─${separators.top}─┐`,
+        `┌${separators.top}┐`,
         `│ ${headerRow} │`,
-        `├─${separators.middle}─┤`,
+        `├${separators.middle}┤`,
         ...dataRows.map((row) => `│ ${row} │`),
-        `└─${separators.bottom}─┘`,
+        `└${separators.bottom}┘`,
       ].join("\n");
     } catch (e) {
       return String(e);
