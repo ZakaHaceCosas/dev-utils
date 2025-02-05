@@ -438,17 +438,30 @@ export const StringUtils: {
     const headerRow = headers.map(fmtCell).join(chars.y);
 
     // format data rows
-    const dataRows = strArr.map((row) =>
-      headers.map((header) => fmtCell(row[header].toString())).join(chars.y)
-    );
+    try {
+      const dataRows = strArr.map((row) =>
+        headers.map((header) => {
+          if (!row[header] || !this.validate(row[header]?.toString() ?? "")) {
+            throw new Error(
+              `Unable to represent data. Row ${
+                Object.entries(row)
+              } is not consistent with the rest of the table.`,
+            );
+          }
+          return fmtCell(row[header].toString());
+        }).join(chars.y)
+      );
 
-    // construct the table
-    return [
-      `┌─${separators.top}─┐`,
-      `│ ${headerRow} │`,
-      `├─${separators.middle}─┤`,
-      ...dataRows.map((row) => `│ ${row} │`),
-      `└─${separators.bottom}─┘`,
-    ].join("\n");
+      // construct the table
+      return [
+        `┌─${separators.top}─┐`,
+        `│ ${headerRow} │`,
+        `├─${separators.middle}─┤`,
+        ...dataRows.map((row) => `│ ${row} │`),
+        `└─${separators.bottom}─┘`,
+      ].join("\n");
+    } catch (e) {
+      return String(e);
+    }
   },
 };

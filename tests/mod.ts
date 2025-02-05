@@ -241,6 +241,20 @@ Deno.test({
 └──────────────────────┴──────────────────────┴──────────────────────┘
             `.trim(),
     );
+
+    assertEquals(
+      StringUtils.table([{
+        "Key": "Value",
+        "Key2": "Value 2",
+      }, {
+        "Key": "Value3",
+        "Key2": "Value4",
+      }, {
+        "Key": "Value5",
+        "Key3": "Value6",
+      }]),
+      "Error: Unable to represent data. Row Key,Value5,Key3,Value6 is not consistent with the rest of the table.",
+    );
   },
 });
 
