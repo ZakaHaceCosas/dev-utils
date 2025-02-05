@@ -418,7 +418,11 @@ export const StringUtils: {
       xUp: "┴",
     };
     const headers = Object.keys(strArr[0]);
-    const columnWidth = 20;
+    const columnWidth = Math.max(
+      ...strArr.flatMap((entry) =>
+        Object.entries(entry).flatMap(([k, v]) => [k.length, v.toString().length])
+      ),
+    );
 
     const fmtCell = (value: string) => value.padEnd(columnWidth);
 

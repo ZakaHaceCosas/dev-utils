@@ -1,5 +1,10 @@
 # changelog
 
+## 1.6.1
+
+- fixes
+  - `table(strArr)` will now use a col-width based on string length, for reasonably shorter tables
+
 ## 1.6.0
 
 - new functions:
