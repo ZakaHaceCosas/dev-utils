@@ -1,5 +1,13 @@
 # changelog
 
+## 1.7.0 (unreleased)
+
+- new functions:
+  - `stripCliColors(str)` to strip `\x1b` and other CLI control characters used for coloring
+
+- fixes
+  - fixed `normalize(str, _, true)` (`normalize` with `stripCliColors=true`) not properly removing non-x1b control characters
+
 ## 1.6.3
 
 - okay i swear i think i fixed tables

@@ -24,7 +24,7 @@ bunx jsr add @zakahacecosas/string-utils
 ### String validation
 
 ```ts
-import { StringUtils, type UnknownString } from "@ZakaHaceCosas/string-utils";
+import { StringUtils, type UnknownString } from "@zakahacecosas/string-utils";
 import { getInput } from "somewhere";
 
 function greet(who: UnknownString) {
@@ -44,6 +44,8 @@ We also expose an `UnknownString` type (`"" | string | undefined | null`) for de
 ### String normalization
 
 ```ts
+import { StringUtils } from "@zakahacecosas/string-utils";
+
 const query = "   mY  sEaRcH      qUÉry_1  ";
 
 const str = StringUtils.normalize(query);
@@ -56,6 +58,21 @@ console.log(str2); // "my search query1"
 
 When `true` passed as the 2nd argument, it also removes underscores, hyphens, and other non-alphanumeric characters. When `true` passed as the 3rd argument, it removes `\x1b` control characters used for coloring CLI strings.
 
+### String capitalization, formatting, and so on
+
+```ts
+import { StringUtils } from "@zakahacecosas/string-utils";
+
+// capitalization
+console.log(StringUtils.toUpperCaseFirst("javaScript")); // JavaScript
+console.log(StringUtils.toLowerCaseFirst("JavaScript")); // javaScript
+
+// formatting
+console.log(StringUtils.truncate("Hello world!", 5)); // Hello...
+```
+
+`string-utils` offers various capitalization and formatting methods, like `toUpperCaseFirst(str)`, `toLowerCaseFirst(str)`, `capitalizeWords(str)`, `toTitleCase(str)`, `removeWhitespace(str)`, or `truncate(str)`.
+
 ## Documentation
 
 The module is fully documented in `jsr.io`, [click here for module documentation](https://jsr.io/@zakahacecosas/string-utils/doc/~/StringUtils).
@@ -64,4 +81,4 @@ The module is fully documented in `jsr.io`, [click here for module documentation
 
 ###### Fun fact
 
-> I simply made this library to test in production the new `fuckingnode release` command, a work in progress feature for FuckingNode v3.0.0, the next version of my make-NodeJS-less-annoying CLI utility. See [this repo](https://github.com/ZakaHaceCosas/FuckingNode) for more info about it.
+> I simply made this library to test in production the new `fuckingnode release` command, a WIP feature for FuckingNode v3.0.0, the next version of my make-NodeJS-less-annoying CLI utility. See [this repo](https://github.com/ZakaHaceCosas/FuckingNode) to learn more.
