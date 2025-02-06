@@ -1,5 +1,5 @@
 /**
- * A set of utilities for interacting with strings. Serving 17 functions.
+ * A set of utilities for interacting with strings. Serving 18 functions.
  * @author ZakaHaceCosas
  *
  * @example
@@ -42,7 +42,7 @@
 export type UnknownString = undefined | null | string | "";
 
 /**
- * A set of utilities for interacting with strings. Serving 17 functions.
+ * A set of utilities for interacting with strings. Serving 18 functions.
  * @author ZakaHaceCosas
  */
 export const StringUtils: {
@@ -168,6 +168,21 @@ export const StringUtils: {
    * @returns {string} The last character of the string.
    */
   getLastChar(str: string): string;
+  /**
+   * Returns the given string with all CLI coloring control characters removed.
+   *
+   * @param {string} str The string to strip CLI colors from.
+   *
+   * @example
+   * ```ts
+   * console.log("\x1b[31mRED TEXT"); // outputs "\x1b[31mRED TEXT"
+   * const str = StringUtils.stripCliColors("\x1b[31mRED TEXT");
+   * console.log(str) // outputs "RED TEXT"
+   * ```
+   *
+   * @returns {string} The clean string.
+   */
+  stripCliColors(str: string): string;
   /**
    * Normalizes a string so it's easier to work with it. Removes external and internal trailing spaces, lowercases the string, and normalizes accents too.
    *
@@ -358,6 +373,12 @@ export const StringUtils: {
     return str.charAt(str.length - 1);
   },
 
+  stripCliColors(str: string): string {
+    return str
+      // deno-lint-ignore no-control-regex
+      .replace(/\x1b(?:[@-Z\\-_]|\[[0-9;?]*[ -/]*[@-~])/g, "");
+  },
+
   normalize(str: string, strict?: boolean, stripCliColors?: boolean): string {
     const normalizedStr = str
       .normalize("NFD") // normalize á, é, etc.
@@ -365,11 +386,9 @@ export const StringUtils: {
       .replace(/\s+/g, " ") // turn "my      search  query" into "my search query"
       .trim()
       .toLowerCase()
-      .replace(strict ? /[\s\W_]/g : "", "")
-      // deno-lint-ignore no-control-regex
-      .replace(stripCliColors ? /\x1b\[[0-9;]*m/g : "", "");
+      .replace(strict ? /[\s\W_]/g : "", "");
 
-    return normalizedStr;
+    return stripCliColors ? this.stripCliColors(normalizedStr) : normalizedStr;
   },
 
   sortAlphabetically(strArr: string[]): string[] {

@@ -45,8 +45,8 @@ Deno.test({
   name: "reverseString works",
   fn: () => {
     assertEquals(
-      StringUtils.reverseString("type your code pls"),
-      "slp edoc ruoy epyt",
+      StringUtils.reverseString("yes sir!"),
+      "!ris sey",
     );
   },
 });
@@ -66,7 +66,7 @@ Deno.test({
   fn: () => {
     assertEquals(
       StringUtils.truncate(
-        "Fun fact: This package was made for the sole purpose of testing new features for F*ckingNode version 3.0, including a release command - for releasing this to JSR!",
+        "Fun fact: This package was made for the sole purpose of testing new features for F**kingNode version 3.0, including a release command - for releasing this to JSR!",
         16,
       ),
       "Fun fact: This p...",
@@ -121,16 +121,40 @@ Deno.test({
   fn: () => {
     assertEquals(
       StringUtils.normalize(
-        "              heLLo mY    fAnTÁsTiCo    AmigO   ",
+        "              heLLo mY    fAnTÁsTiC    AmigO   ",
       ),
-      "hello my fantastico amigo",
+      "hello my fantastic amigo",
     );
     assertEquals(
       StringUtils.normalize(
-        "              123_heLLo mY    fAnTÁsTiCo    AmigO   ",
+        "              123_heLLo mY    fAnTÁsTiC    AmigO   ",
         true,
       ),
-      "123hellomyfantasticoamigo",
+      "123hellomyfantasticamigo",
+    );
+  },
+});
+
+Deno.test({
+  name: "stripCliColors works",
+  fn: () => {
+    assertEquals(
+      StringUtils.stripCliColors(
+        "\x1b[31mRed text\x1b[0m",
+      ),
+      "Red text",
+    );
+    assertEquals(
+      StringUtils.stripCliColors(
+        "\x1b[2J\x1b[HClear screen and move cursor",
+      ),
+      "Clear screen and move cursor",
+    );
+    assertEquals(
+      StringUtils.stripCliColors(
+        "\x1b[38;5;82m256-color text\x1b[0m",
+      ),
+      "256-color text",
     );
   },
 });
