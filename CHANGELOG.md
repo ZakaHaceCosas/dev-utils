@@ -1,6 +1,6 @@
 # changelog
 
-## 1.7.0 (unreleased)
+## 1.7.0
 
 - new functions:
   - `stripCliColors(str)` to strip `\x1b` and other CLI control characters used for coloring
