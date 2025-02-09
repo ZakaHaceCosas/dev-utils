@@ -1,6 +1,8 @@
 /**
- * A set of utilities for interacting with strings. Serving 19 functions.
+ * A set of utilities for interacting with strings. Serving 20 functions.
  * @author ZakaHaceCosas
+ *
+ * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
  *
  * @example
  * ```ts
@@ -42,7 +44,10 @@
 export type UnknownString = undefined | null | string | "";
 
 /**
- * A set of utilities for interacting with strings. Serving 19 functions.
+ * A set of utilities for interacting with strings. Serving 20 functions.
+ *
+ * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
+ *
  * @author ZakaHaceCosas
  */
 export const StringUtils: {
@@ -169,7 +174,7 @@ export const StringUtils: {
    */
   getLastChar(str: string): string;
   /**
-   * Returns the given string with all CLI coloring control characters removed.
+   * Returns the given string with all CLI coloring control characters removed. In case you have a formatted string (CLI-colored) and want to compare it to a regular string, use this function - otherwise control characters will make JS think strings are different even if they aren't.
    *
    * @param {string} str The string to strip CLI colors from.
    *
@@ -293,7 +298,7 @@ export const StringUtils: {
   /**
    * Takes a `{"K": "V"}` value pair array and returns a formatted table string. Similar to `console.table()`, but allows to passed CLI-formatted strings.
    *
-   * @param {Record<string, string | number | unknown[]>[]} strObj Array of KV pairs.
+   * @param {Record<string, string | number | unknown[]>[]} strArr Array of KV pairs.
    *
    * @example
    * ```ts
@@ -313,11 +318,32 @@ export const StringUtils: {
   /**
    * Takes a string and splits it using commas (or a custom separator string), returning an array of separated strings.
    *
+   * @example
+   * ```ts
+   * const str = "alpha,bravo,charlie";
+   * console.log(StringUtils.kominator(str)); // ["alpha", "bravo", "charlie"]
+   * ```
+   *
    * @param {string} str String to be splitted.
    * @param {?string} [separator=","] Separator string. Defaults to a comma.
    * @returns {string[]} Array of split strings.
    */
   kominator(str: string, separator?: string): string[];
+  /**
+   * Takes a string and "reveals" it character by character. **Async.**
+   *
+   * @async
+   * @example
+   * ```ts
+   * await StringUtils.reveal("Loading...", 35);
+   * // this will print a letter every 35 milliseconds
+   * ```
+   *
+   * @param {string} str String to be revealed.
+   * @param {?number} [delay=50] Delay for each char to be shown, in milliseconds. Defaults to 50.
+   * @returns {Promise<void>} A Promise. It `console.log()`s the string to the standard output.
+   */
+  reveal(str: string, delay?: number): Promise<void>;
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -517,5 +543,13 @@ export const StringUtils: {
 
   kominator(str: string, separator: string = ","): string[] {
     return str.split(separator).map((s) => s.replace('"', "").trim());
+  },
+
+  async reveal(str: string, delay = 50): Promise<void> {
+    for (const char of str) {
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      Deno.stdout.write(new TextEncoder().encode(char));
+    }
+    console.log(); // Move to the next line after completing
   },
 };

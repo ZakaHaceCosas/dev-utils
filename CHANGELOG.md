@@ -1,5 +1,10 @@
 # changelog
 
+## 1.8.0 (unreleased)
+
+- new functions:
+  - `reveal(str, delay)`, to step-by-step reveal a string in the CLI
+
 ## 1.7.1
 
 - fix again stripCliColors (i hate regex)

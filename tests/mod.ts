@@ -296,6 +296,16 @@ Deno.test({
   },
 });
 
+Deno.test({
+  name: "reveal works",
+  fn: async () => {
+    await StringUtils.reveal(
+      "Test! This function does not return a value and instead writes to the stdout, making it harder to test. Manually look at it!",
+      5,
+    );
+  },
+});
+
 console.log(
   `Testing ${Object.keys(StringUtils).length} functions.`,
 );
