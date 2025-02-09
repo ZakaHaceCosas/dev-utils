@@ -1,5 +1,9 @@
 # changelog
 
+## 1.7.1
+
+- fix again stripCliColors (i hate regex)
+
 ## 1.7.0
 
 - new functions:

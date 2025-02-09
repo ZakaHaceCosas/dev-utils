@@ -384,7 +384,7 @@ export const StringUtils: {
   stripCliColors(str: string): string {
     return str
       // deno-lint-ignore no-control-regex
-      .replace(/\x1b(?:[@-Z\\-_]|\[[0-9;?]*[ -/]*[@-~])/g, "");
+      .replace(/\x1b\[[0-9;?]*[ -/]*[@-~]/g, "");
   },
 
   normalize(str: string, strict?: boolean, stripCliColors?: boolean): string {
