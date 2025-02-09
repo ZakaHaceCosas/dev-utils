@@ -1,5 +1,5 @@
 /**
- * A set of utilities for interacting with strings. Serving 18 functions.
+ * A set of utilities for interacting with strings. Serving 19 functions.
  * @author ZakaHaceCosas
  *
  * @example
@@ -42,7 +42,7 @@
 export type UnknownString = undefined | null | string | "";
 
 /**
- * A set of utilities for interacting with strings. Serving 18 functions.
+ * A set of utilities for interacting with strings. Serving 19 functions.
  * @author ZakaHaceCosas
  */
 export const StringUtils: {
@@ -310,6 +310,14 @@ export const StringUtils: {
    * @returns {string} Formatted table.
    */
   table(strArr: Record<string, string | number | unknown[]>[]): string;
+  /**
+   * Takes a string and splits it using commas (or a custom separator string), returning an array of separated strings.
+   *
+   * @param {string} str String to be splitted.
+   * @param {?string} [separator=","] Separator string. Defaults to a comma.
+   * @returns {string[]} Array of split strings.
+   */
+  kominator(str: string, separator?: string): string[];
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -505,5 +513,9 @@ export const StringUtils: {
     } catch (e) {
       return String(e);
     }
+  },
+
+  kominator(str: string, separator: string = ","): string[] {
+    return str.split(separator).map((s) => s.replace('"', "").trim());
   },
 };

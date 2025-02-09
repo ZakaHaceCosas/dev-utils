@@ -4,6 +4,7 @@
 
 - new functions:
   - `stripCliColors(str)` to strip `\x1b` and other CLI control characters used for coloring
+  - `kominator(str, separator)` to divide a string using commas or a custom given separator
 
 - fixes
   - fixed `normalize(str, _, true)` (`normalize` with `stripCliColors=true`) not properly removing non-x1b control characters

@@ -282,6 +282,20 @@ Deno.test({
   },
 });
 
+Deno.test({
+  name: "kominator works",
+  fn: () => {
+    assertEquals(
+      StringUtils.kominator("alpha,bravo,charlie"),
+      ["alpha", "bravo", "charlie"],
+    );
+    assertEquals(
+      StringUtils.kominator("alpha#bravo#charlie", "#"),
+      ["alpha", "bravo", "charlie"],
+    );
+  },
+});
+
 console.log(
   `Testing ${Object.keys(StringUtils).length} functions.`,
 );
