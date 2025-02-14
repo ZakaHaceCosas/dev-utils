@@ -4,6 +4,7 @@
 
 - new functions:
   - `reveal(str, delay)`, to step-by-step reveal a string in the CLI
+  - `countOccurrences(str, search)`, to count how many times does `search` appear in `str`
 
 ## 1.7.1
 

@@ -300,8 +300,21 @@ Deno.test({
   name: "reveal works",
   fn: async () => {
     await StringUtils.reveal(
-      "Test! This function does not return a value and instead writes to the stdout, making it harder to test. Manually look at it!",
+      "Test! This function does not return a value and instead writes to the stdout, making it harder to test.\nManually look at it!",
       5,
+    );
+  },
+});
+
+Deno.test({
+  name: "countOccurrences works",
+  fn: () => {
+    assertEquals(
+      StringUtils.countOccurrences(
+        "JS is everywhere, JS runs anywhere, JS works nowhere",
+        "JS",
+      ),
+      3,
     );
   },
 });

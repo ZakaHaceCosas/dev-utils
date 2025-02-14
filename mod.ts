@@ -1,5 +1,5 @@
 /**
- * A set of utilities for interacting with strings. Serving 20 functions.
+ * A set of utilities for interacting with strings. Serving 21 functions.
  * @author ZakaHaceCosas
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
@@ -44,7 +44,7 @@
 export type UnknownString = undefined | null | string | "";
 
 /**
- * A set of utilities for interacting with strings. Serving 20 functions.
+ * A set of utilities for interacting with strings. Serving 21 functions.
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
  *
@@ -344,6 +344,21 @@ export const StringUtils: {
    * @returns {Promise<void>} A Promise. It `console.log()`s the string to the standard output.
    */
   reveal(str: string, delay?: number): Promise<void>;
+  /**
+   * Counts the occurrences of a substring within a string.
+   *
+   * @param str The string to search in.
+   * @param search The substring to count occurrences of.
+   *
+   * @example
+   * ```ts
+   * const count = StringUtils.countOccurrences("hello world, hello again", "hello");
+   * console.log(count); // 2
+   * ```
+   *
+   * @returns The number of times the substring appears in the string.
+   */
+  countOccurrences(str: string, search: string): number;
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -551,5 +566,9 @@ export const StringUtils: {
       Deno.stdout.write(new TextEncoder().encode(char));
     }
     console.log(); // Move to the next line after completing
+  },
+
+  countOccurrences(str: string, search: string): number {
+    return (str.split(search).length - 1);
   },
 };
