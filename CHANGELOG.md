@@ -5,6 +5,9 @@
 - new functions:
   - `reveal(str, delay)`, to step-by-step reveal a string in the CLI
   - `countOccurrences(str, search)`, to count how many times does `search` appear in `str`
+  - `pluralOrNot(str, number)`, to make `str` plural if `number` is greater than 1
+  - `isUpperCase(str)` and `isLowerCase(str)` to check if a string is all caps or all lowercase
+  - `splitSnakeCase(str)` and `splitKebabCase(str)` to split these kinds of strings
 
 ## 1.7.1
 

@@ -319,6 +319,86 @@ Deno.test({
   },
 });
 
+Deno.test({
+  name: "pluralOrNot works",
+  fn: () => {
+    assertEquals(
+      StringUtils.pluralOrNot(
+        "leaf",
+        2,
+      ),
+      "leaves",
+    );
+    assertEquals(
+      StringUtils.pluralOrNot(
+        "leaf",
+        1,
+      ),
+      "leaf",
+    );
+  },
+});
+
+Deno.test({
+  name: "isUpperCase works",
+  fn: () => {
+    assertEquals(
+      StringUtils.isUpperCase(
+        "Hi chat",
+      ),
+      false,
+    );
+    assertEquals(
+      StringUtils.isUpperCase(
+        "HI CHAT",
+      ),
+      true,
+    );
+  },
+});
+
+Deno.test({
+  name: "isLowerCase works",
+  fn: () => {
+    assertEquals(
+      StringUtils.isLowerCase(
+        "Hi chat",
+      ),
+      false,
+    );
+    assertEquals(
+      StringUtils.isLowerCase(
+        "hi chat",
+      ),
+      true,
+    );
+  },
+});
+
+Deno.test({
+  name: "splitSnakeCase works",
+  fn: () => {
+    assertEquals(
+      StringUtils.splitSnakeCase(
+        "some_variable_lol",
+      ),
+      ["some", "variable", "lol"],
+    );
+  },
+});
+
+Deno.test({
+  name: "splitKebabCase works",
+  fn: () => {
+    assertEquals(
+      StringUtils.splitKebabCase(
+        "some-variable-lol",
+      ),
+      ["some", "variable", "lol"],
+    );
+  },
+});
+
 console.log(
   `Testing ${Object.keys(StringUtils).length} functions.`,
 );

@@ -1,6 +1,6 @@
 /**
- * A set of utilities for interacting with strings. Serving 21 functions.
- * @author ZakaHaceCosas
+ * A set of utilities for interacting with strings. Serving 26 functions.
+ * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
  *
@@ -44,11 +44,11 @@
 export type UnknownString = undefined | null | string | "";
 
 /**
- * A set of utilities for interacting with strings. Serving 21 functions.
+ * A set of utilities for interacting with strings. Serving 26 functions.
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
  *
- * @author ZakaHaceCosas
+ * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  */
 export const StringUtils: {
   /**
@@ -359,6 +359,94 @@ export const StringUtils: {
    * @returns The number of times the substring appears in the string.
    */
   countOccurrences(str: string, search: string): number;
+  /**
+   * Makes the given string plural if the given number is greater than one. Only works with English and is not 100% accurate.
+   *
+   * @param str The string to pluralize (or not).
+   * @param number The number to count on.
+   *
+   * @example
+   * ```ts
+   * let count = 1
+   * const str = StringUtils.pluralOrNot("constant", count);
+   * console.log(str); // "constant"
+   *
+   * count = count + 1;
+   *
+   * console.log(str); // "constants"
+   * ```
+   *
+   * @returns The string, pluralized if required and unchanged otherwise.
+   */
+  pluralOrNot(str: string, number: number): string;
+  /**
+   * Checks if all characters of a string are uppercase.
+   *
+   * @param str The string to check.
+   *
+   * @example
+   * ```ts
+   * let str = "HELLO CHAT"
+   * const isUpper = StringUtils.isUpperCase(str);
+   * console.log(isUpper); // true
+   *
+   * str = "HELLO Chat"
+   *
+   * const isUpperTwo = StringUtils.isUpperCase(str);
+   * console.log(isUpperTwo); // false
+   * ```
+   *
+   * @returns True if all characters are uppercase, false if otherwise.
+   */
+  isUpperCase(str: string): boolean;
+  /**
+   * Checks if all characters of a string are lowercase.
+   *
+   * @param str The string to check.
+   *
+   * @example
+   * ```ts
+   * let str = "hello chat"
+   * const isLower = StringUtils.isLowerCase(str);
+   * console.log(isLower); // true
+   *
+   * str = "Hello chat"
+   *
+   * const isUpperTwo = StringUtils.isLowerCase(str);
+   * console.log(isUpperTwo); // false
+   * ```
+   *
+   * @returns True if all characters are lowercase, false if otherwise.
+   */
+  isLowerCase(str: string): boolean;
+  /**
+   * Takes a snake_case string and splits it.
+   *
+   * @param str The string to split.
+   *
+   * @example
+   * ```ts
+   * const splitted = StringUtils.splitSnakeCase("some_variable");
+   * console.log(splitted); // ["some", "variable"]
+   * ```
+   *
+   * @returns A string array with all words from the string.
+   */
+  splitSnakeCase(str: string): string[];
+  /**
+   * Takes a kebab-case string and splits it.
+   *
+   * @param str The string to split.
+   *
+   * @example
+   * ```ts
+   * const splitted = StringUtils.splitSnakeCase("some-variable");
+   * console.log(splitted); // ["some", "variable"]
+   * ```
+   *
+   * @returns A string array with all words from the string.
+   */
+  splitKebabCase(str: string): string[];
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -570,5 +658,44 @@ export const StringUtils: {
 
   countOccurrences(str: string, search: string): number {
     return (str.split(search).length - 1);
+  },
+
+  pluralOrNot(str: string, number: number): string {
+    if (number === 1) return str;
+
+    const string = str.trim();
+
+    if (string.endsWith("y") && !/[aeiou]y$/.test(str)) {
+      return `${string.slice(0, -1)}ies`; // felony -> felonies
+    }
+
+    /* if (string.endsWith("o") && /[^aeiou]o$/.test(string)) {
+      return `${string}es`; // tomato -> tomatoes (may error because of things like piano -> pianos)
+    } */
+
+    if (string.endsWith("f")) {
+      return `${string.slice(0, -1)}ves`; // leaf -> leaves
+    }
+    if (string.endsWith("fe")) {
+      return `${string.slice(0, -2)}ves`; // knife -> knives
+    }
+
+    return `${string}s`; // constant -> constants
+  },
+
+  isUpperCase(str: string): boolean {
+    return str.toUpperCase() === str;
+  },
+
+  isLowerCase(str: string): boolean {
+    return str.toLowerCase() === str;
+  },
+
+  splitSnakeCase(str: string): string[] {
+    return str.trim().split("_");
+  },
+
+  splitKebabCase(str: string): string[] {
+    return str.trim().split("-");
   },
 };
