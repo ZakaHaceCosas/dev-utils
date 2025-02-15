@@ -8,6 +8,12 @@
   - `pluralOrNot(str, number)`, to make `str` plural if `number` is greater than 1
   - `isUpperCase(str)` and `isLowerCase(str)` to check if a string is all caps or all lowercase
   - `splitSnakeCase(str)` and `splitKebabCase(str)` to split these kinds of strings
+  - `slugify(str)`, to make a string URL friendly
+  - `mask(str, visibleChars, mask)`, to password-like mask a string ("hello!" -> "\*\*\*\*\*\*")
+  - `isAnagram(strA, strB)`, to check if two strings are anagrams
+
+- changes:
+  - before, `isPalindrome(str)` strictly normalized strings, so "Hannah?" for example would be considered a palindrome. this is now off by default and can be re-enabled.
 
 ## 1.7.1
 

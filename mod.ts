@@ -1,5 +1,5 @@
 /**
- * A set of utilities for interacting with strings. Serving 26 functions.
+ * A set of utilities for interacting with strings. Serving 29 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
@@ -44,7 +44,7 @@
 export type UnknownString = undefined | null | string | "";
 
 /**
- * A set of utilities for interacting with strings. Serving 26 functions.
+ * A set of utilities for interacting with strings. Serving 29 functions.
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
  *
@@ -242,6 +242,7 @@ export const StringUtils: {
    * Returns true if the given string is a palindrome. This means, it reads the same forwards and backwards.
    *
    * @param {string} str The string to check.
+   * @param {boolean} normalize If true, string will be normalized before checking (so for example an "?" at the end won't stop a string from being considered a palindrome).
    *
    * @example
    * ```ts
@@ -251,7 +252,21 @@ export const StringUtils: {
    *
    * @returns {boolean} Whether it's a palindrome or not.
    */
-  isPalindrome(str: string): boolean;
+  isPalindrome(str: string, normalize?: boolean): boolean;
+  /**
+   * Returns true if the given strings are anagrams. This means, `strA` is equal to `strB` reversed.
+   *
+   * @param {string} strA The string to check against.
+   * @param {string} strB The string to check for.
+   *
+   * @example
+   * ```ts
+   * console.log(StringUtils.isAnagram("hi chat!", "!tahc ih")) // true
+   * ```
+   *
+   * @returns {boolean} Whether it's a palindrome or not.
+   */
+  isAnagram(strA: string, strB: string): boolean;
   /**
    * Takes a string array and returns it with all strings normalized and invalid strings removed. For better preservation of strings, use {@link softlyNormalizeArray}. For stricter normalization, use {@link strictlyNormalizeArray}.
    *
@@ -447,6 +462,36 @@ export const StringUtils: {
    * @returns A string array with all words from the string.
    */
   splitKebabCase(str: string): string[];
+  /**
+   * Takes a string and turns it into an URL-friendly slug.
+   *
+   * @param str The string to slugify.
+   *
+   * @example
+   * ```ts
+   * const slug = StringUtils.slugify("My Homepage!");
+   * console.log(slug); // "my-homepage"
+   * ```
+   *
+   * @returns An URL friendly version of the given string.
+   */
+  slugify(str: string): string;
+  /**
+   * Takes a string and masks it by replacing all characters with `*`, or a custom mask if given. You can specify a number of visible characters, being that the amount of characters shown _starting from the end of the string_.
+   *
+   * @param str The string to mask.
+   * @param visibleChars The amount of characters to keep unmasked. Optional.
+   * @param mask The character to use as a mask. Optional, defaults to `*`.
+   *
+   * @example
+   * ```ts
+   * const password = StringUtils.mask("secret!", 2);
+   * console.log(password); // "******t!"
+   * ```
+   *
+   * @returns An URL friendly version of the given string.
+   */
+  mask(str: string, visibleChars?: number, mask?: string): string;
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -541,9 +586,13 @@ export const StringUtils: {
     return `${space(spaceBefore)}${str}${space(spaceAfter)}`;
   },
 
-  isPalindrome(str: string): boolean {
-    const normalized = this.normalize(str, true);
+  isPalindrome(str: string, normalize: boolean = false): boolean {
+    const normalized = this.normalize(str, normalize);
     return normalized === this.reverseString(normalized);
+  },
+
+  isAnagram(strA: string, strB: string): boolean {
+    return this.normalize(strA) === this.reverseString(this.normalize(strB));
   },
 
   normalizeArray(strArr: UnknownString[]): string[] {
@@ -697,5 +746,29 @@ export const StringUtils: {
 
   splitKebabCase(str: string): string[] {
     return str.trim().split("-");
+  },
+
+  slugify(str: string): string {
+    return this.normalize(str, false, true).replace(/[^\w\s-]/g, "").replaceAll(" ", "-");
+  },
+
+  mask(str: string, visibleChars?: number, mask: string = "*"): string {
+    const arr = str.split("");
+    const charsShown = Math.max(0, visibleChars || 0);
+    const newArr = [];
+    let i = 0;
+    while (i < arr.length - charsShown) {
+      newArr.push(mask);
+      i++;
+    }
+
+    let j = arr.length - charsShown;
+
+    while (j < arr.length) {
+      newArr.push(arr[j]);
+      j++;
+    }
+
+    return newArr.join("");
   },
 };

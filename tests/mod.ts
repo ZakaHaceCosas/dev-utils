@@ -206,7 +206,35 @@ Deno.test({
       StringUtils.isPalindrome(
         "Do geese see God?",
       ),
+      false,
+    );
+
+    assertEquals(
+      StringUtils.isPalindrome(
+        "Do geese see God?",
+        true,
+      ),
       true,
+    );
+  },
+});
+
+Deno.test({
+  name: "isAnagram string works",
+  fn: () => {
+    assertEquals(
+      StringUtils.isAnagram(
+        "hi",
+        "ih",
+      ),
+      true,
+    );
+    assertEquals(
+      StringUtils.isAnagram(
+        "hi",
+        "hi",
+      ),
+      false,
     );
   },
 });
@@ -395,6 +423,32 @@ Deno.test({
         "some-variable-lol",
       ),
       ["some", "variable", "lol"],
+    );
+  },
+});
+
+Deno.test({
+  name: "slugify works",
+  fn: () => {
+    assertEquals(
+      StringUtils.slugify(
+        "Some nasty string that wouldn't work as a URL!",
+      ),
+      "some-nasty-string-that-wouldnt-work-as-a-url",
+    );
+  },
+});
+
+Deno.test({
+  name: "mask string works",
+  fn: () => {
+    assertEquals(
+      StringUtils.mask(
+        "to be masked",
+        2,
+        "#",
+      ),
+      "##########ed",
     );
   },
 });
