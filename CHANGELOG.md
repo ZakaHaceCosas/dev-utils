@@ -1,6 +1,6 @@
 # changelog
 
-## 1.8.0 (unreleased)
+## 1.8.0
 
 - new functions:
   - `reveal(str, delay)`, to step-by-step reveal a string in the CLI
