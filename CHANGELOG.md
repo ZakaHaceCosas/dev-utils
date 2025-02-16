@@ -1,5 +1,13 @@
 # changelog
 
+## 1.9.0
+
+- new functions:
+  - `validateAgainst(str, against)`, to validate a string against a set of valid strings and assign those strings as the type of the string
+
+- changes:
+  - `mask(str, visibleChars, mask)` is now more performant (has less loops)
+
 ## 1.8.0
 
 - new functions:

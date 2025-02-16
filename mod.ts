@@ -160,6 +160,28 @@ export const StringUtils: {
    */
   validate(str: UnknownString): str is string;
   /**
+   * Takes an argument that's _possibly_ a string and validates it against a fixed array of strings.
+   * If you passed ["a", "b"] as an array to the validator and the string is valid, return type won't be `string` but `"a" | "b"` instead.
+   *
+   * @param {unknown} str The string to test.
+   * @param {readonly T[]} against The array of valid strings to test against.
+   *
+   * @example
+   * ```ts
+   * function greet(greeting: "hi" | "hello") { ... };
+   * const argument: string = "hello";
+   *
+   * greet(argument); // Error: Can't assign type 'string' to type '"hi" | "hello"'
+   *
+   * if (StringUtils.validateAgainst(argument, ["hi", "hello"])) {
+   *    greet(argument); // works!
+   * }
+   * ```
+   *
+   * @returns True if it's valid and false if otherwise.
+   */
+  validateAgainst<T extends string>(str: unknown, against: readonly T[]): str is T;
+  /**
    * Returns the last character of a string.
    *
    * @param {string} str The string to look inside of.
@@ -551,6 +573,11 @@ export const StringUtils: {
     return true;
   },
 
+  validateAgainst<T extends string>(str: unknown, against: readonly T[]): str is T {
+    return typeof str === "string" && StringUtils.validate(str as T) &&
+      against.includes(str as T);
+  },
+
   getLastChar(str: string): string {
     return str.charAt(str.length - 1);
   },
@@ -753,22 +780,12 @@ export const StringUtils: {
   },
 
   mask(str: string, visibleChars?: number, mask: string = "*"): string {
-    const arr = str.split("");
     const charsShown = Math.max(0, visibleChars || 0);
-    const newArr = [];
-    let i = 0;
-    while (i < arr.length - charsShown) {
-      newArr.push(mask);
-      i++;
-    }
+    if (charsShown >= str.length) return str; // directly return untouched
 
-    let j = arr.length - charsShown;
+    const maskedPart = mask.repeat(str.length - charsShown);
+    const visiblePart = str.slice(-charsShown); // take last charsShown characters
 
-    while (j < arr.length) {
-      newArr.push(arr[j]);
-      j++;
-    }
-
-    return newArr.join("");
+    return maskedPart + visiblePart;
   },
 };

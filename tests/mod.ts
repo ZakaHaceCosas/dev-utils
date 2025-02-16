@@ -99,6 +99,33 @@ Deno.test({
 });
 
 Deno.test({
+  name: "validateAgainst works",
+  fn: () => {
+    assertEquals(
+      StringUtils.validateAgainst(
+        "hey",
+        ["hi", "hello"],
+      ),
+      false,
+    );
+    assertEquals(
+      StringUtils.validateAgainst(
+        "hello",
+        ["hi", "hello"],
+      ),
+      true,
+    );
+    assertEquals(
+      StringUtils.validateAgainst(
+        "hey",
+        ["hi", "hello"],
+      ),
+      false,
+    );
+  },
+});
+
+Deno.test({
   name: "getLastChar works",
   fn: () => {
     assertEquals(
