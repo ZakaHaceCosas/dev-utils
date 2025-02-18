@@ -48,7 +48,7 @@ export type UnknownString = undefined | null | string | "";
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
  *
- * @version 1.9.0
+ * @version 1.10.0
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  */
 export const StringUtils: {
