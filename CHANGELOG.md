@@ -4,6 +4,9 @@
 
 - new functions:
   - `validateAgainst(str, against)`, to validate a string against a set of valid strings and assign those strings as the type of the string
+  - `splitCamelOrPascalCase(str)`, to split both kinds of strings
+  - `toCamelCase(str)`, `toPascalCase(str)`, `toSnakeCase(str)`, `toKebabCase(str)` to convert strings
+  - `extractNumbers(str: string)` to extract all numbers from a string
 
 - changes:
   - `mask(str, visibleChars, mask)` is now more performant (has less loops)

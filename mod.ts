@@ -1,5 +1,5 @@
 /**
- * A set of utilities for interacting with strings. Serving 29 functions.
+ * A great set of utilities for interacting with strings. Serving 36 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
@@ -44,10 +44,11 @@
 export type UnknownString = undefined | null | string | "";
 
 /**
- * A set of utilities for interacting with strings. Serving 29 functions.
+ * A set of utilities for interacting with strings. Serving 36 functions.
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
  *
+ * @version 1.9.0
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  */
 export const StringUtils: {
@@ -131,18 +132,23 @@ export const StringUtils: {
   removeWhitespace(str: string): string;
   /**
    * Truncates a string to a specified length and appends "..." if needed.
-   * @param str The string to truncate.
-   * @param length The length to truncate to.
+   * @param {string} str The string to truncate.
+   * @param {number} length The length to truncate to.
+   * @param {boolean} smartTruncate If true, instead of cutting to the exact length you specified, we'll shorten a bit if needed by removing trailing characters from the last word, leaving a clean string.
    *
    * @example
    * ```ts
-   * const str = StringUtils.truncate("Hello, world!", 5);
-   * console.log(str) // Hello...
+   * // normal (exact) truncate
+   * const str = StringUtils.truncate("Hello, world!", 3);
+   * console.log(str) // Hel...
+   * // smart truncate
+   * const strTwo = StringUtils.truncate("Hello, world!", 3, true);
+   * console.log(strTwo) // Hello...
    * ```
    *
    * @returns The truncated string.
    */
-  truncate(str: string, length: number): string;
+  truncate(str: string, length: number, smartTruncate?: boolean): string;
   /**
    * Takes an argument that's _possibly_ a string and validates it.
    * @param str The string to test.
@@ -457,7 +463,7 @@ export const StringUtils: {
    */
   isLowerCase(str: string): boolean;
   /**
-   * Takes a snake_case string and splits it.
+   * Takes a `snake_case` string and splits it.
    *
    * @param str The string to split.
    *
@@ -471,7 +477,7 @@ export const StringUtils: {
    */
   splitSnakeCase(str: string): string[];
   /**
-   * Takes a kebab-case string and splits it.
+   * Takes a `kebab-case` string and splits it.
    *
    * @param str The string to split.
    *
@@ -484,6 +490,20 @@ export const StringUtils: {
    * @returns A string array with all words from the string.
    */
   splitKebabCase(str: string): string[];
+  /**
+   * Takes a `camelCase` or `PascalCase` string and splits it.
+   *
+   * @param str The string to split.
+   *
+   * @example
+   * ```ts
+   * const splitted = StringUtils.splitCamelOrPascalCase("someVariable");
+   * console.log(splitted); // ["some", "variable"]
+   * ```
+   *
+   * @returns A string array with all words from the string.
+   */
+  splitCamelOrPascalCase(str: string): string[];
   /**
    * Takes a string and turns it into an URL-friendly slug.
    *
@@ -514,6 +534,77 @@ export const StringUtils: {
    * @returns An URL friendly version of the given string.
    */
   mask(str: string, visibleChars?: number, mask?: string): string;
+  /**
+   * Takes a string and converts it to `camelCase`.
+   *
+   * @param str The string to convert.
+   *
+   * @example
+   * ```ts
+   * const variable = StringUtils.toCamelCase("my variable");
+   * console.log(variable); // "myVariable"
+   * ```
+   *
+   * @returns The converted string.
+   */
+  toCamelCase(str: string): string;
+  /**
+   * Takes a string and converts it to `PascalCase`.
+   *
+   * @param str The string to convert.
+   *
+   * @example
+   * ```ts
+   * const variable = StringUtils.toPascalCase("my variable");
+   * console.log(variable); // "MyVariable"
+   * ```
+   *
+   * @returns The converted string.
+   */
+  toPascalCase(str: string): string;
+  /**
+   * Takes a string and converts it to `snake_case`.
+   *
+   * @param str The string to convert.
+   *
+   * @example
+   * ```ts
+   * const variable = StringUtils.toSnakeCase("my variable");
+   * console.log(variable); // "my_variable"
+   * ```
+   *
+   * @returns The converted string.
+   */
+  toSnakeCase(str: string): string;
+  /**
+   * Takes a string and converts it to `kebab-case`.
+   *
+   * @param str The string to convert.
+   *
+   * @example
+   * ```ts
+   * const variable = StringUtils.toKebabCase("my variable");
+   * console.log(variable); // "my-variable"
+   * ```
+   *
+   * @returns The converted string.
+   */
+  toKebabCase(str: string): string;
+  /**
+   * Takes all numbers from a string and returns them as part of an array.
+   *
+   * @param str The string to search inside of.
+   *
+   * @example
+   * ```ts
+   * const numbers = StringUtils.extractNumbers("i'll have 2 number 9, a number 9 large, a number 6 with extra dip, 2 number 45, one with cheese, and a large soda");
+   * console.log(numbers); // [2, 9, 9, 6, 2, 45]
+   * // may i note how funny i found it that MS Copilot autocompleted the whole order
+   * ```
+   *
+   * @returns The numbers in the array.
+   */
+  extractNumbers(str: string): number[];
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -557,9 +648,11 @@ export const StringUtils: {
     return str.replace(/\s+/g, "");
   },
 
-  truncate(str: string, length: number): string {
+  truncate(str: string, length: number, smartTruncate: boolean = false): string {
     if (str.length <= length) return str;
-    return str.substring(0, length) + "...";
+    const exactCut = str.substring(0, length) + "...";
+    const smartCut = str.slice(0, str.lastIndexOf(" ", length)) + "...";
+    return smartTruncate ? smartCut : exactCut;
   },
 
   validate(str: UnknownString): str is string {
@@ -775,6 +868,12 @@ export const StringUtils: {
     return str.trim().split("-");
   },
 
+  splitCamelOrPascalCase(str: string): string[] {
+    return str.split(/(?=[A-Z])/).join(" ").toLowerCase().split(" ").filter((s) =>
+      StringUtils.validate(s)
+    );
+  },
+
   slugify(str: string): string {
     return this.normalize(str, false, true).replace(/[^\w\s-]/g, "").replaceAll(" ", "-");
   },
@@ -787,5 +886,33 @@ export const StringUtils: {
     const visiblePart = str.slice(-charsShown); // take last charsShown characters
 
     return maskedPart + visiblePart;
+  },
+
+  toSnakeCase(str: string): string {
+    return this.normalize(str).replace(/\s+/g, "_");
+  },
+
+  toKebabCase(str: string): string {
+    return this.normalize(str).replace(/\s+/g, "-");
+  },
+
+  toCamelCase(str: string): string {
+    return str
+      .replace(/[^a-zA-Z0-9 ]/g, " ")
+      .split(" ")
+      .map((word, i) => i === 0 ? word.toLowerCase() : this.toUpperCaseFirst(word))
+      .join("");
+  },
+
+  toPascalCase(str: string): string {
+    return str
+      .replace(/[^a-zA-Z0-9 ]/g, " ")
+      .split(" ")
+      .map((word) => this.toUpperCaseFirst(word))
+      .join("");
+  },
+
+  extractNumbers(str: string): number[] {
+    return (str.match(/\d+/g) || []).map(Number);
   },
 };

@@ -64,12 +64,22 @@ Deno.test({
 Deno.test({
   name: "truncate works",
   fn: () => {
+    const testString =
+      "Fun fact: This package was made for the sole purpose of testing new features for F**kingNode version 3.0, including a release command - for releasing this to JSR!";
     assertEquals(
       StringUtils.truncate(
-        "Fun fact: This package was made for the sole purpose of testing new features for F**kingNode version 3.0, including a release command - for releasing this to JSR!",
+        testString,
         16,
       ),
       "Fun fact: This p...",
+    );
+    assertEquals(
+      StringUtils.truncate(
+        testString,
+        16,
+        true,
+      ),
+      "Fun fact: This...",
     );
   },
 });
@@ -455,6 +465,30 @@ Deno.test({
 });
 
 Deno.test({
+  name: "splitCamelOrPascalCase works",
+  fn: () => {
+    assertEquals(
+      StringUtils.splitCamelOrPascalCase(
+        "someVariableLol",
+      ),
+      ["some", "variable", "lol"],
+    );
+    assertEquals(
+      StringUtils.splitCamelOrPascalCase(
+        "SomeVariableLol",
+      ),
+      ["some", "variable", "lol"],
+    );
+    assertEquals(
+      StringUtils.splitCamelOrPascalCase(
+        "Some VariableLol",
+      ),
+      ["some", "variable", "lol"],
+    );
+  },
+});
+
+Deno.test({
   name: "slugify works",
   fn: () => {
     assertEquals(
@@ -467,7 +501,7 @@ Deno.test({
 });
 
 Deno.test({
-  name: "mask string works",
+  name: "mask works",
   fn: () => {
     assertEquals(
       StringUtils.mask(
@@ -476,6 +510,66 @@ Deno.test({
         "#",
       ),
       "##########ed",
+    );
+  },
+});
+
+Deno.test({
+  name: "toCamelCase works",
+  fn: () => {
+    assertEquals(
+      StringUtils.toCamelCase(
+        "the camel",
+      ),
+      "theCamel",
+    );
+  },
+});
+
+Deno.test({
+  name: "toPascalCase works",
+  fn: () => {
+    assertEquals(
+      StringUtils.toPascalCase(
+        "the pascal",
+      ),
+      "ThePascal",
+    );
+  },
+});
+
+Deno.test({
+  name: "toSnakeCase works",
+  fn: () => {
+    assertEquals(
+      StringUtils.toSnakeCase(
+        "the snake",
+      ),
+      "the_snake",
+    );
+  },
+});
+
+Deno.test({
+  name: "toKebabCase works",
+  fn: () => {
+    assertEquals(
+      StringUtils.toKebabCase(
+        "kebab is tasty",
+      ),
+      "kebab-is-tasty",
+    );
+  },
+});
+
+Deno.test({
+  name: "extractNumbers works",
+  fn: () => {
+    assertEquals(
+      StringUtils.extractNumbers(
+        "I have 2 JavaScript packages, 1 in npm (with like 40 downloads or so), and another one in JSR, which doesn't have a download counter. How many people got string-utils? 5? 55? 5000? Who kn0ws?",
+      ),
+      [2, 1, 40, 5, 55, 5000, 0],
     );
   },
 });
