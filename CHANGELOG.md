@@ -1,5 +1,16 @@
 # changelog
 
+## 1.11.0
+
+- new functions:
+  - `countWords(str)`, to count words in a string
+  - `getFileExtension(str)`, to get the extension of a file
+  - `isValidEmail(str)` and `isValidHexColor(str)`, to validate strings
+  - `cleanHtml(str)` and `fmtHtml(str)`, to sanitize HTML strings
+  - `getLongest(str | strArr)`, to get the longest word in a string / string[]
+  - `getRandomString(length)`, to generate a random string
+  - `getFirstWords(str, n)`, to get the first n words of a string
+
 ## 1.10.0
 
 - new functions:

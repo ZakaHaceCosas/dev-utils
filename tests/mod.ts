@@ -62,10 +62,31 @@ Deno.test({
 });
 
 Deno.test({
+  name: "removeVowels works",
+  fn: () => {
+    assertEquals(
+      StringUtils.removeVowels("javascript"),
+      "jvscrpt",
+    );
+  },
+});
+
+Deno.test({
+  name: "removeConsonants works",
+  fn: () => {
+    assertEquals(
+      StringUtils.removeConsonants("javascript"),
+      "aai",
+    );
+  },
+});
+
+const testString =
+  "Fun fact: This package was made for the sole purpose of testing new features for F**kingNode version 3.0, including a release command - for releasing this to JSR!";
+
+Deno.test({
   name: "truncate works",
   fn: () => {
-    const testString =
-      "Fun fact: This package was made for the sole purpose of testing new features for F**kingNode version 3.0, including a release command - for releasing this to JSR!";
     assertEquals(
       StringUtils.truncate(
         testString,
@@ -80,6 +101,26 @@ Deno.test({
         true,
       ),
       "Fun fact: This...",
+    );
+  },
+});
+
+Deno.test({
+  name: "truncateWords works",
+  fn: () => {
+    assertEquals(
+      StringUtils.truncateWords(
+        testString,
+        5,
+      ),
+      "Fun fact: This package was...",
+    );
+    assertEquals(
+      StringUtils.truncateWords(
+        testString,
+        0,
+      ),
+      "...",
     );
   },
 });
@@ -385,6 +426,54 @@ Deno.test({
 });
 
 Deno.test({
+  name: "countWords works",
+  fn: () => {
+    assertEquals(
+      StringUtils.countWords(
+        "JS    is everywhere, JS runs anywhere, JS works nowhere",
+      ),
+      9,
+    );
+  },
+});
+
+Deno.test({
+  name: "getFileExtension works",
+  fn: () => {
+    assertEquals(
+      StringUtils.getFileExtension(
+        "my_file.txt",
+      ),
+      "txt",
+    );
+    assertEquals(
+      StringUtils.getFileExtension(
+        "my_file",
+      ),
+      "my_file",
+    );
+    assertEquals(
+      StringUtils.getFileExtension(
+        "   ",
+      ),
+      undefined,
+    );
+    assertEquals(
+      StringUtils.getFileExtension(
+        "project.config.whatever.buzzword.json",
+      ),
+      "json",
+    );
+    assertEquals(
+      StringUtils.getFileExtension(
+        "a file with spaces? and special characters? i don't know.exe",
+      ),
+      "exe",
+    );
+  },
+});
+
+Deno.test({
   name: "pluralOrNot works",
   fn: () => {
     assertEquals(
@@ -570,6 +659,153 @@ Deno.test({
         "I have 2 JavaScript packages, 1 in npm (with like 40 downloads or so), and another one in JSR, which doesn't have a download counter. How many people got string-utils? 5? 55? 5000? Who kn0ws?",
       ),
       [2, 1, 40, 5, 55, 5000, 0],
+    );
+  },
+});
+
+Deno.test({
+  name: "isValidEmail works",
+  fn: () => {
+    assertEquals(
+      StringUtils.isValidEmail(
+        "zaka@somewhere.com",
+      ),
+      true,
+    );
+    assertEquals(
+      StringUtils.isValidEmail(
+        "zaka@somewhere",
+      ),
+      false,
+    );
+    assertEquals(
+      StringUtils.isValidEmail(
+        "zaka.hace.cosas@somewhere.com.ar",
+      ),
+      true,
+    );
+    assertEquals(
+      StringUtils.isValidEmail(
+        "ZAKA@SOMEWHERE.COM",
+      ),
+      true,
+    );
+    assertEquals(
+      StringUtils.isValidEmail(
+        "óscar@somewhere.com",
+      ),
+      false,
+    );
+  },
+});
+
+Deno.test({
+  name: "isValidHexColor works",
+  fn: () => {
+    assertEquals(
+      StringUtils.isValidHexColor(
+        "something random",
+      ),
+      false,
+    );
+    assertEquals(
+      StringUtils.isValidHexColor(
+        "#000000",
+      ),
+      true,
+    );
+    assertEquals(
+      StringUtils.isValidHexColor(
+        "#47FA93",
+      ),
+      true,
+    );
+    assertEquals(
+      StringUtils.isValidHexColor(
+        "#JAD2AD",
+      ),
+      false,
+    );
+    assertEquals(
+      StringUtils.isValidHexColor(
+        "#FF332211",
+      ),
+      true,
+    );
+    assertEquals(
+      StringUtils.isValidHexColor(
+        "#JJK2LA2A",
+      ),
+      false,
+    );
+  },
+});
+
+Deno.test({
+  name: "cleanHtml works",
+  fn: () => {
+    assertEquals(
+      StringUtils.cleanHtml(
+        "<h1> I like cheese <br /> and <strong>ham</strong> </h1>",
+      ),
+      "&lt;h1&gt; I like cheese &lt;br &#47;&gt; and &lt;strong&gt;ham&lt;&#47;strong&gt; &lt;&#47;h1&gt;",
+    );
+  },
+});
+
+Deno.test({
+  name: "fmtHtml works",
+  fn: () => {
+    assertEquals(
+      StringUtils.fmtHtml(
+        "&lt;h1&gt; I like cheese &lt;br &#47;&gt; and &lt;strong&gt;ham&lt;&#47;strong&gt; &lt;&#47;h1&gt;",
+      ),
+      "<h1> I like cheese <br /> and <strong>ham</strong> </h1>",
+    );
+  },
+});
+
+Deno.test({
+  name: "getLongest works",
+  fn: () => {
+    assertEquals(
+      StringUtils.getLongest(
+        "xbox nintendo playstationThree playstationFive",
+      ),
+      "playstationThree",
+    );
+    assertEquals(
+      StringUtils.getLongest(
+        ["xbox", "nintendo", "playstationThree", "playstationFive"],
+      ),
+      "playstationThree",
+    );
+  },
+});
+
+Deno.test({
+  name: "getRandomString works",
+  fn: () => {
+    console.debug("RANDOM STRING (cannot be asserted)", StringUtils.getRandomString(15));
+  },
+});
+
+Deno.test({
+  name: "getFirstWords works",
+  fn: () => {
+    assertEquals(
+      StringUtils.getFirstWords(
+        "xbox nintendo playstationThree playstationFive",
+        1,
+      ),
+      "xbox",
+    );
+    assertEquals(
+      StringUtils.getFirstWords(
+        "xbox nintendo playstationThree playstationFive",
+        3,
+      ),
+      "xbox nintendo playstationThree",
     );
   },
 });

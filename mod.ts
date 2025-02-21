@@ -1,5 +1,5 @@
 /**
- * A great set of utilities for interacting with strings. Serving 36 functions.
+ * A great set of utilities for interacting with strings. Serving 48 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
@@ -44,7 +44,7 @@
 export type UnknownString = undefined | null | string | "";
 
 /**
- * A set of utilities for interacting with strings. Serving 36 functions.
+ * A set of utilities for interacting with strings. Serving 48 functions.
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
  *
@@ -119,7 +119,7 @@ export const StringUtils: {
   reverseString(str: string): string;
   /**
    * Removes all whitespace from the string.
-   * @param str The string to modify.
+   * @param {string} str The string to modify.
    *
    * @example
    * ```ts
@@ -130,6 +130,32 @@ export const StringUtils: {
    * @returns The string without any whitespace.
    */
   removeWhitespace(str: string): string;
+  /**
+   * Removes all vowels from a string.
+   * @param {string} str The string to modify.
+   *
+   * @example
+   * ```ts
+   * const str = StringUtils.removeVowels("One Two Three!");
+   * console.log(str); // ne Tw Thr!
+   * ```
+   *
+   * @returns The string without any vowel.
+   */
+  removeVowels(str: string): string;
+  /**
+   * Removes all consonants from a string.
+   * @param {string} str The string to modify.
+   *
+   * @example
+   * ```ts
+   * const str = StringUtils.removeConsonants("One Two Three!");
+   * console.log(str); // Oe To ee!
+   * ```
+   *
+   * @returns The string without any vowel.
+   */
+  removeConsonants(str: string): string;
   /**
    * Truncates a string to a specified length and appends "..." if needed.
    * @param {string} str The string to truncate.
@@ -150,8 +176,22 @@ export const StringUtils: {
    */
   truncate(str: string, length: number, smartTruncate?: boolean): string;
   /**
+   * Same as {@linkcode truncate}, but truncates to a specified amount of words instead of characters.
+   * @param {string} str The string to truncate.
+   * @param {number} length The amount of words to truncate to.
+   *
+   * @example
+   * ```ts
+   * const str = StringUtils.truncateWords("Hello, world! How are you all?", 3);
+   * console.log(str) // Hello, world! How...
+   * ```
+   *
+   * @returns The truncated string.
+   */
+  truncateWords(str: string, length: number): string;
+  /**
    * Takes an argument that's _possibly_ a string and validates it.
-   * @param str The string to test.
+   * @param {string} str The string to test.
    *
    * @example
    * ```ts
@@ -605,6 +645,136 @@ export const StringUtils: {
    * @returns The numbers in the array.
    */
   extractNumbers(str: string): number[];
+  /**
+   * Counts the amount of words in a string.
+   *
+   * @param str The string to count inside of.
+   *
+   * @example
+   * ```ts
+   * const count = StringUtils.countWords("this is a sentence");
+   * console.log(count); // 4
+   * ```
+   *
+   * @returns The number of words.
+   */
+  countWords(str: string): number;
+  /**
+   * Gets the file extension of a string. If the string doesn't have a dot delimiting a file extension, it returns `undefined`.
+   *
+   * @param str The string to search inside of.
+   *
+   * @example
+   * ```ts
+   * const extension = StringUtils.countWords("some_file.hi.exe");
+   * console.log(extension); // "exe"
+   *
+   * const extensionTwo = StringUtils.getFileExtension("something_else");
+   * console.log(extensionTwo); // undefined
+   * ```
+   *
+   * @returns The file extension if any.
+   */
+  getFileExtension(str: string): string | undefined;
+  /**
+   * Validates if a given string is a valid email address.
+   *
+   * @param str The string to validate.
+   *
+   * @example
+   * ```ts
+   * const isValid = StringUtils.isValidEmail("oscar@somewhere.com");
+   * console.log(isValid); // true
+   * ```
+   *
+   * @returns True if the email is valid, false if otherwise.
+   */
+  isValidEmail(str: string): boolean;
+  /**
+   * Validates if a given string is a valid HEX code.
+   *
+   * @param str The string to validate.
+   *
+   * @example
+   * ```ts
+   * const isValid = StringUtils.isValidHexColor("#ABCDEF");
+   * console.log(isValid); // true
+   * ```
+   *
+   * @returns True if the HEX string is valid, false if otherwise.
+   */
+  isValidHexColor(str: string): str is `#${string}`;
+  /**
+   * Cleans HTML tags by turning them into ampersand-preceded codes (however you call those).
+   *
+   * @param str The string to clean.
+   *
+   * @example
+   * ```ts
+   * const sanitized = StringUtils.cleanHtml("<h1>hi</h1>");
+   * console.log(sanitized); // "&lt;h1&gt;"
+   * ```
+   *
+   * @returns Clean HTML string.
+   */
+  cleanHtml(str: string): string;
+  /**
+   * Formats HTML tags from a string with ampersand-preceded codes (however you call those).
+   *
+   * @param str The string to format.
+   *
+   * @example
+   * ```ts
+   * const formatted = StringUtils.fmtHtml("&lt;h1&gt;");
+   * console.log(formatted); // "<h1>hi</h1>"
+   * ```
+   *
+   * @returns Formatted HTML string.
+   */
+  fmtHtml(str: string): string;
+  /**
+   * Gets the longest word of a string or of an array of strings.
+   *
+   * @param {string | string[]} str The string(s) to search inside of.
+   *
+   * @example
+   * ```ts
+   * const longest = StringUtils.getLongest("here are four words");
+   * console.log(longest); // "words"
+   * ```
+   *
+   * @returns The longest string found.
+   */
+  getLongest(str: string | string[]): string;
+  /**
+   * Gets a string made of random characters and with the desired length.
+   *
+   * @param {number} length The length of the string.
+   *
+   * @example
+   * ```ts
+   * const random = StringUtils.getRandomString(7);
+   * console.log(random); // 8AmKñAl
+   * ```
+   *
+   * @returns A random string.
+   */
+  getRandomString(length: number): string;
+  /**
+   * Gets the first n words of a string.
+   *
+   * @param {string} str The string to get the words from.
+   * @param {number} n The amount of words to get.
+   *
+   * @example
+   * ```ts
+   * const firstFour = StringUtils.getFirstWords("This is a not so long sentence you know?", 4);
+   * console.log(firstFour); // "This is a not"
+   * ```
+   *
+   * @returns A random string.
+   */
+  getFirstWords(str: string, n: number): string;
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -648,11 +818,24 @@ export const StringUtils: {
     return str.replace(/\s+/g, "");
   },
 
+  removeVowels(str: string): string {
+    return str.replace(/[aeiou]/gi, "");
+  },
+
+  removeConsonants(str: string): string {
+    return str.replace(/[^aeiou]/gi, "");
+  },
+
   truncate(str: string, length: number, smartTruncate: boolean = false): string {
     if (str.length <= length) return str;
     const exactCut = str.substring(0, length) + "...";
     const smartCut = str.slice(0, str.lastIndexOf(" ", length)) + "...";
     return smartTruncate ? smartCut : exactCut;
+  },
+
+  truncateWords(str: string, length: number): string {
+    if (str.length <= length) return str;
+    return str.split(" ").slice(0, length).join(" ") + "...";
   },
 
   validate(str: UnknownString): str is string {
@@ -829,6 +1012,16 @@ export const StringUtils: {
     return (str.split(search).length - 1);
   },
 
+  countWords(str: string): number {
+    return this.normalize(str).split(" ").length;
+  },
+
+  getFileExtension(str: string): string | undefined {
+    // return str.split(".")[str.split(".").length - 1];
+    if (!this.validate(str)) return undefined;
+    return str.split(".").pop()!.trim();
+  },
+
   pluralOrNot(str: string, number: number): string {
     if (number === 1) return str;
 
@@ -914,5 +1107,63 @@ export const StringUtils: {
 
   extractNumbers(str: string): number[] {
     return (str.match(/\d+/g) || []).map(Number);
+  },
+
+  isValidEmail(str: string): boolean {
+    if (!this.validate(str)) return false;
+    const atSplit = str.split("@");
+    if (atSplit.length < 2) return false;
+    const dotSplit = atSplit[1].split(".");
+    if (dotSplit.length < 2) return false;
+
+    // validate special characters, because e.g. óscar@gmail.com ain't a valid email
+    if (this.normalize(str) !== str.trim().toLowerCase()) return false;
+
+    return true;
+  },
+
+  isValidHexColor(str: string): str is `#${string}` {
+    return /^#[0-9A-F]{3}$/i.test(str) ||
+      /^#[0-9A-F]{4}$/i.test(str) ||
+      /^#[0-9A-F]{6}$/i.test(str) ||
+      /^#[0-9A-F]{8}$/i.test(str);
+    // 3, 4, 6, and 8
+    // #FFF, #FFFF, #FFFFFF, and #FFFFFFFF are all valid
+  },
+
+  cleanHtml(str: string): string {
+    return str
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&apos;")
+      .replaceAll("/", "&#47;");
+  },
+
+  fmtHtml(str: string): string {
+    return str
+      .replaceAll("&amp;", "&")
+      .replaceAll("&lt;", "<")
+      .replaceAll("&gt;", ">")
+      .replaceAll("&quot;", '"')
+      .replaceAll("&apos;", "'")
+      .replaceAll("&#47;", "/");
+  },
+
+  getLongest(str: string | string[]): string {
+    if (!this.validate(str.toString())) return "";
+    const strArr = Array.isArray(str) ? str : str.split(" ");
+    return strArr.sort((a, b) => a.length - b.length).pop()!; // ! because we know it's not empty
+  },
+
+  getRandomString(length: number): string {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)])
+      .join("");
+  },
+
+  getFirstWords(str: string, n: number): string {
+    return str.split(" ").slice(0, n).join(" ");
   },
 };
