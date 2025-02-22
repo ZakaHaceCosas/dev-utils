@@ -1,4 +1,5 @@
 <!-- markdownlint-disable md001 -->
+
 # `string-utils`
 
 A great set of +45 functions for string capitalization, validation, and manipulation; among other uses. Works with NodeJS*, Bun, Deno, and (if transpiled to JavaScript) with any web browser. Includes features for CLIs.
