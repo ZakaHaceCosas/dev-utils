@@ -206,9 +206,16 @@ Deno.test({
     assertEquals(
       StringUtils.normalize(
         "              123_heLLo mY    fAnTÁsTiC    AmigO   ",
-        true,
+        { strict: true },
       ),
       "123hellomyfantasticamigo",
+    );
+    assertEquals(
+      StringUtils.normalize(
+        "              123_heLLo mY    fAnTÁsTiC    AmigO   ",
+        { strict: true, preserveCase: true },
+      ),
+      "123heLLomYfAnTAsTiCAmigO",
     );
   },
 });
@@ -595,10 +602,46 @@ Deno.test({
     assertEquals(
       StringUtils.mask(
         "to be masked",
-        2,
-        "#",
+        { visibleChars: 2, maskChar: "#" },
       ),
       "##########ed",
+    );
+  },
+});
+
+Deno.test({
+  name: "mask email works",
+  fn: () => {
+    assertEquals(
+      StringUtils.maskEmail(
+        "zaka@somewhere.com",
+        { visibleChars: 1, maskChar: "#" },
+      ),
+      "###a@somewhere.com",
+    );
+  },
+});
+
+Deno.test({
+  name: "toSnakeCase works",
+  fn: () => {
+    assertEquals(
+      StringUtils.toSnakeCase(
+        "the snake",
+      ),
+      "the_snake",
+    );
+  },
+});
+
+Deno.test({
+  name: "toKebabCase works",
+  fn: () => {
+    assertEquals(
+      StringUtils.toKebabCase(
+        "kebab is tasty",
+      ),
+      "kebab-is-tasty",
     );
   },
 });
@@ -628,25 +671,25 @@ Deno.test({
 });
 
 Deno.test({
-  name: "toSnakeCase works",
+  name: "toLeetSpeak works",
   fn: () => {
     assertEquals(
-      StringUtils.toSnakeCase(
-        "the snake",
+      StringUtils.toLeetSpeak(
+        "hello world!",
       ),
-      "the_snake",
+      "H3110 W0R1D!",
     );
   },
 });
 
 Deno.test({
-  name: "toKebabCase works",
+  name: "toNerdCase works",
   fn: () => {
     assertEquals(
-      StringUtils.toKebabCase(
-        "kebab is tasty",
+      StringUtils.toNerdCase(
+        "uhm actually",
       ),
-      "kebab-is-tasty",
+      "uHm aCtUaLlY",
     );
   },
 });
@@ -807,6 +850,29 @@ Deno.test({
       ),
       "xbox nintendo playstationThree",
     );
+  },
+});
+
+Deno.test({
+  name: "testFlag works",
+  fn: () => {
+    assertEquals(StringUtils.testFlag("--test", "test", {}), true);
+    assertEquals(StringUtils.testFlag("-test", "test", {}), true);
+    assertEquals(StringUtils.testFlag("--t", "test", {}), false);
+
+    assertEquals(StringUtils.testFlag("--t", "test", { allowQuickFlag: true }), true);
+    assertEquals(StringUtils.testFlag("-t", "test", { allowQuickFlag: true }), true);
+
+    assertEquals(StringUtils.testFlag("-test", "test", { allowSingleDash: false }), false);
+
+    assertEquals(StringUtils.testFlag("--TeSt", "test", { normalize: true }), true);
+    assertEquals(StringUtils.testFlag("--TEST", "test", { normalize: true }), true);
+
+    assertEquals(StringUtils.testFlag("--TeSt", "test", { normalize: false }), false);
+    assertEquals(StringUtils.testFlag("--test ", "test", { normalize: false }), true);
+
+    assertEquals(StringUtils.testFlag("--", "", {}), false);
+    assertEquals(StringUtils.testFlag("--  ", "   ", {}), false);
   },
 });
 

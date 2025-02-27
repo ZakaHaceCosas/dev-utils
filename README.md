@@ -2,7 +2,7 @@
 
 # `string-utils`
 
-A great set of +45 functions for string capitalization, validation, and manipulation; among other uses. Works with NodeJS*, Bun, Deno, and (if transpiled to JavaScript) with any web browser. Includes features for CLIs.
+A great set of +50 functions for string capitalization, validation, and manipulation; among other uses. Works with NodeJS*, Bun, Deno, and (if transpiled to JavaScript) with any web browser. Includes features for CLIs.
 
 ###### Sponsored by [FuckingNode](#fun-fact)
 
@@ -63,14 +63,12 @@ import { StringUtils } from "@zakahacecosas/string-utils";
 const query = "   mY  sEaRcH      qUÉry_1  ";
 
 const str = StringUtils.normalize(query);
-const str2 = StringUtils.normalize(query, true);
+const str2 = StringUtils.normalize(query, { strict: true });
 console.log(str); // "my search query_1"
 console.log(str2); // "mysearchquery1"
 ```
 
-`string-utils` offers a `validate(str, strict?, stripCliColors?)` function to normalize strings, so they're easier to work with. It removes outer and inner trailing spaces, lowercases everything, and replaces weird characters like `á` or `ë` with `a` and `e`.
-
-When `true` passed as the 2nd argument, it also removes underscores, hyphens, and other non-alphanumeric characters. When `true` passed as the 3rd argument, it removes `\x1b` control characters used for coloring CLI strings.
+`string-utils` offers a `validate(str, options)` function to normalize strings, so they're easier to work with. It removes outer and inner trailing spaces, lowercases everything, and replaces weird characters like `á` or `ë` with `a` and `e`. When `strict` is set to `true`, it also removes underscores, hyphens, and other non-alphanumeric characters.
 
 ### String capitalization
 
@@ -151,7 +149,7 @@ It's basically `console.table()` the way it should be.
 
 ### There's a lot more
 
-There's 48 different functions, and that'd be a lot to write in here. You've got general utilities like `truncate(str)`, `mask(str, visibleChars, mask)`, `pluralOrNot(str, number)` or `normalizeArray(str)`, splitting utilities like `kominator(str, separator)` or `splitKebabCase(str)`, as well as `reveal(str)` for CLIs, `slugify(str)` for URLs, _and the list goes on_.
+There's 52 different functions, and that'd be a lot to write in here. You've got general utilities like `truncate(str)`, `mask(str, options)`, `pluralOrNot(str, number)` or `normalizeArray(str)`, splitting utilities like `kominator(str, separator)` or `splitKebabCase(str)`, as well as `reveal(str)` and `testFlag(str, target)` for CLIs, `slugify(str)` for URLs, _and the list goes on_.
 
 ## Documentation
 
@@ -163,4 +161,4 @@ The module is fully documented in `jsr.io`, [click here for module documentation
 
 ###### Fun fact
 
-> This library was originally made to test in production the new `fuckingnode release` command, a work in progress feature for FuckingNode v3.0, the next version of my make-NodeJS-less-annoying CLI utility. See [this repo](https://github.com/ZakaHaceCosas/FuckingNode) to learn more.
+> This library was originally made to test in production the new `fkrelease` command, a work in progress feature for FuckingNode v3.0, the next version of my make-NodeJS-less-annoying CLI utility. See [this repo](https://github.com/ZakaHaceCosas/FuckingNode) to learn more.

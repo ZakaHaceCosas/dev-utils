@@ -1,5 +1,5 @@
 /**
- * A great set of utilities for interacting with strings. Serving 48 functions.
+ * A great set of utilities for interacting with strings. Serving 52 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
@@ -36,6 +36,8 @@
  * @module
  */
 
+import process from "node:process";
+
 /**
  * A variable that's _possibly_ a string. `""`, or `"    "`, aren't considered strings.
  *
@@ -44,11 +46,92 @@
 export type UnknownString = undefined | null | string | "";
 
 /**
- * A set of utilities for interacting with strings. Serving 48 functions.
+ * Options for the `StringUtils.normalize(str, options)` utility.
+ *
+ * @interface INormalizeOptions
+ */
+export interface INormalizeOptions {
+  /**
+   * If true, it'll also remove underscores, hyphens, and other non-alphanumeric characters.
+   *
+   * @default_value false;
+   * @type {?boolean}
+   */
+  strict?: boolean;
+  /**
+   * If true, casing will be preserved.
+   *
+   * @default_value false;
+   * @type {?boolean}
+   */
+  preserveCase?: boolean;
+  /**
+   * If true, it'll also remove CLI-coloring control characters.
+   *
+   * @default_value false;
+   * @type {?boolean}
+   */
+  stripCliColors?: boolean;
+}
+
+/**
+ * Options for the `StringUtils.testFlag(str, target, options)` utility.
+ *
+ * @interface ITestFlagOptions
+ */
+export interface ITestFlagOptions {
+  /**
+   * If false, it won't allow single-dash flags (e.g. `-my-flag`).
+   *
+   * @default_value true;
+   * @type {?boolean}
+   */
+  allowSingleDash?: boolean;
+  /**
+   * If true, the first letter of the given target will also work (e.g. `-t` for `--test`). It works best with `allowSingleDash` set to true (its default value anyway).
+   *
+   * @default_value false;
+   * @type {?boolean}
+   */
+  allowQuickFlag?: boolean;
+  /**
+   * If false, the given string won't be normalized before testing, forcing it to exactly equal a target flag.
+   * Keep in mind we'll still trim the string, so for example `"--test "` will return `true` for a `"test"` target regardless of this setting.
+   *
+   * @default_value true;
+   * @type {?boolean}
+   */
+  normalize?: boolean;
+}
+
+/**
+ * Options for the `StringUtils.mask(str, options)` and `StringUtils.maskEmail(str, options)` utilities.
+ *
+ * @interface IMaskOptions
+ */
+export interface IMaskOptions {
+  /**
+   * Character to be used as a mask.
+   *
+   * @default_value "*";
+   * @type {?boolean}
+   */
+  maskChar?: string;
+  /**
+   * Amount of final characters that should be visible.
+   *
+   * @default_value 2;
+   * @type {?number}
+   */
+  visibleChars?: number;
+}
+
+/**
+ * A set of utilities for interacting with strings. Serving 52 functions.
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
  *
- * @version 1.10.0
+ * @version 2.0.0
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  */
 export const StringUtils: {
@@ -260,8 +343,7 @@ export const StringUtils: {
    * Normalizes a string so it's easier to work with it. Removes external and internal trailing spaces, lowercases the string, and normalizes accents too.
    *
    * @param {string} str The string to normalize.
-   * @param {boolean} strict If true, it'll also remove underscores, hyphens, and other non-alphanumeric characters.
-   * @param {boolean}stripCliColors If true, it'll also remove CLI-coloring control characters.
+   * @param {?INormalizeOptions} options Options for the normalizer.
    *
    * @example
    * ```ts
@@ -275,7 +357,10 @@ export const StringUtils: {
    *
    * @returns {string} The normalized string.
    */
-  normalize(str: string, strict?: boolean, stripCliColors?: boolean): string;
+  normalize(
+    str: string,
+    options?: INormalizeOptions,
+  ): string;
   /**
    * Alphabetically sorts an array of strings. Returns a new, sorted array.
    *
@@ -336,7 +421,7 @@ export const StringUtils: {
    */
   isAnagram(strA: string, strB: string): boolean;
   /**
-   * Takes a string array and returns it with all strings normalized and invalid strings removed. For better preservation of strings, use {@link softlyNormalizeArray}. For stricter normalization, use {@link strictlyNormalizeArray}.
+   * Takes a string array and returns it with all strings normalized and invalid strings removed. For better preservation of strings, use {@linkcode softlyNormalizeArray}. For stricter normalization, use {@linkcode strictlyNormalizeArray}.
    *
    * @param {UnknownString[]} strArr Array of strings.
    *
@@ -350,7 +435,7 @@ export const StringUtils: {
    */
   normalizeArray(strArr: UnknownString[]): string[];
   /**
-   * Takes a string array and returns it with all strings trimmed and invalid strings removed. For balanced normalization of strings, use {@link normalizeArray}. For stricter normalization, use {@link strictlyNormalizeArray}.
+   * Takes a string array and returns it with all strings trimmed and invalid strings removed. For balanced normalization of strings, use {@linkcode normalizeArray}. For stricter normalization, use {@linkcode strictlyNormalizeArray}.
    *
    * @param {UnknownString[]} strArr Array of strings.
    * @param {?boolean} [lowercase] If true, strings will be lowercased as well.
@@ -365,7 +450,7 @@ export const StringUtils: {
    */
   softlyNormalizeArray(strArr: UnknownString[], lowercase?: boolean): string[];
   /**
-   * Takes a string array and returns it with all strings strictly normalized and invalid strings removed. For better preservation of strings, use {@link softlyNormalizeArray}. For balanced normalization, use {@link normalizeArray}.
+   * Takes a string array and returns it with all strings strictly normalized and invalid strings removed. For better preservation of strings, use {@linkcode softlyNormalizeArray}. For balanced normalization, use {@linkcode normalizeArray}.
    *
    * @param {UnknownString[]} strArr Array of strings.
    *
@@ -561,9 +646,8 @@ export const StringUtils: {
   /**
    * Takes a string and masks it by replacing all characters with `*`, or a custom mask if given. You can specify a number of visible characters, being that the amount of characters shown _starting from the end of the string_.
    *
-   * @param str The string to mask.
-   * @param visibleChars The amount of characters to keep unmasked. Optional.
-   * @param mask The character to use as a mask. Optional, defaults to `*`.
+   * @param {string} str The string to mask.
+   * @param {?IMaskOptions} options Options for the masker.
    *
    * @example
    * ```ts
@@ -571,13 +655,28 @@ export const StringUtils: {
    * console.log(password); // "******t!"
    * ```
    *
-   * @returns An URL friendly version of the given string.
+   * @returns The masked string.
    */
-  mask(str: string, visibleChars?: number, mask?: string): string;
+  mask(str: string, options?: IMaskOptions): string;
+  /**
+   * Takes an email string and masks the user address using {@linkcode StringUtils.mask}.
+   *
+   * @param {string} str The email string to mask.
+   * @param {?IMaskOptions} options Options for the masker.
+   *
+   * @example
+   * ```ts
+   * const email = StringUtils.maskEmail("secret@proton.me");
+   * console.log(email); // "****et@proton.me"
+   * ```
+   *
+   * @returns The masked email address.
+   */
+  maskEmail(str: string, options?: IMaskOptions): string;
   /**
    * Takes a string and converts it to `camelCase`.
    *
-   * @param str The string to convert.
+   * @param {string} str The string to convert.
    *
    * @example
    * ```ts
@@ -591,7 +690,7 @@ export const StringUtils: {
   /**
    * Takes a string and converts it to `PascalCase`.
    *
-   * @param str The string to convert.
+   * @param {string} str The string to convert.
    *
    * @example
    * ```ts
@@ -602,6 +701,34 @@ export const StringUtils: {
    * @returns The converted string.
    */
   toPascalCase(str: string): string;
+  /**
+   * Takes a string and converts it to `L33T 5P34K`.
+   *
+   * @param {string} str The string to convert.
+   *
+   * @example
+   * ```ts
+   * const variable = StringUtils.toLeetSpeak("hello world!");
+   * console.log(variable); // "H3110 W0R1D!"
+   * ```
+   *
+   * @returns The converted string.
+   */
+  toLeetSpeak(str: string): string;
+  /**
+   * Takes a string and converts it to `nErD CaSe`.
+   *
+   * @param {string} str The string to convert.
+   *
+   * @example
+   * ```ts
+   * const variable = StringUtils.toNerdCase("hello world!");
+   * console.log(variable); // "hElLo wOrLd!"
+   * ```
+   *
+   * @returns The converted string.
+   */
+  toNerdCase(str: string): string;
   /**
    * Takes a string and converts it to `snake_case`.
    *
@@ -775,6 +902,22 @@ export const StringUtils: {
    * @returns A random string.
    */
   getFirstWords(str: string, n: number): string;
+  /**
+   * Checks if a given string is a CLI flag and tests it against a target string. It returns true if the string matches the target flag.
+   *
+   * @param {string} str String to test.
+   * @param {string} target String to test against of.
+   * @param {?ITestFlagOptions} options Options for the tester.
+   *
+   * @example
+   * ```ts
+   * const isFlag = StringUtils.testFlag("hi", "hi"); // false
+   * const isFlag = StringUtils.testFlag("--hi", "hi"); // true
+   * ```
+   *
+   * @returns True if the `str` matches the `target`'s flag, false if otherwise.
+   */
+  testFlag(str: string, target: string, options?: ITestFlagOptions): boolean;
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -864,16 +1007,26 @@ export const StringUtils: {
       .replace(/\x1b\[[0-9;?]*[ -/]*[@-~]/g, "");
   },
 
-  normalize(str: string, strict?: boolean, stripCliColors?: boolean): string {
+  normalize(
+    str: string,
+    options?: INormalizeOptions,
+  ): string {
+    const { preserveCase, strict, stripCliColors } = options ?? {
+      preserveCase: false,
+      strict: false,
+      stripCliColors: false,
+    };
     const normalizedStr = str
       .normalize("NFD") // normalize á, é, etc.
       .replace(/[\u0300-\u036f]/g, "") // remove accentuation
       .replace(/\s+/g, " ") // turn "my      search  query" into "my search query"
       .trim()
-      .toLowerCase()
       .replace(strict ? /[\s\W_]/g : "", "");
 
-    return stripCliColors ? this.stripCliColors(normalizedStr) : normalizedStr;
+    const strippedStr = stripCliColors ? this.stripCliColors(normalizedStr) : normalizedStr;
+    const finalStr = preserveCase ? strippedStr : strippedStr.toLowerCase();
+
+    return finalStr;
   },
 
   sortAlphabetically(strArr: string[]): string[] {
@@ -890,7 +1043,7 @@ export const StringUtils: {
   },
 
   isPalindrome(str: string, normalize: boolean = false): boolean {
-    const normalized = this.normalize(str, normalize);
+    const normalized = this.normalize(str, { strict: normalize });
     return normalized === this.reverseString(normalized);
   },
 
@@ -911,7 +1064,7 @@ export const StringUtils: {
 
   strictlyNormalizeArray(strArr: UnknownString[]): string[] {
     const validated = strArr.filter((str) => this.validate(str));
-    return validated.map((str) => this.normalize(str, true, true));
+    return validated.map((str) => this.normalize(str, { strict: true, stripCliColors: true }));
   },
 
   table(strArr: Record<string, string | number | unknown[]>[]): string {
@@ -938,22 +1091,21 @@ export const StringUtils: {
         header.length,
         ...strArr.map((row) => {
           const str = row[header]?.toString() ?? "";
-          const strLength = this.normalize(str, false, true).length;
+          const strLength = this.normalize(str, { stripCliColors: true }).length;
           return (strLength + 1);
         }),
       )
     );
 
     const fmtCell = (value: string, index: number): string => {
-      const diff = value.trim().length - this.normalize(value, false, true).length;
+      const diff = value.trim().length -
+        this.normalize(value, { stripCliColors: true }).length;
       return value.trim().padEnd(columnWidths[index] + diff);
     };
 
     // create the separator rows
     const createSeparator = (left: string, middle: string, right: string): string => {
-      return `${left}${
-        columnWidths.map((w) => chars.x.repeat(w + 2)).join(middle)
-      }${right}`;
+      return `${left}${columnWidths.map((w) => chars.x.repeat(w + 2)).join(middle)}${right}`;
     };
 
     const separators = {
@@ -1003,7 +1155,7 @@ export const StringUtils: {
   async reveal(str: string, delay = 50): Promise<void> {
     for (const char of str) {
       await new Promise((resolve) => setTimeout(resolve, delay));
-      Deno.stdout.write(new TextEncoder().encode(char));
+      process.stdout.write(new TextEncoder().encode(char));
     }
     console.log(); // Move to the next line after completing
   },
@@ -1068,17 +1220,32 @@ export const StringUtils: {
   },
 
   slugify(str: string): string {
-    return this.normalize(str, false, true).replace(/[^\w\s-]/g, "").replaceAll(" ", "-");
+    return this
+      .normalize(str, { stripCliColors: true }).replace(/[^\w\s-]/g, "")
+      .replaceAll(" ", "-");
   },
 
-  mask(str: string, visibleChars?: number, mask: string = "*"): string {
+  mask(str: string, options?: IMaskOptions): string {
+    const { visibleChars, maskChar } = options || { visibleChars: 2, maskChar: "*" };
+
     const charsShown = Math.max(0, visibleChars || 0);
     if (charsShown >= str.length) return str; // directly return untouched
 
-    const maskedPart = mask.repeat(str.length - charsShown);
+    const maskedPart = (maskChar || "*").repeat(str.length - charsShown);
     const visiblePart = str.slice(-charsShown); // take last charsShown characters
 
     return maskedPart + visiblePart;
+  },
+
+  maskEmail(str: string, options?: IMaskOptions): string {
+    if (!this.isValidEmail(str)) return str;
+
+    const { visibleChars, maskChar } = options || { visibleChars: 2, maskChar: "*" };
+
+    const split = str.split("@");
+    const masked = this.mask(split[0], { visibleChars, maskChar });
+    split.shift();
+    return `${masked}@${split.join("")}`;
   },
 
   toSnakeCase(str: string): string {
@@ -1103,6 +1270,29 @@ export const StringUtils: {
       .split(" ")
       .map((word) => this.toUpperCaseFirst(word))
       .join("");
+  },
+
+  toLeetSpeak(str: string): string {
+    return str
+      .toUpperCase()
+      .replaceAll("A", "4")
+      .replaceAll("E", "3")
+      .replaceAll("L", "1")
+      .replaceAll("O", "0")
+      .replaceAll("U", "V")
+      .replaceAll("S", "5")
+      .replaceAll("T", "7");
+  },
+
+  toNerdCase(str: string): string {
+    const splitted = str.split("");
+    const newStr = [];
+
+    for (let i = 0; i < splitted.length; i++) {
+      newStr.push(i % 2 === 0 ? splitted[i] : splitted[i].toUpperCase());
+    }
+
+    return newStr.join("");
   },
 
   extractNumbers(str: string): number[] {
@@ -1165,5 +1355,28 @@ export const StringUtils: {
 
   getFirstWords(str: string, n: number): string {
     return str.split(" ").slice(0, n).join(" ");
+  },
+
+  testFlag(str: string, target: string, options?: ITestFlagOptions): boolean {
+    const { allowQuickFlag, allowSingleDash, normalize } = options ||
+      { allowQuickFlag: false, allowSingleDash: true, normalize: true };
+
+    const toTest = normalize ? this.normalize(str) : str.trim();
+    const toTestAgainstOf = normalize ? this.normalize(target) : target.trim();
+
+    if (!this.validate(toTest) || !this.validate(toTestAgainstOf)) return false;
+
+    const singleDash = allowSingleDash === true || allowSingleDash === undefined;
+    const quickFlag = allowQuickFlag === true;
+
+    const targets = [
+      `--${toTestAgainstOf}`,
+    ];
+
+    if (singleDash) targets.push(`-${toTestAgainstOf}`);
+    if (quickFlag) targets.push(`--${toTestAgainstOf.charAt(0)}`);
+    if (quickFlag && singleDash) targets.push(`-${toTestAgainstOf.charAt(0)}`);
+
+    return targets.includes(toTest);
   },
 };

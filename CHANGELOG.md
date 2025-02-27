@@ -1,5 +1,25 @@
 # changelog
 
+## 2.0.0
+
+- breaking changes:
+  - now `normalize` and `mask` take an options object instead of a list of parameters
+
+- new functions:
+  - `toNerdCase(str)`, for fUnNy string conversions
+  - `toLeetSpeak(str)`, to convert a string to this style
+  - `maskEmail(str, options)`, to mask an email address
+  - `testFlag(str, target, options)`, to parse cli --flags
+
+- other additions:
+  - new `preserveCase` option for `normalize`
+  - new configuration interfaces (`IMaskOptions`, `INormalizeOptions`, ...). they're all exported.
+
+- fixes:
+  - fixed JSDoc code links
+  - fixed some JSDoc being messed up
+  - fixed `reveal(str, delay)` only working with DenoJS (now `process.stdout` is used instead of `Deno.stdout`)
+
 ## 1.11.0
 
 - new functions:
