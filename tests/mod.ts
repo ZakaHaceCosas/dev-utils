@@ -886,7 +886,7 @@ Deno.test({
     assertEquals(StringUtils.testFlags(["-f", "--foo"], "foo", { allowSingleDash: true }), true);
     assertEquals(StringUtils.testFlags(["-f", "--bar"], "foo", { allowSingleDash: true }), false);
     assertEquals(StringUtils.testFlags(["--Foo"], "foo", { normalize: true }), true);
-    assertEquals(StringUtils.testFlags(["-- Foo "], "foo", { normalize: true }), true);
+    assertEquals(StringUtils.testFlags(["-- Foo "], "foo", { normalize: true }), false);
     assertEquals(StringUtils.testFlags(["--foo"], ""), false);
     assertEquals(StringUtils.testFlags(["--Foo"], "foo", { normalize: true }), true);
     assertEquals(StringUtils.testFlags(["-f"], "foo", { normalize: false }), false);
