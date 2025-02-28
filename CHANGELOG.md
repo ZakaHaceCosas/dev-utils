@@ -1,5 +1,10 @@
 # changelog
 
+## 2.1.0
+
+- new functions:
+  - `testFlags(strArr, target, options)`, to run `testFlag()` for a string array
+
 ## 2.0.0
 
 - breaking changes:

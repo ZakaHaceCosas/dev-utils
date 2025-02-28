@@ -876,6 +876,25 @@ Deno.test({
   },
 });
 
+Deno.test({
+  name: "testFlags works",
+  fn: () => {
+    assertEquals(StringUtils.testFlags(["--foo"], "foo"), true);
+    assertEquals(StringUtils.testFlags(["-foo"], "foo", { allowSingleDash: true }), true);
+    assertEquals(StringUtils.testFlags(["-f", "--foo"], "foo", { allowQuickFlag: true }), true);
+    assertEquals(StringUtils.testFlags(["--bar"], "foo"), false);
+    assertEquals(StringUtils.testFlags(["-f", "--foo"], "foo", { allowSingleDash: true }), true);
+    assertEquals(StringUtils.testFlags(["-f", "--bar"], "foo", { allowSingleDash: true }), false);
+    assertEquals(StringUtils.testFlags(["--Foo"], "foo", { normalize: true }), true);
+    assertEquals(StringUtils.testFlags(["-- Foo "], "foo", { normalize: true }), true);
+    assertEquals(StringUtils.testFlags(["--foo"], ""), false);
+    assertEquals(StringUtils.testFlags(["--Foo"], "foo", { normalize: true }), true);
+    assertEquals(StringUtils.testFlags(["-f"], "foo", { normalize: false }), false);
+    assertEquals(StringUtils.testFlags(["-t", "-x"], "test", { allowQuickFlag: true }), true);
+    assertEquals(StringUtils.testFlags(["-a", "--alpha"], "beta"), false);
+  },
+});
+
 console.log(
   `Testing ${Object.keys(StringUtils).length} functions.`,
 );

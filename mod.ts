@@ -911,13 +911,29 @@ export const StringUtils: {
    *
    * @example
    * ```ts
-   * const isFlag = StringUtils.testFlag("hi", "hi"); // false
-   * const isFlag = StringUtils.testFlag("--hi", "hi"); // true
+   * StringUtils.testFlag("hi", "hi"); // false
+   * StringUtils.testFlag("--hi", "hi"); // true
    * ```
    *
    * @returns True if the `str` matches the `target`'s flag, false if otherwise.
    */
   testFlag(str: string, target: string, options?: ITestFlagOptions): boolean;
+  /**
+   * Checks if a given string array includes a CLI flag that matches a target string. It returns true if _any_ of the strings matches the target flag.
+   *
+   * @param {string[]} str Strings to test.
+   * @param {string} target String to test against of.
+   * @param {?ITestFlagOptions} options Options for the tester.
+   *
+   * @example
+   * ```ts
+   * StringUtils.testFlags(["--hi", "--hello", "whatever"], "hi"); // true
+   * StringUtils.testFlags(["--hi", "whatever"], "hello"); // false
+   * ```
+   *
+   * @returns True if the `str` matches the `target`'s flag, false if otherwise.
+   */
+  testFlags(str: string[], target: string, options?: ITestFlagOptions): boolean;
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -1378,5 +1394,9 @@ export const StringUtils: {
     if (quickFlag && singleDash) targets.push(`-${toTestAgainstOf.charAt(0)}`);
 
     return targets.includes(toTest);
+  },
+
+  testFlags(strArr: string[], target: string, options?: ITestFlagOptions): boolean {
+    return strArr.some((s) => this.testFlag(s, target, options));
   },
 };
