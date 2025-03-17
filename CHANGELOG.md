@@ -1,5 +1,10 @@
 # changelog
 
+## 2.2.0
+
+- new functions:
+  - `replace(str, replacements)` to bulk-replace stuff in a string
+
 ## 2.1.0
 
 - new functions:

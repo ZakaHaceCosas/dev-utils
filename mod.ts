@@ -934,6 +934,25 @@ export const StringUtils: {
    * @returns True if the `str` matches the `target`'s flag, false if otherwise.
    */
   testFlags(str: string[], target: string, options?: ITestFlagOptions): boolean;
+  /**
+   * It takes a Record where each key is a search string and each value is the string to replace with, and replaces all occurrences of each key with the designated value in a given string.
+   *
+   * @param {string} str String to replace.
+   * @param {Record<string, string>} replacements Strings to replace with.
+   *
+   * @example
+   * ```ts
+   * StringUtils.replace(
+   *     "hi! my name is [[name]]",
+   *     {
+   *         "[[name]]": "Zaka"
+   *     }
+   * ); // "hi! my name is Zaka"
+   * ```
+   *
+   * @returns {string} The replaced string.
+   */
+  replace(str: string, replacements: Record<string, string>): string;
 } = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -1131,9 +1150,8 @@ export const StringUtils: {
     };
 
     // format headers
-    const headerRow: string = `${chars.y.trimStart()}${
-      headers.map((h, i) => fmtCell(h, i)).join(chars.y)
-    }${chars.y.trimEnd()}`;
+    const headerRow: string = `${chars.y.trimStart()}${headers.map((h, i) => fmtCell(h, i)).join(chars.y)
+      }${chars.y.trimEnd()}`;
 
     // format data rows
     try {
@@ -1141,8 +1159,7 @@ export const StringUtils: {
         headers.map((header, i) => {
           if (!row[header] || !this.validate(row[header]?.toString() ?? "")) {
             throw new Error(
-              `Unable to represent data. Row ${
-                Object.entries(row)
+              `Unable to represent data. Row ${Object.entries(row)
               } is not consistent with the rest of the table.`,
             );
           }
@@ -1399,4 +1416,14 @@ export const StringUtils: {
   testFlags(strArr: string[], target: string, options?: ITestFlagOptions): boolean {
     return strArr.some((s) => this.testFlag(s, target, options));
   },
+
+  replace(str: string, replacements: Record<string, string>): string {
+    let workingStr = str;
+
+    for (const k of Object.keys(replacements)) {
+      workingStr = workingStr.replaceAll(k.trim(), replacements[k])
+    }
+
+    return workingStr
+  }
 };
