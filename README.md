@@ -2,6 +2,9 @@
 
 # `string-utils`
 
+> [!NOTE]
+> We're making this a monorepo to host new packages like `number-utils` besides `string-utils`.
+
 A great set of +50 functions for string capitalization, validation, and manipulation; among other uses. Works with NodeJS*, Bun, Deno, and (if transpiled to JavaScript) with any web browser. Includes features for CLIs.
 
 ###### Sponsored by [FuckingNode](#fun-fact)
@@ -161,4 +164,4 @@ The module is fully documented in `jsr.io`, [click here for module documentation
 
 ###### Fun fact
 
-> This library was originally made to test in production the new `fkrelease` command, a work in progress feature for FuckingNode v3.0, the next version of my make-NodeJS-less-annoying CLI utility. See [this repo](https://github.com/ZakaHaceCosas/FuckingNode) to learn more.
+> This library was originally made to test in production the new `fkrelease` command, a new feature for FuckingNode v3.0, my make-NodeJS-less-annoying CLI utility. See [this repo](https://github.com/FuckingNode/FuckingNode) to learn more.
