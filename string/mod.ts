@@ -1159,8 +1159,7 @@ export const StringUtils: {
         headers.map((header, i) => {
           if (!row[header] || !this.validate(row[header]?.toString() ?? "")) {
             throw new Error(
-              `Unable to represent data. Row ${Object.entries(row)
-              } is not consistent with the rest of the table.`,
+              `Unable to represent data. Row ${Object.entries(row)} is not consistent with the rest of the table.`,
             );
           }
           const value = row[header].toString();
@@ -1382,7 +1381,10 @@ export const StringUtils: {
 
   getRandomString(length: number): string {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)])
+    return Array.from(
+      { length },
+      () => chars[Math.floor(Math.random() * chars.length)],
+    )
       .join("");
   },
 
@@ -1421,9 +1423,9 @@ export const StringUtils: {
     let workingStr = str;
 
     for (const k of Object.keys(replacements)) {
-      workingStr = workingStr.replaceAll(k.trim(), replacements[k])
+      workingStr = workingStr.replaceAll(k.trim(), replacements[k]);
     }
 
-    return workingStr
-  }
+    return workingStr;
+  },
 };

@@ -324,7 +324,15 @@ Deno.test({
   },
 });
 
-const abnormalStringArray = ["", "", "   hÉlLo    ", "", "wöRld", "  123_abc ", ""];
+const abnormalStringArray = [
+  "",
+  "",
+  "   hÉlLo    ",
+  "",
+  "wöRld",
+  "  123_abc ",
+  "",
+];
 
 Deno.test({
   name: "normalizeArray works",
@@ -829,7 +837,10 @@ Deno.test({
 Deno.test({
   name: "getRandomString works",
   fn: () => {
-    console.debug("RANDOM STRING (cannot be asserted)", StringUtils.getRandomString(15));
+    console.debug(
+      "RANDOM STRING (cannot be asserted)",
+      StringUtils.getRandomString(15),
+    );
   },
 });
 
@@ -860,16 +871,37 @@ Deno.test({
     assertEquals(StringUtils.testFlag("-test", "test", {}), true);
     assertEquals(StringUtils.testFlag("--t", "test", {}), false);
 
-    assertEquals(StringUtils.testFlag("--t", "test", { allowQuickFlag: true }), true);
-    assertEquals(StringUtils.testFlag("-t", "test", { allowQuickFlag: true }), true);
+    assertEquals(
+      StringUtils.testFlag("--t", "test", { allowQuickFlag: true }),
+      true,
+    );
+    assertEquals(
+      StringUtils.testFlag("-t", "test", { allowQuickFlag: true }),
+      true,
+    );
 
-    assertEquals(StringUtils.testFlag("-test", "test", { allowSingleDash: false }), false);
+    assertEquals(
+      StringUtils.testFlag("-test", "test", { allowSingleDash: false }),
+      false,
+    );
 
-    assertEquals(StringUtils.testFlag("--TeSt", "test", { normalize: true }), true);
-    assertEquals(StringUtils.testFlag("--TEST", "test", { normalize: true }), true);
+    assertEquals(
+      StringUtils.testFlag("--TeSt", "test", { normalize: true }),
+      true,
+    );
+    assertEquals(
+      StringUtils.testFlag("--TEST", "test", { normalize: true }),
+      true,
+    );
 
-    assertEquals(StringUtils.testFlag("--TeSt", "test", { normalize: false }), false);
-    assertEquals(StringUtils.testFlag("--test ", "test", { normalize: false }), true);
+    assertEquals(
+      StringUtils.testFlag("--TeSt", "test", { normalize: false }),
+      false,
+    );
+    assertEquals(
+      StringUtils.testFlag("--test ", "test", { normalize: false }),
+      true,
+    );
 
     assertEquals(StringUtils.testFlag("--", "", {}), false);
     assertEquals(StringUtils.testFlag("--  ", "   ", {}), false);
@@ -880,17 +912,44 @@ Deno.test({
   name: "testFlags works",
   fn: () => {
     assertEquals(StringUtils.testFlags(["--foo"], "foo"), true);
-    assertEquals(StringUtils.testFlags(["-foo"], "foo", { allowSingleDash: true }), true);
-    assertEquals(StringUtils.testFlags(["-f", "--foo"], "foo", { allowQuickFlag: true }), true);
+    assertEquals(
+      StringUtils.testFlags(["-foo"], "foo", { allowSingleDash: true }),
+      true,
+    );
+    assertEquals(
+      StringUtils.testFlags(["-f", "--foo"], "foo", { allowQuickFlag: true }),
+      true,
+    );
     assertEquals(StringUtils.testFlags(["--bar"], "foo"), false);
-    assertEquals(StringUtils.testFlags(["-f", "--foo"], "foo", { allowSingleDash: true }), true);
-    assertEquals(StringUtils.testFlags(["-f", "--bar"], "foo", { allowSingleDash: true }), false);
-    assertEquals(StringUtils.testFlags(["--Foo"], "foo", { normalize: true }), true);
-    assertEquals(StringUtils.testFlags(["-- Foo "], "foo", { normalize: true }), false);
+    assertEquals(
+      StringUtils.testFlags(["-f", "--foo"], "foo", { allowSingleDash: true }),
+      true,
+    );
+    assertEquals(
+      StringUtils.testFlags(["-f", "--bar"], "foo", { allowSingleDash: true }),
+      false,
+    );
+    assertEquals(
+      StringUtils.testFlags(["--Foo"], "foo", { normalize: true }),
+      true,
+    );
+    assertEquals(
+      StringUtils.testFlags(["-- Foo "], "foo", { normalize: true }),
+      false,
+    );
     assertEquals(StringUtils.testFlags(["--foo"], ""), false);
-    assertEquals(StringUtils.testFlags(["--Foo"], "foo", { normalize: true }), true);
-    assertEquals(StringUtils.testFlags(["-f"], "foo", { normalize: false }), false);
-    assertEquals(StringUtils.testFlags(["-t", "-x"], "test", { allowQuickFlag: true }), true);
+    assertEquals(
+      StringUtils.testFlags(["--Foo"], "foo", { normalize: true }),
+      true,
+    );
+    assertEquals(
+      StringUtils.testFlags(["-f"], "foo", { normalize: false }),
+      false,
+    );
+    assertEquals(
+      StringUtils.testFlags(["-t", "-x"], "test", { allowQuickFlag: true }),
+      true,
+    );
     assertEquals(StringUtils.testFlags(["-a", "--alpha"], "beta"), false);
   },
 });
