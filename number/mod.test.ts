@@ -1,5 +1,5 @@
-import { NumberUtils } from "../number/mod.ts";
 import { assertEquals } from "@std/assert";
+import { NumberUtils } from "./mod.ts";
 
 Deno.test({
   name: "isEven works",

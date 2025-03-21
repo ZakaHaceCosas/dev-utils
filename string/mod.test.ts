@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert";
-import { StringUtils } from "../string/mod.ts";
+import { StringUtils } from "./mod.ts";
 
 Deno.test({
   name: "toUpperCaseFirst works",

@@ -1065,9 +1065,7 @@ export const StringUtils: {
   },
 
   sortAlphabetically(strArr: string[]): string[] {
-    return strArr.toSorted((a: string, b: string) =>
-      this.normalize(a).localeCompare(this.normalize(b))
-    );
+    return strArr.toSorted((a: string, b: string) => this.normalize(a).localeCompare(this.normalize(b)));
   },
 
   spaceString(str: string, spaceBefore: number, spaceAfter: number): string {
@@ -1150,8 +1148,9 @@ export const StringUtils: {
     };
 
     // format headers
-    const headerRow: string = `${chars.y.trimStart()}${headers.map((h, i) => fmtCell(h, i)).join(chars.y)
-      }${chars.y.trimEnd()}`;
+    const headerRow: string = `${chars.y.trimStart()}${
+      headers.map((h, i) => fmtCell(h, i)).join(chars.y)
+    }${chars.y.trimEnd()}`;
 
     // format data rows
     try {
@@ -1246,9 +1245,7 @@ export const StringUtils: {
   },
 
   splitCamelOrPascalCase(str: string): string[] {
-    return str.split(/(?=[A-Z])/).join(" ").toLowerCase().split(" ").filter((s) =>
-      StringUtils.validate(s)
-    );
+    return str.split(/(?=[A-Z])/).join(" ").toLowerCase().split(" ").filter((s) => StringUtils.validate(s));
   },
 
   slugify(str: string): string {
