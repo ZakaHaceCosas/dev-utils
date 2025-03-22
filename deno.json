@@ -1,7 +1,4 @@
 {
-  "tasks": {
-    "test": "deno test tests/string.ts && deno test tests/number.ts"
-  },
   "exclude": [
     "LICENSE"
   ],
