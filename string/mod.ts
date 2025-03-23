@@ -38,6 +38,8 @@
 
 import process from "node:process";
 
+// * SECTION: TYPES * //
+
 /**
  * A variable that's _possibly_ a string. `""`, or `"    "`, aren't considered strings.
  *
@@ -126,15 +128,9 @@ export interface IMaskOptions {
   visibleChars?: number;
 }
 
-/**
- * A set of utilities for interacting with strings. Serving 53 functions.
- *
- * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
- *
- * @version 2.0.0
- * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
- */
-export const StringUtils: {
+// * SECTION: MODULE_DEF * //
+
+type StringUtilsModule = {
   /**
    * Capitalizes the first letter of the string.
    * @param str The string to modify.
@@ -953,7 +949,19 @@ export const StringUtils: {
    * @returns {string} The replaced string.
    */
   replace(str: string, replacements: Record<string, string>): string;
-} = {
+};
+
+// * SECTION: MODULE_ITSELF * //
+
+/**
+ * A set of utilities for interacting with strings. Serving 53 functions.
+ *
+ * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
+ *
+ * @version 2.0.0
+ * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
+ */
+export const StringUtils: StringUtilsModule = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
   },
