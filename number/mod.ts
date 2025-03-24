@@ -1,7 +1,45 @@
-// deno-lint-ignore-file no-explicit-any
+/**
+ * A great set of utilities for interacting with numbers. Serving 19 functions.
+ * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
+ *
+ * _Note: Avoid using it as `const { fn } = NumberUtils`, it can cause issues._
+ *
+ * @example
+ * ```ts
+ * import { NumberUtils } from "@zakahacecosas/number-utils";
+ *
+ * const grades = [5, 7, 4, 9, 5, 6.1];
+ * const averageGrade = NumberUtils.average(grades); // get the avg
+ * return `You scored an average of ${averageGrade}`;
+ * ```
+ *
+ * @example
+ * ```ts
+ * function analyzeWages(wages: number[]) {
+ *   const avgWage = NumberUtils.roundTo(NumberUtils.average(avgWage), 2);
+ *   const highestWage = NumberUtils.max(avgWage);
+ *   const lowestWage = NumberUtils.min(avgWage);
+ *
+ * console.log(`Average wage: ${avgWage}€`);
+ * console.log(`Highest wage: ${highestWage}€`);
+ * console.log(`Lowest wage: ${lowestWage}€`);
+ * }
+ *
+ * const wages = [1800, 2200, 2500, 1900, 2750];
+ * analyzeWages(wages);
+ * ```
+ *
+ * @module
+ */
 
-// for now test this with --no-check
-// im lazy rn to do jsdoc and typings and all of that
+/**
+ * A great set of utilities for interacting with numbers. Serving 19 functions.
+ *
+ * _Note: Avoid using it as `const { fn } = NumberUtils`, it can cause issues._
+ *
+ * @version 1.0.0
+ * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
+ */
 export const NumberUtils = {
   isEven: (num: number) => num % 2 === 0,
   isOdd: (num: number) => num % 2 !== 0,

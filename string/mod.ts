@@ -954,11 +954,11 @@ type StringUtilsModule = {
 // * SECTION: MODULE_ITSELF * //
 
 /**
- * A set of utilities for interacting with strings. Serving 53 functions.
+ * A great set of utilities for interacting with strings. Serving 53 functions.
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
  *
- * @version 2.0.0
+ * @version 2.1.0
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  */
 export const StringUtils: StringUtilsModule = {
