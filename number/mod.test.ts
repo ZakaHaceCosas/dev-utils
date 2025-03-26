@@ -43,7 +43,7 @@ Deno.test({
 Deno.test({
   name: "sum works",
   fn: () => {
-    assertEquals(NumberUtils.sum([60, 5, 3, 0.5, 0.25, 0.75, -0.5]), 69);
+    assertEquals(NumberUtils.sumArray([60, 5, 3, 0.5, 0.25, 0.75, -0.5]), 69);
   },
 });
 Deno.test({

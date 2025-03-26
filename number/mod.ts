@@ -41,48 +41,190 @@
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  */
 export const NumberUtils = {
-  isEven: (num: number) => num % 2 === 0,
-  isOdd: (num: number) => num % 2 !== 0,
-  // Description: Rounds a number to a specified decimal precision.
-  // Usage: roundTo(3.14159, 2) returns 3.14.
-  roundTo: (num: number, precision = 0) => Number(num.toFixed(precision)),
-  // Description: Generates a random integer between min and max (inclusive).
-  // Usage: randomInt(1, 10) returns a random number between 1 and 10.
-  randomInt: (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min,
-  // Description: Checks if a number is prime.
-  // isPrime(7) returns true, isPrime(8) returns false.
-  isPrime: (num: number) => {
+  /**
+   * _A classic._ Checks if a given number is even or not. Analog to {@linkcode isOdd}.
+   *
+   * @param {number} num Number to check.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.isEven(2)); // true
+   * console.log(NumberUtils.isEven(3)); // false
+   * ```
+   *
+   * @returns {boolean} True if it's even, false if otherwise.
+   */
+  isEven: (num: number): boolean => num % 2 === 0,
+  /**
+   * _A classic._ Checks if a given number is odd or not. Analog to {@linkcode isEven}.
+   *
+   * @param {number} num Number to check.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.isOdd(2)); // false
+   * console.log(NumberUtils.isOdd(3)); // true
+   * ```
+   *
+   * @returns {boolean} True if it's odd, false if otherwise.
+   */
+  isOdd: (num: number): boolean => num % 2 !== 0,
+  /**
+   * Rounds a given number to a specified decimal precision.
+   *
+   * @param {number} num Number to round.
+   * @param {number} [precision=0] Amount of decimals to include. Defaults to 0.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.roundTo(3.14159, 2)) // 3.14
+   * ```
+   *
+   * @returns {number} The rounded number.
+   */
+  roundTo: (num: number, precision: number = 0): number => Number(num.toFixed(precision)),
+  /**
+   * Generates a random integer between min and max (inclusive).
+   *
+   * @param {number} min Minimum number. Inclusive.
+   * @param {number} max Maximum number. Inclusive.
+   *
+   * @example
+   * ```ts
+   * NumberUtils.randomInt(1, 10) // returns a random num between 1 and 10, e.g. "7"
+   * NumberUtils.randomInt(65, 105) // returns a random num between 65 and 105, e.g. "81"
+   * ```
+   *
+   * @returns {number} A random number between `min` and `max`.
+   */
+  randomInt: (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1)) + min,
+  /**
+   * Checks if a given number is prime.
+   *
+   * @param {number} num Number to check.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.isPrime(7)) // true
+   * console.log(NumberUtils.isPrime(8)) // false
+   * ```
+   *
+   * @returns {boolean} True if the given number is prime, false if otherwise.
+   */
+  isPrime: (num: number): boolean => {
     if (num <= 1) return false;
     for (let i = 2; i <= Math.sqrt(num); i++) {
       if (num % i === 0) return false;
     }
     return true;
   },
-  // Description: Returns the sum of all numbers in an array.
-  // Usage: sum([1, 2, 3]) returns 6.
-  sum: (arr: number[]) => arr.reduce((acc, curr) => acc + curr, 0),
-  // Description: Returns the average of all numbers in an array.
-  // Usage: average([1, 2, 3, 4]) returns 2.5.
-  // TODO: use this.sum
-  average: (arr: number[]) => arr.reduce((acc, curr) => acc + curr, 0) / arr.length,
-  // Description: Checks if a number is between two values (inclusive).
-  // Usage: isBetween(5, 1, 10) returns true, isBetween(15, 1, 10) returns false.
-  isBetween: (num: number, min: number, max: number) => num >= min && num <= max,
-  // Description: Calculates the factorial of a number.
-  // Usage: factorial(5) returns 120.
-  factorial: (num: number) => (num <= 1 ? 1 : num * (this as any).factorial(num - 1)),
-  // Description: Checks if a number is a perfect square.
-  // Usage: isPerfectSquare(16) returns true, isPerfectSquare(18) returns false.
-  isPerfectSquare: (num: number) => Number.isInteger(Math.sqrt(num)),
-  // Description: Converts degrees to radians.
-  // Usage: degreesToRadians(180) returns 3.141592653589793.
-  degreesToRadians: (deg: number) => (deg * Math.PI) / 180,
-  // Description: Converts radians to degrees.
-  // Usage: radiansToDegrees(Math.PI) returns 180.
-  radiansToDegrees: (rad: number) => (rad * 180) / Math.PI,
-  // Description: Finds the greatest common divisor (GCD) of two numbers.
-  // Usage: gcd(12, 18) returns 6.
-  gcd: (a: number, b: number) => {
+  /**
+   * Returns the sum of all numbers in an array.
+   *
+   * @param {number[]} arr Array of numbers.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.sumArray([1, 2, 3])) // 6
+   * ```
+   *
+   * @returns {number} The sum of all numbers in the array.
+   */
+  sumArray: (arr: number[]): number => arr.reduce((acc, curr) => acc + curr, 0),
+  /**
+   * Returns the average of all numbers in an array.
+   *
+   * @param {number[]} arr Array of numbers.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.average([1, 2, 3, 4])) // 2.5
+   * ```
+   *
+   * @returns {number} The average of all numbers in the array.
+   */
+  average: (arr: number[]): number => (this as any).sumArray(arr) / arr.length,
+  /**
+   * @param {number} num Number to check.
+   * @param {number} min Minimum number. Inclusive.
+   * @param {number} max Maximum number. Inclusive.
+   *
+   * @example
+   * ```ts
+   * isBetween(5, 1, 10); // true
+   * isBetween(15, 1, 10); // false
+   * ```
+   *
+   * @returns {boolean} True if the number is between `min` and `max`, false if otherwise.
+   */
+  isBetween: (num: number, min: number, max: number): boolean => num >= min && num <= max,
+  /**
+   * Calculates the factorial of a number. For reference, the factorial of `n` (`n!`), is multiplying that number by each number below of it and above zero.
+   *
+   * @param {number} num Number to calculate the factorial for.
+   *
+   * @example
+   * ```ts
+   * factorial(5) // 120, since 5 * 4 * 3 * 2 * 1 = 120
+   * ```
+   *
+   * @returns {number} The factorial of the given number.
+   */
+  factorial: (num: number): number => (num <= 1 ? 1 : num * (this as any).factorial(num - 1)),
+  /**
+   * Checks if a number is a perfect square. For reference, a perfect square is a number that, when squared, returns an exact value.
+   *
+   * @param {number} num Number to check for.
+   *
+   * @example
+   * ```ts
+   * isPerfectSquare(16); // true
+   * isPerfectSquare(18); // false
+   * ```
+   *
+   * @returns {boolean} True if it's a perfect square, false if otherwise.
+   */
+  isPerfectSquare: (num: number): boolean => Number.isInteger(Math.sqrt(num)),
+  /**
+   * Converts degrees to radians.
+   *
+   * @param {number} deg Degrees.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.degreesToRadians(180)); // 3.141592653589793
+   * ```
+   *
+   * @returns {number} Radians.
+   */
+  degreesToRadians: (deg: number): number => (deg * Math.PI) / 180,
+  /**
+   * Converts radians to degrees.
+   *
+   * @param {number} rad Radians.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.radiansToDegrees(Math.PI)); // 180
+   * ```
+   *
+   * @returns {number} Degrees.
+   */
+  radiansToDegrees: (rad: number): number => (rad * 180) / Math.PI,
+  /**
+   * Finds the greatest common divisor (GCD) of two numbers.
+   *
+   * @param {number} a First number.
+   * @param {number} b Second number.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.gcd(12, 18)); // 6.
+   * ```
+   *
+   * @returns {number} The GCD of both numbers.
+   */
+  gcd: (a: number, b: number): number => {
     while (b !== 0) {
       const temp = b;
       b = a % b;
@@ -90,22 +232,86 @@ export const NumberUtils = {
     }
     return a;
   },
-  // Description: Finds the least common multiple (LCM) of two numbers.
-  // Usage: lcm(12, 18) returns 36.
-  lcm: (a: number, b: number) => (a * b) / (this as any).gcd(a, b),
-  // Description: Returns the absolute difference between two numbers.
-  // Usage: absDiff(10, 3) returns 7.
-  absDiff: (a: number, b: number) => Math.abs(a - b),
-  // Description: Checks if a number is negative.
-  // Usage: isNegative(-5) returns true, isNegative(3) returns false.
-  isNegative: (num: number) => num < 0,
-  // Description: Checks if a number is positive.
-  // Usage: isPositive(5) returns true, isPositive(-2) returns false.
-  isPositive: (num: number) => num > 0,
-  // Description: Returns the smallest number in an array.
-  // Usage: min([4, 2, 7, 1]) returns 1.
-  min: (arr: number[]) => Math.min(...arr),
-  // Description: Returns the biggest number in an array.
-  // Usage: min([4, 2, 7, 1]) returns 7.
-  max: (arr: number[]) => Math.max(...arr),
+  /**
+   * Finds the least common multiple (LCM) of two numbers.
+   *
+   * @param {number} a First number.
+   * @param {number} b Second number.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.lcm(12, 18)); // 36.
+   * ```
+   *
+   * @returns {number} The LCM of both numbers.
+   */
+  lcm: (a: number, b: number): number => (a * b) / (this as any).gcd(a, b),
+  /**
+   * Returns the absolute difference between two numbers.
+   *
+   * @param {number} a First number.
+   * @param {number} b Second number.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.absDiff(10, 3)); // 7
+   * ```
+   *
+   * @returns {number} Their absolute difference.
+   */
+  absDiff: (a: number, b: number): number => Math.abs(a - b),
+  /**
+   * _A classic._ Checks if a given number is negative or not. Analog to {@linkcode isPositive}.
+   *
+   * @param {number} num Number to check.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.isNegative(-2)); // true
+   * console.log(NumberUtils.isNegative(3)); // false
+   * ```
+   *
+   * @returns {boolean} True if it's negative, false if otherwise.
+   */
+  isNegative: (num: number): boolean => num < 0,
+  /**
+   * _A classic._ Checks if a given number is positive or not. Analog to {@linkcode isNegative}.
+   *
+   * @param {number} num Number to check.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.isPositive(-2)); // false
+   * console.log(NumberUtils.isPositive(3)); // true
+   * ```
+   *
+   * @returns {boolean} True if it's positive, false if otherwise.
+   */
+  isPositive: (num: number): boolean => num > 0,
+  /**
+   * Returns the smallest number in an array.
+   * 
+   * @param {number[]} arr Array of numbers.
+   * 
+   * @example
+   * ```ts
+   * console.log(NumberUtils.min([4, 2, 7, 1])); // 1
+   * ```
+   *
+   * @returns {number} The smallest number in the array.
+   */
+  min: (arr: number[]): number => Math.min(...arr),
+  /**
+   * Returns the highest number in an array.
+   * 
+   * @param {number[]} arr Array of numbers.
+   * 
+   * @example
+   * ```ts
+   * console.log(NumberUtils.max([4, 2, 7, 1])); // 7
+   * ```
+   *
+   * @returns {number} The highest number in the array.
+   */
+  max: (arr: number[]): number => Math.max(...arr),
 };
