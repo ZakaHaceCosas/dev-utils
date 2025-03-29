@@ -4,6 +4,7 @@ A monorepo with different packages that provide great utilities for common tasks
 
 ## Packages
 
-| Package | Description |
-| `string-utils` | 50+ string related utility functions. Includes tools for CLI-targeted string formatting, validation, formatting, casing, etc... |
-| `number-utils` | 15+ number related utility functions. _This package is newer and less complete, it'll grow over time._ |
+| Package | Description | Link |
+| :--- | ---: | ---: |
+| `string-utils` | 50+ string related utility functions. Includes tools for CLI-targeted string formatting, validation, formatting, casing, etc... | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/number) |
+| `number-utils` | 15+ number related utility functions. _This package is newer and less complete, it'll grow over time._ | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/number) |

@@ -309,19 +309,19 @@ type NumberUtilsModule = {
  */
 export const NumberUtils: NumberUtilsModule = {
   isEven(num: number): boolean {
-    return num % 2 === 0
+    return num % 2 === 0;
   },
 
   isOdd(num: number): boolean {
-    return num % 2 !== 0
+    return num % 2 !== 0;
   },
 
   roundTo(num: number, precision: number = 0): number {
-    return Number(num.toFixed(precision))
+    return Number(num.toFixed(precision));
   },
 
   randomInt(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1)) + min
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   },
 
   isPrime(num: number): boolean {
@@ -333,31 +333,31 @@ export const NumberUtils: NumberUtilsModule = {
   },
 
   sumArray(arr: number[]): number {
-    return arr.reduce((acc, curr) => acc + curr, 0)
+    return arr.reduce((acc, curr) => acc + curr, 0);
   },
 
   average(arr: number[]): number {
-    return this.sumArray(arr) / arr.length
+    return this.sumArray(arr) / arr.length;
   },
 
   isBetween(num: number, min: number, max: number): boolean {
-    return num >= min && num <= max
+    return num >= min && num <= max;
   },
 
   factorial(num: number): number {
-    return (num <= 1 ? 1 : num * this.factorial(num - 1))
+    return (num <= 1 ? 1 : num * this.factorial(num - 1));
   },
 
   isPerfectSquare(num: number): boolean {
-    return Number.isInteger(Math.sqrt(num))
+    return Number.isInteger(Math.sqrt(num));
   },
 
   degreesToRadians(deg: number): number {
-    return (deg * Math.PI) / 180
+    return (deg * Math.PI) / 180;
   },
 
   radiansToDegrees(rad: number): number {
-    return (rad * 180) / Math.PI
+    return (rad * 180) / Math.PI;
   },
 
   gcd(a: number, b: number): number {
@@ -370,26 +370,26 @@ export const NumberUtils: NumberUtilsModule = {
   },
 
   lcm(a: number, b: number): number {
-    return (a * b) / this.gcd(a, b)
+    return (a * b) / this.gcd(a, b);
   },
 
   absDiff(a: number, b: number): number {
-    return Math.abs(a - b)
+    return Math.abs(a - b);
   },
 
   isNegative(num: number): boolean {
-    return num < 0
+    return num < 0;
   },
 
   isPositive(num: number): boolean {
-    return num > 0
+    return num > 0;
   },
 
   min(arr: number[]): number {
-    return Math.min(...arr)
+    return Math.min(...arr);
   },
 
   max(arr: number[]): number {
-    return Math.max(...arr)
+    return Math.max(...arr);
   },
 };

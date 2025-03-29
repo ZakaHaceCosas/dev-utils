@@ -1,4 +1,4 @@
-# changelog
+# `string-utils` CHANGELOG
 
 ## 2.2.0
 
