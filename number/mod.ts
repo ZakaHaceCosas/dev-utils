@@ -32,9 +32,17 @@
  * @module
  */
 
-// * SECTION: MODULE_DEF * //
+/**
+ * A great set of utilities for interacting with numbers. Serving 19 functions.
+ *
+ * _Note: Avoid using it as `const { fn } = NumberUtils`, it can cause issues._
+ *
+ * @version 1.0.0
+ * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
+ */
+export const NumberUtils: {
+  // * SECTION: MODULE_DEF * //
 
-type NumberUtilsModule = {
   /**
    * _A classic._ Checks if a given number is even or not. Analog to {@linkcode isOdd}.
    *
@@ -295,19 +303,9 @@ type NumberUtilsModule = {
    * @returns {number} The highest number in the array.
    */
   max(arr: number[]): number;
-};
+} = {
+  // * SECTION: MODULE_ITSELF * //
 
-// * SECTION: MODULE_ITSELF * //
-
-/**
- * A great set of utilities for interacting with numbers. Serving 19 functions.
- *
- * _Note: Avoid using it as `const { fn } = NumberUtils`, it can cause issues._
- *
- * @version 1.0.0
- * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
- */
-export const NumberUtils: NumberUtilsModule = {
   isEven(num: number): boolean {
     return num % 2 === 0;
   },

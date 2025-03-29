@@ -128,9 +128,17 @@ export interface IMaskOptions {
   visibleChars?: number;
 }
 
-// * SECTION: MODULE_DEF * //
+/**
+ * A great set of utilities for interacting with strings. Serving 53 functions.
+ *
+ * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
+ *
+ * @version 2.1.0
+ * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
+ */
+export const StringUtils: {
+  // * SECTION: MODULE_DEF * //
 
-type StringUtilsModule = {
   /**
    * Capitalizes the first letter of the string.
    * @param str The string to modify.
@@ -949,19 +957,9 @@ type StringUtilsModule = {
    * @returns {string} The replaced string.
    */
   replace(str: string, replacements: Record<string, string>): string;
-};
+} = {
+  // * SECTION: MODULE_ITSELF * //
 
-// * SECTION: MODULE_ITSELF * //
-
-/**
- * A great set of utilities for interacting with strings. Serving 53 functions.
- *
- * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
- *
- * @version 2.1.0
- * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
- */
-export const StringUtils: StringUtilsModule = {
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
   },
