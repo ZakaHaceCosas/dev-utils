@@ -76,7 +76,7 @@ type NumberUtilsModule = {
    *
    * @returns {number} The rounded number.
    */
-  roundTo(num: number, precision: number): number;
+  roundTo(num: number, precision?: number): number;
   /**
    * Generates a random integer between min and max (inclusive).
    *

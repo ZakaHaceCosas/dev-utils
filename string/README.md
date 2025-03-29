@@ -1,9 +1,8 @@
 <!-- markdownlint-disable md001 -->
 
-# `string-utils`
+`@zakahacecosas/`
 
-> [!NOTE]
-> We're making this a monorepo to host new packages like `number-utils` besides `string-utils`.
+# `string-utils`
 
 A great set of +50 functions for string capitalization, validation, and manipulation; among other uses. Works with NodeJS*, Bun, Deno, and (if transpiled to JavaScript) with any web browser. Includes features for CLIs.
 
