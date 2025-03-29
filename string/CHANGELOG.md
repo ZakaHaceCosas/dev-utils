@@ -1,5 +1,9 @@
 # `string-utils` CHANGELOG
 
+## 2.2.1
+
+- fixed jsr documentation
+
 ## 2.2.0
 
 - new functions:
