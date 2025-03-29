@@ -308,15 +308,23 @@ type NumberUtilsModule = {
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  */
 export const NumberUtils: NumberUtilsModule = {
-  isEven: (num: number): boolean => num % 2 === 0,
+  isEven(num: number): boolean {
+    return num % 2 === 0
+  },
 
-  isOdd: (num: number): boolean => num % 2 !== 0,
+  isOdd(num: number): boolean {
+    return num % 2 !== 0
+  },
 
-  roundTo: (num: number, precision: number = 0): number => Number(num.toFixed(precision)),
+  roundTo(num: number, precision: number = 0): number {
+    return Number(num.toFixed(precision))
+  },
 
-  randomInt: (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1)) + min,
+  randomInt(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+  },
 
-  isPrime: (num: number): boolean => {
+  isPrime(num: number): boolean {
     if (num <= 1) return false;
     for (let i = 2; i <= Math.sqrt(num); i++) {
       if (num % i === 0) return false;
@@ -324,21 +332,35 @@ export const NumberUtils: NumberUtilsModule = {
     return true;
   },
 
-  sumArray: (arr: number[]): number => arr.reduce((acc, curr) => acc + curr, 0),
+  sumArray(arr: number[]): number {
+    return arr.reduce((acc, curr) => acc + curr, 0)
+  },
 
-  average: (arr: number[]): number => this.sumArray(arr) / arr.length,
+  average(arr: number[]): number {
+    return this.sumArray(arr) / arr.length
+  },
 
-  isBetween: (num: number, min: number, max: number): boolean => num >= min && num <= max,
+  isBetween(num: number, min: number, max: number): boolean {
+    return num >= min && num <= max
+  },
 
-  factorial: (num: number): number => (num <= 1 ? 1 : num * this.factorial(num - 1)),
+  factorial(num: number): number {
+    return (num <= 1 ? 1 : num * this.factorial(num - 1))
+  },
 
-  isPerfectSquare: (num: number): boolean => Number.isInteger(Math.sqrt(num)),
+  isPerfectSquare(num: number): boolean {
+    return Number.isInteger(Math.sqrt(num))
+  },
 
-  degreesToRadians: (deg: number): number => (deg * Math.PI) / 180,
+  degreesToRadians(deg: number): number {
+    return (deg * Math.PI) / 180
+  },
 
-  radiansToDegrees: (rad: number): number => (rad * 180) / Math.PI,
+  radiansToDegrees(rad: number): number {
+    return (rad * 180) / Math.PI
+  },
 
-  gcd: (a: number, b: number): number => {
+  gcd(a: number, b: number): number {
     while (b !== 0) {
       const temp = b;
       b = a % b;
@@ -347,15 +369,27 @@ export const NumberUtils: NumberUtilsModule = {
     return a;
   },
 
-  lcm: (a: number, b: number): number => (a * b) / this.gcd(a, b),
+  lcm(a: number, b: number): number {
+    return (a * b) / this.gcd(a, b)
+  },
 
-  absDiff: (a: number, b: number): number => Math.abs(a - b),
+  absDiff(a: number, b: number): number {
+    return Math.abs(a - b)
+  },
 
-  isNegative: (num: number): boolean => num < 0,
+  isNegative(num: number): boolean {
+    return num < 0
+  },
 
-  isPositive: (num: number): boolean => num > 0,
+  isPositive(num: number): boolean {
+    return num > 0
+  },
 
-  min: (arr: number[]): number => Math.min(...arr),
+  min(arr: number[]): number {
+    return Math.min(...arr)
+  },
 
-  max: (arr: number[]): number => Math.max(...arr),
+  max(arr: number[]): number {
+    return Math.max(...arr)
+  },
 };
