@@ -4,11 +4,14 @@ A monorepo with different packages that provide great utilities for common tasks
 
 ## Packages
 
-| Package        |                           Description |                                                                  Link |
-| :------------- | ------------------------------------: | --------------------------------------------------------------------: |
-| `string-utils` | 50+ string related utility functions. | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/number) |
-| `number-utils` | 15+ number related utility functions. | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/number) |
+| Package        |                                     Description |                                                                  Link |
+| :------------- | ----------------------------------------------: | --------------------------------------------------------------------: |
+| `string-utils` |           50+ string related utility functions. | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/number) |
+| `number-utils` |           15+ number related utility functions. | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/number) |
+| `geo-utils`    | 5+ vector & distance related utility functions. |    [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/geo) |
 
-`string-utils` includes tools for CLI-targeted string formatting, validation, formatting, casing, etc... It is to be fair a very powerful string toolkit.
+`string-utils` includes tools for CLI-targeted string formatting, validation, formatting, casing, etc... It is, to be fair, a very powerful string toolkit.
 
 `number-utils` is newer and less complete, it'll grow over time. It includes basic functions like random integers, average, deg-rad conversion, the _classics_ (`isOdd()`, `isEven()`...), and a few more.
+
+`geo-utils` is even newer and less complete, it'll also grow over time. It includes a few basic functions related to degree and vector math, and miles-kilometers conversion (also available in `number-utils`).

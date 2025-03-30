@@ -208,6 +208,32 @@ export const NumberUtils: {
    */
   radiansToDegrees(rad: number): number;
   /**
+   * Converts kilometers to miles.
+   *
+   * @param {number} km Kilometers.
+   *
+   * @example
+   * ```ts
+   * console.log(GeoUtils.kilometersToMiles(5)); // 3.106855
+   * ```
+   *
+   * @returns {number} Miles.
+   */
+  kilometersToMiles(km: number): number;
+  /**
+   * Converts miles to kilometers.
+   *
+   * @param {number} miles Miles.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.milesToKilometers(5)); // 8.046722
+   * ```
+   *
+   * @returns {number} Degrees.
+   */
+  milesToKilometers(miles: number): number;
+  /**
    * Finds the greatest common divisor (GCD) of two numbers.
    *
    * @param {number} a First number.
@@ -306,6 +332,30 @@ export const NumberUtils: {
 } = {
   // * SECTION: MODULE_ITSELF * //
 
+  // * MODULE: REUSED * //
+
+  // geo-utils, number-utils
+  degreesToRadians(deg: number): number {
+    return (deg * Math.PI) / 180;
+  },
+
+  // geo-utils, number-utils
+  radiansToDegrees(rad: number): number {
+    return (rad * 180) / Math.PI;
+  },
+
+  // geo-utils, number-utils
+  kilometersToMiles(km: number) {
+    return km * 0.621371;
+  },
+
+  // geo-utils, number-utils
+  milesToKilometers(miles: number) {
+    return miles / 0.621371;
+  },
+
+  // * MODULE: OWN * //
+
   isEven(num: number): boolean {
     return num % 2 === 0;
   },
@@ -348,14 +398,6 @@ export const NumberUtils: {
 
   isPerfectSquare(num: number): boolean {
     return Number.isInteger(Math.sqrt(num));
-  },
-
-  degreesToRadians(deg: number): number {
-    return (deg * Math.PI) / 180;
-  },
-
-  radiansToDegrees(rad: number): number {
-    return (rad * 180) / Math.PI;
   },
 
   gcd(a: number, b: number): number {

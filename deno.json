@@ -13,14 +13,16 @@
   "imports": {
     "@std/assert": "jsr:@std/assert@^1.0.11"
   },
-  "workspace": ["./number", "./string"],
+  "workspace": ["./number", "./string", "./geo"],
   "publish": {
     "exclude": [
       "LICENSE",
       "README.md",
-      "CHANGELOG.md",
+      "**/README.md",
+      "count.ts",
       "deno.lock",
-      "tests/**"
+      "**/CHANGELOG.md",
+      "**/mod.test.ts"
     ]
   }
 }

@@ -1,5 +1,5 @@
 /**
- * A great set of utilities for interacting with strings. Serving 53 functions.
+ * A great set of utilities for interacting with strings. Serving 54 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
@@ -129,7 +129,7 @@ export interface IMaskOptions {
 }
 
 /**
- * A great set of utilities for interacting with strings. Serving 53 functions.
+ * A great set of utilities for interacting with strings. Serving 54 functions.
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
  *
@@ -959,6 +959,8 @@ export const StringUtils: {
   replace(str: string, replacements: Record<string, string>): string;
 } = {
   // * SECTION: MODULE_ITSELF * //
+
+  // * MODULE: OWN * //
 
   toUpperCaseFirst(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);

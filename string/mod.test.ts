@@ -953,7 +953,3 @@ Deno.test({
     assertEquals(StringUtils.testFlags(["-a", "--alpha"], "beta"), false);
   },
 });
-
-console.log(
-  `Testing ${Object.keys(StringUtils).length} functions.`,
-);
