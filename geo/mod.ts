@@ -88,7 +88,7 @@ interface IPoint {
  *
  * _Note: Avoid using it as `const { fn } = GeoUtils`, it can cause issues._
  *
- * @version 1.0.0
+ * @version 1.1.0
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  */
 export const GeoUtils: {
@@ -145,6 +145,32 @@ export const GeoUtils: {
    * @returns {number} Degrees.
    */
   milesToKilometers(miles: number): number;
+  /**
+   * Converts meters to feet.
+   *
+   * @param {number} meters Meters.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.metersToFeet(5)); // 16.4042
+   * ```
+   *
+   * @returns {number} Feet.
+   */
+  metersToFeet(meters: number): number;
+  /**
+   * Converts feet to meters.
+   *
+   * @param {number} feet Feet.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.feetToMeters(5)); // 1.524
+   * ```
+   *
+   * @returns {number} Meters.
+   */
+  feetToMeters(feet: number): number;
   /**
    * Calculates the distance between two points using the Haversine formula, returns distance in kilometers.
    *
@@ -217,6 +243,16 @@ export const GeoUtils: {
   // geo-utils, number-utils
   milesToKilometers(miles: number) {
     return miles / 0.621371;
+  },
+
+  // geo-utils, number-utils
+  metersToFeet(meters: number) {
+    return meters * 3.28084;
+  },
+
+  // geo-utils, number-utils
+  feetToMeters(feet: number) {
+    return feet / 3.28084;
   },
 
   // * MODULE: OWN * //

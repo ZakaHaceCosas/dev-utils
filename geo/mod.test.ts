@@ -41,6 +41,26 @@ Deno.test({
 });
 
 Deno.test({
+  name: "metersToFeet works",
+  fn: () => {
+    assertEquals(
+      NumberUtils.roundTo(GeoUtils.metersToFeet(5), 6),
+      16.4042,
+    );
+  },
+});
+
+Deno.test({
+  name: "feetToMeters works",
+  fn: () => {
+    assertEquals(
+      NumberUtils.roundTo(GeoUtils.feetToMeters(5), 6),
+      1.524,
+    );
+  },
+});
+
+Deno.test({
   name: "haversineDistance works",
   fn: () => {
     assertEquals(

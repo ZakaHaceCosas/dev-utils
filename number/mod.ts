@@ -37,7 +37,7 @@
  *
  * _Note: Avoid using it as `const { fn } = NumberUtils`, it can cause issues._
  *
- * @version 1.0.0
+ * @version 1.2.0
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  */
 export const NumberUtils: {
@@ -234,6 +234,32 @@ export const NumberUtils: {
    */
   milesToKilometers(miles: number): number;
   /**
+   * Converts meters to feet.
+   *
+   * @param {number} meters Meters.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.metersToFeet(5)); // 16.4042
+   * ```
+   *
+   * @returns {number} Feet.
+   */
+  metersToFeet(meters: number): number;
+  /**
+   * Converts feet to meters.
+   *
+   * @param {number} feet Feet.
+   *
+   * @example
+   * ```ts
+   * console.log(NumberUtils.feetToMeters(5)); // 1.524
+   * ```
+   *
+   * @returns {number} Meters.
+   */
+  feetToMeters(feet: number): number;
+  /**
    * Finds the greatest common divisor (GCD) of two numbers.
    *
    * @param {number} a First number.
@@ -352,6 +378,16 @@ export const NumberUtils: {
   // geo-utils, number-utils
   milesToKilometers(miles: number) {
     return miles / 0.621371;
+  },
+
+  // geo-utils, number-utils
+  metersToFeet(meters: number) {
+    return meters * 3.28084;
+  },
+
+  // geo-utils, number-utils
+  feetToMeters(feet: number) {
+    return feet / 3.28084;
   },
 
   // * MODULE: OWN * //
