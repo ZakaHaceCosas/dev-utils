@@ -4,7 +4,7 @@
 
 # `number-utils`
 
-A set of +15 functions for number operation, conversion; among other uses. Works with NodeJS*, Bun, Deno, and (if transpiled to JavaScript) with any web browser.
+A set of +20 functions for number operation, conversion; among other uses. Works with NodeJS*, Bun, Deno, and (if transpiled to JavaScript) with any web browser.
 
 ###### Sponsored by [FuckingNode](#fun-fact)
 

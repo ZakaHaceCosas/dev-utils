@@ -1,5 +1,5 @@
 /**
- * A set of utilities for interacting with vectors and distances. Serving 7 functions.
+ * A set of utilities for interacting with vectors and distances. Serving 9 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * _Note: Avoid using it as `const { fn } = GeoUtils`, it can cause issues._
@@ -84,7 +84,7 @@ interface IPoint {
 }
 
 /**
- * A set of utilities for interacting with vectors, distances, and angles. Serving 7 functions.
+ * A set of utilities for interacting with vectors, distances, and angles. Serving 9 functions.
  *
  * _Note: Avoid using it as `const { fn } = GeoUtils`, it can cause issues._
  *

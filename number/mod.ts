@@ -1,5 +1,5 @@
 /**
- * A great set of utilities for interacting with numbers. Serving 19 functions.
+ * A great set of utilities for interacting with numbers. Serving 23 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * _Note: Avoid using it as `const { fn } = NumberUtils`, it can cause issues._
@@ -33,7 +33,7 @@
  */
 
 /**
- * A great set of utilities for interacting with numbers. Serving 19 functions.
+ * A great set of utilities for interacting with numbers. Serving 23 functions.
  *
  * _Note: Avoid using it as `const { fn } = NumberUtils`, it can cause issues._
  *
