@@ -199,23 +199,23 @@ Deno.test({
   fn: () => {
     assertEquals(
       StringUtils.normalize(
-        "              heLLo mY    fAnTÁsTiC    AmigO   ",
+        "              heLLo mY    fAnTÁsTiC    AmiGO   ",
       ),
       "hello my fantastic amigo",
     );
     assertEquals(
       StringUtils.normalize(
-        "              123_heLLo mY    fAnTÁsTiC    AmigO   ",
+        "              123_heLLo mY    fAnTÁsTiC    AmiGO   ",
         { strict: true },
       ),
       "123hellomyfantasticamigo",
     );
     assertEquals(
       StringUtils.normalize(
-        "              123_heLLo mY    fAnTÁsTiC    AmigO   ",
+        "              123_heLLo mY    fAnTÁsTiC    AmiGO   ",
         { strict: true, preserveCase: true },
       ),
-      "123heLLomYfAnTAsTiCAmigO",
+      "123heLLomYfAnTAsTiCAmiGO",
     );
   },
 });
@@ -597,7 +597,7 @@ Deno.test({
   fn: () => {
     assertEquals(
       StringUtils.slugify(
-        "Some nasty string that wouldn't work as a URL!",
+        "Some *nasty* string that wouldn't work as a URL!",
       ),
       "some-nasty-string-that-wouldnt-work-as-a-url",
     );

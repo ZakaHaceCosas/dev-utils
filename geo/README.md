@@ -1,4 +1,4 @@
-<!-- markdownlint-disable md001 -->
+<!-- markdownlint-disable md001 md041 -->
 
 `@zakahacecosas/`
 
@@ -52,4 +52,4 @@ The module is fully documented in `jsr.io`, [click here for module documentation
 
 ###### Fun fact
 
-> This library was originally made to test in production the new `fkrelease` command, a new feature for FuckingNode v3.0, my make-NodeJS-less-annoying CLI utility. See [this repo](https://github.com/FuckingNode/FuckingNode) to learn more.
+> This project was originally made to test in production the `fkrelease` command, a feature for F\*ckingNode, a make-NodeJS-less-annoying CLI utility. See [this repo](https://github.com/FuckingNode/FuckingNode) to learn more.
