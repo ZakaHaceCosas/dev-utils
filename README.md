@@ -9,7 +9,7 @@ A monorepo with different packages that provide great utilities for common tasks
 | `string-utils` |           50+ string related utility functions. | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/number) |
 | `number-utils` |           20+ number related utility functions. | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/number) |
 | `geo-utils`    | 5+ vector & distance related utility functions. |    [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/geo) |
-| `geo-utils`    |               5 HTTP related utility functions. |   [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/http) |
+| `http-utils`   |               5 HTTP related utility functions. |   [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/http) |
 
 `string-utils` includes tools for CLI-targeted string formatting, validation, formatting, casing, etc... It is, to be fair, a very powerful string toolkit.
 
@@ -17,4 +17,4 @@ A monorepo with different packages that provide great utilities for common tasks
 
 `geo-utils` is even newer and less complete, it'll also grow over time. It includes a few basic functions related to degree and vector math, and miles-kilometers conversion (also available in `number-utils`).
 
-`geo-utils` is the newest and least complete package, also set to grow over time. It includes a few basic functions related to HTTP, like request timeouts or cookie generation.
+`http-utils` is the newest and least complete package, also set to grow over time. It includes a few basic functions related to HTTP, like request timeouts or cookie generation.
