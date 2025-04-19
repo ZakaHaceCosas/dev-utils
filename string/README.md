@@ -4,7 +4,7 @@
 
 # `string-utils`
 
-A great set of +50 functions for string capitalization, validation, and manipulation; among other uses. Works with NodeJS*, Bun, Deno, and (if transpiled to JavaScript) with any web browser. Includes features for CLIs.
+A great set of 50+ functions for string capitalization, validation, and manipulation; among other uses. Works with NodeJS*, Bun, Deno, and (if transpiled to JavaScript) with any web browser. Includes features for CLIs.
 
 ###### Sponsored by [FuckingNode](#fun-fact)
 

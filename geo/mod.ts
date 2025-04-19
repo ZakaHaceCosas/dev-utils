@@ -100,7 +100,7 @@ export const GeoUtils: {
    *
    * @example
    * ```ts
-   * console.log(GeoUtils.degreesToRadians(180)); // 3.141592653589793
+   * GeoUtils.degreesToRadians(180); // 3.141592653589793
    * ```
    *
    * @returns {number} Radians.
@@ -113,7 +113,7 @@ export const GeoUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.radiansToDegrees(Math.PI)); // 180
+   * GeoUtils.radiansToDegrees(Math.PI); // 180
    * ```
    *
    * @returns {number} Degrees.
@@ -126,7 +126,7 @@ export const GeoUtils: {
    *
    * @example
    * ```ts
-   * console.log(GeoUtils.kilometersToMiles(5)); // 3.106855
+   * GeoUtils.kilometersToMiles(5); // 3.106855
    * ```
    *
    * @returns {number} Miles.
@@ -139,7 +139,7 @@ export const GeoUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.milesToKilometers(5)); // 8.046722
+   * GeoUtils.milesToKilometers(5); // 8.046722
    * ```
    *
    * @returns {number} Degrees.
@@ -152,7 +152,7 @@ export const GeoUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.metersToFeet(5)); // 16.4042
+   * GeoUtils.metersToFeet(5); // 16.4042
    * ```
    *
    * @returns {number} Feet.
@@ -165,7 +165,7 @@ export const GeoUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.feetToMeters(5)); // 1.524
+   * GeoUtils.feetToMeters(5); // 1.524
    * ```
    *
    * @returns {number} Meters.
@@ -199,7 +199,7 @@ export const GeoUtils: {
    * ```ts
    * const DMS = GeoUtils.degreesToDMS(45.45);
    *
-   * console.log(DMS.minutes); // 27
+   * const { minutes } = DMS; // 27
    * ```
    *
    * @returns {IDegMinSec} DMS object.
@@ -212,9 +212,7 @@ export const GeoUtils: {
    *
    * @example
    * ```ts
-   * const degrees = GeoUtils.DMSToDegrees({ degrees: 71, minutes: 33, seconds: 36 });
-   *
-   * console.log(degrees); // 71.56
+   * GeoUtils.DMSToDegrees({ degrees: 71, minutes: 33, seconds: 36 }); // 71.56
    * ```
    *
    * @returns {number} Decimal degrees.

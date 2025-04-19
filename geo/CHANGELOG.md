@@ -1,5 +1,9 @@
 # `geo-utils` CHANGELOG
 
+## 1.1.1
+
+- Fix JSDoc using wrong lib name (NumberUtils).
+
 ## 1.1.0
 
 - New functions:

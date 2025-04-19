@@ -4,7 +4,7 @@
 
 # `geo-utils`
 
-A set of +5 functions for interacting with vectors and distances. Works with NodeJS*, Bun, Deno, and (if transpiled to JavaScript) with any web browser.
+A set of 5+ functions for interacting with vectors and distances. Works with NodeJS*, Bun, Deno, and (if transpiled to JavaScript) with any web browser.
 
 ###### Sponsored by [FuckingNode](#fun-fact)
 

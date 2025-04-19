@@ -2,6 +2,10 @@ import { GeoUtils } from "./mod.ts";
 import { NumberUtils } from "../number/mod.ts";
 import { assertEquals } from "@std/assert";
 
+function assertKindaEquals(actual: number, expected: unknown, threshold?: number): void {
+  assertEquals(NumberUtils.roundTo(actual, threshold ?? 1), expected);
+}
+
 Deno.test({
   name: "degreesToRadians works",
   fn: () => {
@@ -23,9 +27,10 @@ Deno.test({
 Deno.test({
   name: "kilometersToMiles works",
   fn: () => {
-    assertEquals(
-      NumberUtils.roundTo(GeoUtils.kilometersToMiles(5), 6),
+    assertKindaEquals(
+      GeoUtils.kilometersToMiles(5),
       3.106855,
+      6,
     );
   },
 });
@@ -33,9 +38,10 @@ Deno.test({
 Deno.test({
   name: "milesToKilometers works",
   fn: () => {
-    assertEquals(
-      NumberUtils.roundTo(GeoUtils.milesToKilometers(5), 6),
+    assertKindaEquals(
+      GeoUtils.milesToKilometers(5),
       8.046722,
+      6,
     );
   },
 });
@@ -43,30 +49,21 @@ Deno.test({
 Deno.test({
   name: "metersToFeet works",
   fn: () => {
-    assertEquals(
-      NumberUtils.roundTo(GeoUtils.metersToFeet(5), 6),
-      16.4042,
-    );
+    assertKindaEquals(GeoUtils.metersToFeet(5), 16.4042, 6);
   },
 });
 
 Deno.test({
   name: "feetToMeters works",
   fn: () => {
-    assertEquals(
-      NumberUtils.roundTo(GeoUtils.feetToMeters(5), 6),
-      1.524,
-    );
+    assertKindaEquals(GeoUtils.feetToMeters(5), 1.524, 6);
   },
 });
 
 Deno.test({
   name: "haversineDistance works",
   fn: () => {
-    assertEquals(
-      NumberUtils.roundTo(GeoUtils.haversineDistance({ lat: 0, lon: 0 }, { lat: 5, lon: 5 }), 1),
-      785.8,
-    );
+    assertKindaEquals(GeoUtils.haversineDistance({ lat: 0, lon: 0 }, { lat: 5, lon: 5 }), 785.8);
   },
 });
 
