@@ -1,6 +1,10 @@
 import { assertEquals } from "@std/assert";
 import { NumberUtils } from "./mod.ts";
 
+function assertKindaEquals(actual: number, expected: unknown, threshold?: number): void {
+  assertEquals(NumberUtils.roundTo(actual, threshold ?? 1), expected);
+}
+
 Deno.test({
   name: "degreesToRadians works",
   fn: () => {
@@ -122,5 +126,23 @@ Deno.test({
   fn: () => {
     assertEquals(NumberUtils.isBetween(5, 4, 6), true);
     assertEquals(NumberUtils.isBetween(6.1, 4, 6), false);
+  },
+});
+
+Deno.test({
+  name: "centimetersToInches works",
+  fn: () => {
+    assertKindaEquals(
+      NumberUtils.centimetersToInches(10),
+      3.94,
+      2,
+    );
+  },
+});
+
+Deno.test({
+  name: "inchesToCentimeters works",
+  fn: () => {
+    assertKindaEquals(NumberUtils.inchesToCentimeters(10), 25.4, 2);
   },
 });

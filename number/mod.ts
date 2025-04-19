@@ -1,5 +1,5 @@
 /**
- * A great set of utilities for interacting with numbers. Serving 23 functions.
+ * A great set of utilities for interacting with numbers. Serving 25 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * _Note: Avoid using it as `const { fn } = NumberUtils`, it can cause issues._
@@ -33,11 +33,11 @@
  */
 
 /**
- * A great set of utilities for interacting with numbers. Serving 23 functions.
+ * A great set of utilities for interacting with numbers. Serving 25 functions.
  *
  * _Note: Avoid using it as `const { fn } = NumberUtils`, it can cause issues._
  *
- * @version 1.2.0
+ * @version 1.3.0
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  */
 export const NumberUtils: {
@@ -50,8 +50,8 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.isEven(2)); // true
-   * console.log(NumberUtils.isEven(3)); // false
+   * NumberUtils.isEven(2); // true
+   * NumberUtils.isEven(3); // false
    * ```
    *
    * @returns {boolean} True if it's even, false if otherwise.
@@ -64,8 +64,8 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.isOdd(2)); // false
-   * console.log(NumberUtils.isOdd(3)); // true
+   * NumberUtils.isOdd(2); // false
+   * NumberUtils.isOdd(3); // true
    * ```
    *
    * @returns {boolean} True if it's odd, false if otherwise.
@@ -107,8 +107,8 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.isPrime(7)) // true
-   * console.log(NumberUtils.isPrime(8)) // false
+   * NumberUtils.isPrime(7) // true
+   * NumberUtils.isPrime(8) // false
    * ```
    *
    * @returns {boolean} True if the given number is prime, false if otherwise.
@@ -121,7 +121,7 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.sumArray([1, 2, 3])) // 6
+   * NumberUtils.sumArray([1, 2, 3]) // 6
    * ```
    *
    * @returns {number} The sum of all numbers in the array.
@@ -134,7 +134,7 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.average([1, 2, 3, 4])) // 2.5
+   * NumberUtils.average([1, 2, 3, 4]) // 2.5
    * ```
    *
    * @returns {number} The average of all numbers in the array.
@@ -188,7 +188,7 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.degreesToRadians(180)); // 3.141592653589793
+   * NumberUtils.degreesToRadians(180); // 3.141592653589793
    * ```
    *
    * @returns {number} Radians.
@@ -201,7 +201,7 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.radiansToDegrees(Math.PI)); // 180
+   * NumberUtils.radiansToDegrees(Math.PI); // 180
    * ```
    *
    * @returns {number} Degrees.
@@ -214,7 +214,7 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(GeoUtils.kilometersToMiles(5)); // 3.106855
+   * NumberUtils.kilometersToMiles(5); // 3.106855
    * ```
    *
    * @returns {number} Miles.
@@ -227,7 +227,7 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.milesToKilometers(5)); // 8.046722
+   * NumberUtils.milesToKilometers(5); // 8.046722
    * ```
    *
    * @returns {number} Degrees.
@@ -240,7 +240,7 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.metersToFeet(5)); // 16.4042
+   * NumberUtils.metersToFeet(5); // 16.4042
    * ```
    *
    * @returns {number} Feet.
@@ -253,7 +253,7 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.feetToMeters(5)); // 1.524
+   * NumberUtils.feetToMeters(5); // 1.524
    * ```
    *
    * @returns {number} Meters.
@@ -267,7 +267,7 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.gcd(12, 18)); // 6.
+   * NumberUtils.gcd(12, 18); // 6.
    * ```
    *
    * @returns {number} The GCD of both numbers.
@@ -281,7 +281,7 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.lcm(12, 18)); // 36.
+   * NumberUtils.lcm(12, 18); // 36.
    * ```
    *
    * @returns {number} The LCM of both numbers.
@@ -295,7 +295,7 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.absDiff(10, 3)); // 7
+   * NumberUtils.absDiff(10, 3); // 7
    * ```
    *
    * @returns {number} Their absolute difference.
@@ -308,8 +308,8 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.isNegative(-2)); // true
-   * console.log(NumberUtils.isNegative(3)); // false
+   * NumberUtils.isNegative(-2); // true
+   * NumberUtils.isNegative(3);  // false
    * ```
    *
    * @returns {boolean} True if it's negative, false if otherwise.
@@ -322,8 +322,8 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.isPositive(-2)); // false
-   * console.log(NumberUtils.isPositive(3)); // true
+   * NumberUtils.isPositive(-2); // false
+   * NumberUtils.isPositive(3);  // true
    * ```
    *
    * @returns {boolean} True if it's positive, false if otherwise.
@@ -336,7 +336,7 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.min([4, 2, 7, 1])); // 1
+   * NumberUtils.min([4, 2, 7, 1]); // 1
    * ```
    *
    * @returns {number} The smallest number in the array.
@@ -349,12 +349,38 @@ export const NumberUtils: {
    *
    * @example
    * ```ts
-   * console.log(NumberUtils.max([4, 2, 7, 1])); // 7
+   * NumberUtils.max([4, 2, 7, 1]); // 7
    * ```
    *
    * @returns {number} The highest number in the array.
    */
   max(arr: number[]): number;
+  /**
+   * Turns centimeters (CM) to inches (IN).
+   *
+   * @param {number} cms Centimeters.
+   *
+   * @example
+   * ```ts
+   * NumberUtils.centimetersToInches(10); // 3.94
+   * ```
+   *
+   * @returns {number} Inches.
+   */
+  centimetersToInches(cms: number): number;
+  /**
+   * Turns inches (IN) to centimeters (CM).
+   *
+   * @param {number} ins Inches.
+   *
+   * @example
+   * ```ts
+   * NumberUtils.inchesToCentimeters(10); // 25.4
+   * ```
+   *
+   * @returns {number} Inches.
+   */
+  inchesToCentimeters(ins: number): number;
 } = {
   // * SECTION: MODULE_ITSELF * //
 
@@ -467,5 +493,13 @@ export const NumberUtils: {
 
   max(arr: number[]): number {
     return Math.max(...arr);
+  },
+
+  centimetersToInches(cms: number): number {
+    return cms / 2.54;
+  },
+
+  inchesToCentimeters(ins: number): number {
+    return ins * 2.54;
   },
 };
