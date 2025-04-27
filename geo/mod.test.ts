@@ -86,3 +86,61 @@ Deno.test({
     );
   },
 });
+
+Deno.test({
+  name: "isValidLat works",
+  fn: () => {
+    assertEquals(
+      GeoUtils.isValidLat(99),
+      false,
+    );
+    assertEquals(
+      GeoUtils.isValidLat(90),
+      true,
+    );
+    assertEquals(
+      GeoUtils.isValidLat(89),
+      true,
+    );
+  },
+});
+
+Deno.test({
+  name: "isValidLon works",
+  fn: () => {
+    assertEquals(
+      GeoUtils.isValidLon(199),
+      false,
+    );
+    assertEquals(
+      GeoUtils.isValidLon(170),
+      true,
+    );
+    assertEquals(
+      GeoUtils.isValidLon(89),
+      true,
+    );
+  },
+});
+
+Deno.test({
+  name: "isClose works",
+  fn: () => {
+    assertEquals(
+      GeoUtils.isClose(
+        { lat: 5, lon: 5 },
+        { lat: 10, lon: 10 },
+        800,
+      ),
+      true,
+    );
+    assertEquals(
+      GeoUtils.isClose(
+        { lat: 5, lon: 5 },
+        { lat: 10, lon: 10 },
+        500,
+      ),
+      false,
+    );
+  },
+});

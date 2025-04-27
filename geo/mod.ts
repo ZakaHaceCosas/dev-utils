@@ -1,5 +1,5 @@
 /**
- * A set of utilities for interacting with vectors and distances. Serving 9 functions.
+ * A set of utilities for interacting with vectors and distances. Serving 12 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * _Note: Avoid using it as `const { fn } = GeoUtils`, it can cause issues._
@@ -28,6 +28,8 @@
  * @module
  */
 
+// deno-lint-ignore-file no-explicit-any
+
 // * SECTION: CONSTANTS * //
 
 /** Earth radius in kilometers. This is the average of the equatorial and polar radius. */
@@ -40,7 +42,7 @@ const EARTH_RADIUS_KILOMETERS = 6371;
  *
  * @interface IDegMinSec
  */
-interface IDegMinSec {
+export interface IDegMinSec {
   /**
    * Degrees.
    *
@@ -68,7 +70,7 @@ interface IDegMinSec {
  *
  * @interface IPoint
  */
-interface IPoint {
+export interface IPoint {
   /**
    * Longitude of the point in degrees. Also known as its position on the _x_ axis in a cartesian system.
    *
@@ -84,7 +86,7 @@ interface IPoint {
 }
 
 /**
- * A set of utilities for interacting with vectors, distances, and angles. Serving 9 functions.
+ * A set of utilities for interacting with vectors, distances, and angles. Serving 12 functions.
  *
  * _Note: Avoid using it as `const { fn } = GeoUtils`, it can cause issues._
  *
@@ -218,6 +220,50 @@ export const GeoUtils: {
    * @returns {number} Decimal degrees.
    */
   DMSToDegrees(dms: IDegMinSec): number;
+  /**
+   * Checks if a given value is a valid latitude.
+   *
+   * @param {any} lat Latitude to check.
+   *
+   * @example
+   * ```ts
+   * GeoUtils.isValidLat(-89); // true
+   * GeoUtils.isValidLat(93); // false
+   * ```
+   *
+   * @returns {boolean} True if it is valid, false if not.
+   */
+  isValidLat(lat: any): boolean;
+  /**
+   * Checks if a given value is a valid longitude.
+   *
+   * @param {any} lon Longitude to check.
+   *
+   * @example
+   * ```ts
+   * GeoUtils.isValidLon(-99); // true
+   * GeoUtils.isValidLon(199); // false
+   * ```
+   *
+   * @returns {boolean} True if it is valid, false if not.
+   */
+  isValidLon(lon: any): boolean;
+
+  /**
+   * Checks if two points are close enough, within a threshold distance. Distance is calculated using the {@linkcode haversineDistance} method.
+   *
+   * @param {IPoint} pointA First point.
+   * @param {IPoint} pointB Second point.
+   * @param {number} threshold Distance threshold.
+   *
+   * @example
+   * ```ts
+   * GeoUtils.isClose({lat: 5, lon: 5}, {lat: 10, lon: 10}, 500); // false
+   * ```
+   *
+   * @returns {boolean} Returns true if the distance is equal or lower to the threshold, false if otherwise.
+   */
+  isClose(pointA: IPoint, pointB: IPoint, threshold: number): boolean;
 } = {
   // * SECTION: MODULE_ITSELF * //
 
@@ -279,5 +325,17 @@ export const GeoUtils: {
   DMSToDegrees(dms: IDegMinSec): number {
     const { degrees, minutes, seconds } = dms;
     return degrees + minutes / 60 + seconds / 3600;
+  },
+
+  isValidLat(lat: any): boolean {
+    return !isNaN(lat) && lat >= -90 && lat <= 90;
+  },
+
+  isValidLon(lon: any): boolean {
+    return !isNaN(lon) && lon >= -180 && lon <= 180;
+  },
+
+  isClose(pointA: IPoint, pointB: IPoint, threshold: number): boolean {
+    return this.haversineDistance(pointA, pointB) <= threshold;
   },
 };
