@@ -1,5 +1,5 @@
 /**
- * A great set of utilities for interacting with strings. Serving 54 functions.
+ * A great set of utilities for interacting with strings. Serving 55 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
@@ -129,7 +129,7 @@ export interface IMaskOptions {
 }
 
 /**
- * A great set of utilities for interacting with strings. Serving 54 functions.
+ * A great set of utilities for interacting with strings. Serving 55 functions.
  *
  * _Note: Avoid using it as `const { fn } = StringUtils`, it can cause issues._
  *
@@ -353,10 +353,12 @@ export const StringUtils: {
    * ```ts
    * const query = "   mY  sEaRcH      qUÉry_1  "
    *
-   * const str = StringUtils.normalize(query)
-   * const str2 = StringUtils.normalize(query, true)
-   * console.log(str); // "my search query_1"
+   * const str1 = StringUtils.normalize(query)
+   * const str2 = StringUtils.normalize(query, {strict: true})
+   * const str3 = StringUtils.normalize(query, {preserveCase: true})
+   * console.log(str1); // "my search query_1"
    * console.log(str2); // "my search query1"
+   * console.log(str3); // "mY sEaRch qUEry_1"
    * ```
    *
    * @returns {string} The normalized string.
@@ -864,6 +866,20 @@ export const StringUtils: {
    */
   fmtHtml(str: string): string;
   /**
+   * Escapes a JavaScript code string.
+   *
+   * @param str The string to escape.
+   *
+   * @example
+   * ```ts
+   * const escaped = StringUtils.escapeJS(`console.log("hi");`);
+   * console.log(escaped); // "console.log(\"hi\");"
+   * ```
+   *
+   * @returns Escaped JS string.
+   */
+  escapeJS(str: string): string;
+  /**
    * Gets the longest word of a string or of an array of strings.
    *
    * @param {string | string[]} str The string(s) to search inside of.
@@ -1360,6 +1376,7 @@ export const StringUtils: {
 
   cleanHtml(str: string): string {
     return str
+      .trim()
       .replaceAll("&", "&amp;")
       .replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;")
@@ -1370,12 +1387,27 @@ export const StringUtils: {
 
   fmtHtml(str: string): string {
     return str
+      .trim()
       .replaceAll("&amp;", "&")
       .replaceAll("&lt;", "<")
       .replaceAll("&gt;", ">")
       .replaceAll("&quot;", '"')
       .replaceAll("&apos;", "'")
       .replaceAll("&#47;", "/");
+  },
+
+  escapeJS(str: string): string {
+    return str
+      .trim()
+      .replaceAll("\\", "\\\\")
+      .replaceAll('"', '\\"')
+      .replaceAll("'", "\\'")
+      // this below escapes unprintable / "invisible" chars
+      .replace(
+        // deno-lint-ignore no-control-regex
+        /[\x00-\x1F\x7F-\x9F]/g,
+        (match) => `\\u${("0000" + match.charCodeAt(0).toString(16).toUpperCase()).slice(-4)}`,
+      );
   },
 
   getLongest(str: string | string[]): string {

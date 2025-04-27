@@ -1,5 +1,11 @@
 # `string-utils` CHANGELOG
 
+## 2.2.2
+
+- new functions:
+  - `escapeJS(str)` to `\`escape a javascript code string
+- fix JSDoc comment showing wrong function usage
+
 ## 2.2.1
 
 - fixed jsr documentation

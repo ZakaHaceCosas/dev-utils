@@ -817,6 +817,19 @@ Deno.test({
 });
 
 Deno.test({
+  name: "escapeJS works",
+  fn: () => {
+    const raw = "Hello\u0001World\u0007!\u0009Tabbed\u000BVerticalTab\u007FDEL";
+    const expected = "Hello\\u0001World\\u0007!\\u0009Tabbed\\u000BVerticalTab\\u007FDEL";
+
+    assertEquals(
+      StringUtils.escapeJS(raw),
+      expected,
+    );
+  },
+});
+
+Deno.test({
   name: "getLongest works",
   fn: () => {
     assertEquals(
