@@ -1,5 +1,5 @@
 /**
- * A set of utilities for working with HTTP. Serving 5 functions.
+ * A set of utilities for working with HTTP. Serving 6 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * _Note: Avoid using it as `const { fn } = HttpUtils`, it can cause issues._
@@ -30,8 +30,10 @@
  * @module
  */
 
+import fs from "node:fs";
+
 /**
- * A set of utilities for working with HTTP. Serving 5 functions.
+ * A set of utilities for working with HTTP. Serving 6 functions.
  *
  * _Note: Avoid using it as `const { fn } = HttpUtils`, it can cause issues._
  *
@@ -102,7 +104,7 @@ export const HttpUtils: {
   genCookie(name: string, value: string, days: number): string;
 
   /**
-   * Generic function to create and send any HTTP request.
+   * Generic function to create and send any HTTP request, directly returning everything you could need.
    * @param {"GET" | "POST" | "PUT" | "PATCH" | "DELETE"} method - HTTP method.
    * @param {string} url - Target URL.
    * @param {unknown} [body=null] - Body of the request, if applicable.
@@ -114,14 +116,33 @@ export const HttpUtils: {
    *   .then(({ json }) => console.log(json));
    * ```
    *
-   * @returns {Promise<{ json: unknown; uint: unknown }>} Parsed JSON and raw bytes of the response.
+   * @returns {Promise<{ json: any; uint: Uint8Array, body: ReadableStream<Uint8Array<ArrayBufferLike>> | null }>} Parsed JSON and raw bytes of the response.
    */
   request(
     method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
     url: string,
     body: unknown | null,
     headers: Record<string, string>,
-  ): Promise<{ json: unknown; uint: unknown }>;
+  ): Promise<{ json: any; uint: Uint8Array; body: ReadableStream<Uint8Array<ArrayBufferLike>> | null }>;
+
+  /**
+   * Given a URL, downloads a file and writes its contents (using the NodeJS `fs` API) to a given path. If file doesn't exist it's made, if already there, overwritten.
+   * @param {string} url - URL from where to download.
+   * @param {string} path - Path where to download.
+   *
+   * @example
+   * ```ts
+   * import { HttpUtils } from "@zakahacecosas/http-utils";
+   *
+   * await HttpUtils.download(
+   *    await HttpUtils.download("https://sample.com/download/sample.exe");
+   *    "./my-app.exe",
+   * )
+   * ```
+   *
+   * @returns {Promise<void>}
+   */
+  download(url: string, path: string): Promise<void>;
 } = {
   // * SECTION: MODULE_ITSELF * //
 
@@ -166,7 +187,7 @@ export const HttpUtils: {
     url: string,
     body: unknown | null = null,
     headers: Record<string, string> = {},
-  ): Promise<{ json: unknown; uint: unknown }> {
+  ): Promise<{ json: any; uint: Uint8Array; body: ReadableStream<Uint8Array<ArrayBufferLike>> | null }> {
     const response = await fetch(url, {
       method,
       headers: new Headers(headers),
@@ -176,8 +197,20 @@ export const HttpUtils: {
 
     return {
       json: await response.json(),
+      body: response.body,
       uint: new Uint8Array(await response.arrayBuffer()),
     };
+  },
+
+  async download(
+    url: string,
+    path: string,
+  ): Promise<void> {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
+
+    const uint = new Uint8Array(await res.arrayBuffer());
+    fs.writeFileSync(path, uint, { flag: "w" });
   },
 };
 

@@ -10,8 +10,12 @@
     "singleQuote": false,
     "useTabs": false
   },
+  "tasks": {
+    "prepublish": "deno fmt && deno test --allow-write --allow-read && deno count.ts"
+  },
   "imports": {
-    "@std/assert": "jsr:@std/assert@^1.0.11"
+    "@std/assert": "jsr:@std/assert@^1.0.11",
+    "@types/node": "npm:@types/node@^22.15.3"
   },
   "workspace": ["./number", "./string", "./geo", "./http"],
   "publish": {

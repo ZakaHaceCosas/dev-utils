@@ -9,7 +9,7 @@ A monorepo with different packages that provide great utilities for common tasks
 | `string-utils` |            50+ string related utility functions. | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/number) |
 | `number-utils` |            20+ number related utility functions. | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/number) |
 | `geo-utils`    | 10+ vector & distance related utility functions. |    [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/geo) |
-| `http-utils`   |                5 HTTP related utility functions. |   [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/http) |
+| `http-utils`   |                6 HTTP related utility functions. |   [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/http) |
 
 `string-utils` includes tools for CLI-targeted string formatting, validation, formatting, casing, etc... It is, to be fair, a very powerful string toolkit.
 

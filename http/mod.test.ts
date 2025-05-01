@@ -75,3 +75,36 @@ Deno.test({
     await assertRejects(() => HttpUtils.request("GET", "https://api.example.com/404", {}, {}));
   },
 });
+
+Deno.test({
+  name: "download works",
+  fn: async () => {
+    const dummyContent = "http-utils FTW";
+    const dummyBuffer = new TextEncoder().encode(dummyContent).buffer;
+
+    globalThis.fetch = () =>
+      Promise.resolve({
+        ok: true,
+        arrayBuffer: () => Promise.resolve(dummyBuffer),
+      } as Response);
+
+    const tmpFile = "./test_output.txt";
+    await HttpUtils.download("https://example.com/file", tmpFile);
+
+    const saved = Deno.readFileSync(tmpFile);
+    assertEquals(saved, new Uint8Array(dummyBuffer));
+    Deno.removeSync(tmpFile); // clean up
+
+    globalThis.fetch = () =>
+      Promise.resolve({
+        ok: false,
+        statusText: "Not Found",
+      } as Response);
+
+    await assertRejects(
+      () => HttpUtils.download("https://example.com/404", "./file.txt"),
+      Error,
+      "Failed to fetch: Not Found",
+    );
+  },
+});

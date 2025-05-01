@@ -39,7 +39,8 @@ bunx jsr add @zakahacecosas/http-utils
 
 - Parse and build URL parameter strings.
 - Timeout requests without boilerplate code.
-- Make generic JSON & Uint requests with less LOCs.
+- Make generic JSON, body, and `Uint` requests with less LOC.
+- Directly download remote files.
 
 ## Documentation
 
