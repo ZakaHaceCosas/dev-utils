@@ -16,15 +16,15 @@ deno add jsr:@zakahacecosas/string-utils
 # npm
 npx jsr add @zakahacecosas/string-utils
 # yarn
-yarn dlx jsr add @zakahacecosas/string-utils
+yarn add jsr:@zakahacecosas/string-utils
 # pnpm
-pnpm dlx jsr add @zakahacecosas/string-utils
+pnpm add jsr:@zakahacecosas/string-utils
 # bun
 bunx jsr add @zakahacecosas/string-utils
 ```
 
 > [!WARNING]
-> Depending on what your project is based on, NodeJS may not be able to recognize the package. React Native's Metro for example struggles to resolve it, for those cases we recommend the following approach:
+> Depending on what your project is based on, NodeJS with npm may not be able to recognize the package. React Native's Metro for example struggles to resolve it, for those cases we recommend the following approach:
 >
 > ```ts
 > // (string.ts, or however you'd call this file)

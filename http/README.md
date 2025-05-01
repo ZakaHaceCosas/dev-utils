@@ -16,15 +16,15 @@ deno add jsr:@zakahacecosas/http-utils
 # npm
 npx jsr add @zakahacecosas/http-utils
 # yarn
-yarn dlx jsr add @zakahacecosas/http-utils
+yarn add jsr:@zakahacecosas/http-utils
 # pnpm
-pnpm dlx jsr add @zakahacecosas/http-utils
+pnpm add jsr:@zakahacecosas/http-utils
 # bun
 bunx jsr add @zakahacecosas/http-utils
 ```
 
 > [!WARNING]
-> Depending on what your project is based on, NodeJS may not be able to recognize the package. React Native's Metro for example struggles to resolve it, for those cases we recommend the following approach:
+> Depending on what your project is based on, NodeJS with npm may not be able to recognize the package. React Native's Metro for example struggles to resolve it, for those cases we recommend the following approach:
 >
 > ```ts
 > // (http.ts, or however you'd call this file)
