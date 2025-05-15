@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert";
-import { StringUtils } from "./mod.ts";
+import * as StringUtils from "./mod.ts";
 
 Deno.test({
   name: "toUpperCaseFirst works",
@@ -341,29 +341,19 @@ Deno.test({
       StringUtils.normalizeArray(abnormalStringArray),
       ["hello", "world", "123_abc"],
     );
-  },
-});
 
-Deno.test({
-  name: "softlyNormalizeArray works",
-  fn: () => {
     assertEquals(
-      StringUtils.softlyNormalizeArray(abnormalStringArray, false),
+      StringUtils.normalizeArray(abnormalStringArray, "soft"),
       ["hÉlLo", "wöRld", "123_abc"],
     );
 
     assertEquals(
-      StringUtils.softlyNormalizeArray(abnormalStringArray, true),
+      StringUtils.normalizeArray(abnormalStringArray, "softer"),
       ["héllo", "wörld", "123_abc"],
     );
-  },
-});
 
-Deno.test({
-  name: "strictlyNormalizeArray works",
-  fn: () => {
     assertEquals(
-      StringUtils.strictlyNormalizeArray(abnormalStringArray),
+      StringUtils.normalizeArray(abnormalStringArray, "strict"),
       ["hello", "world", "123abc"],
     );
   },
@@ -899,20 +889,20 @@ Deno.test({
     );
 
     assertEquals(
-      StringUtils.testFlag("--TeSt", "test", { normalize: true }),
+      StringUtils.testFlag("--TeSt", "test", { allowNonExactString: true }),
       true,
     );
     assertEquals(
-      StringUtils.testFlag("--TEST", "test", { normalize: true }),
+      StringUtils.testFlag("--TEST", "test", { allowNonExactString: true }),
       true,
     );
 
     assertEquals(
-      StringUtils.testFlag("--TeSt", "test", { normalize: false }),
+      StringUtils.testFlag("--TeSt", "test", { allowNonExactString: false }),
       false,
     );
     assertEquals(
-      StringUtils.testFlag("--test ", "test", { normalize: false }),
+      StringUtils.testFlag("--test ", "test", { allowNonExactString: false }),
       true,
     );
 
@@ -943,20 +933,20 @@ Deno.test({
       false,
     );
     assertEquals(
-      StringUtils.testFlags(["--Foo"], "foo", { normalize: true }),
+      StringUtils.testFlags(["--Foo"], "foo", { allowNonExactString: true }),
       true,
     );
     assertEquals(
-      StringUtils.testFlags(["-- Foo "], "foo", { normalize: true }),
+      StringUtils.testFlags(["-- Foo "], "foo", { allowNonExactString: true }),
       false,
     );
     assertEquals(StringUtils.testFlags(["--foo"], ""), false);
     assertEquals(
-      StringUtils.testFlags(["--Foo"], "foo", { normalize: true }),
+      StringUtils.testFlags(["--Foo"], "foo", { allowNonExactString: true }),
       true,
     );
     assertEquals(
-      StringUtils.testFlags(["-f"], "foo", { normalize: false }),
+      StringUtils.testFlags(["-f"], "foo", { allowNonExactString: false }),
       false,
     );
     assertEquals(
@@ -964,5 +954,25 @@ Deno.test({
       true,
     );
     assertEquals(StringUtils.testFlags(["-a", "--alpha"], "beta"), false);
+  },
+});
+
+Deno.test({
+  name: "(class) StringArray works",
+  fn: () => {
+    const StringArray = StringUtils.StringArray;
+
+    const mutated = new StringArray("a", "b");
+    assertEquals(mutated.arr(), ["a", "b"]);
+
+    const nonMutated = mutated.uppercaseAll(false);
+    assertEquals(nonMutated.arr(), ["A", "B"]);
+
+    mutated.uppercaseAll();
+    assertEquals(mutated.arr(), ["A", "B"]);
+
+    const pushed = new StringArray(["a", {}, ["b"]]);
+    pushed.push("c", 5, "d", ["e", [], "f"]);
+    assertEquals(pushed.arr(), ["a", "b", "c", "d", "e", "f"]);
   },
 });

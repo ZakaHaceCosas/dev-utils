@@ -1,5 +1,27 @@
 # `string-utils` CHANGELOG
 
+## 3.0.0
+
+### Added
+
+- Added a new `StringArray` class - you can create an instance by passing an array of anything, and you can use all array methods + chainable StringUtils methods.
+  - It currently lacks methods, next releases will add more StringUtils functions to it.
+
+### Changed
+
+- Refactored the package so functions can be separately imported, improving tree shaking and reducing verbosity. (BREAKS).
+- Renamed some variables in config interfaces to avoid naming conflicts. (BREAKS).
+  - `INormalizeOptions`/`stripCliColors` is now `removeCliColors`
+  - `ITestFlagOptions`/`normalize` is now `allowNonExactString`
+
+### Removed
+
+- Removed `softlyNormalizeArray` and `strictlyNormalizeArray`. Use the `intensity` param in `normalizeArray` instead.
+
+### Fixed
+
+- Fixed several wrong JSDoc comments.
+
 ## 2.2.2
 
 - new functions:
