@@ -42,9 +42,9 @@ import process from "node:process";
 // * SECTION: TYPES * //
 
 /**
- * A variable that's _possibly_ a string. `""`, or `"    "`, aren't considered strings.
+ * A variable that's _possibly_ a string. Things like `""` or `"    "` aren't considered strings.
  *
- * @export
+ * Use this for values you _don't know_ if they're a string or not. User-input-dependant variables are a good example. Functions like {@linkcode validate} use this and not `string` as the parameter type - speaking of which, **you should use {@linkcode validate} to check if an `UnknownString` is valid or not.**
  */
 export type UnknownString = undefined | null | string | "";
 
@@ -189,13 +189,20 @@ export class StringArray extends Array<string> {
   }
 
   /**
-   * Turns all string into uppercase.
+   * Turns all string from the StringArray into uppercase, returning a new StringArray.
    *
    * @public
    * @dynamic_mutability 1st arg.
-   * @returns Uppercase StringArray
+   * @returns {StringArray} Uppercase StringArray
    */
   public uppercaseAll(mutate?: false): StringArray;
+  /**
+   * Turns all string from the StringArray into uppercase, mutating the existing StringArray.
+   *
+   * @public
+   * @dynamic_mutability 1st arg.
+   * @returns {StringArray} Uppercase StringArray
+   */
   public uppercaseAll(mutate?: true): this;
   public uppercaseAll(mutate?: boolean): this | StringArray {
     const _mt = mutate ?? true;
@@ -209,13 +216,20 @@ export class StringArray extends Array<string> {
   }
 
   /**
-   * Turns all string into lowercase.
+   * Turns all string from the StringArray into lowercase, returning a new StringArray.
    *
    * @public
    * @dynamic_mutability 1st arg.
    * @returns {StringArray} Lowercase StringArray
    */
   public lowercaseAll(mutate?: false): StringArray;
+  /**
+   * Turns all string from the StringArray into lowercase, mutating the existing StringArray.
+   *
+   * @public
+   * @dynamic_mutability 1st arg.
+   * @returns {StringArray} Lowercase StringArray
+   */
   public lowercaseAll(mutate?: true): this;
   public lowercaseAll(mutate?: boolean): this | StringArray {
     const _mt = mutate ?? true;
@@ -229,13 +243,20 @@ export class StringArray extends Array<string> {
   }
 
   /**
-   * Cleans the StringArray up. Filters out any string that isn't valid (as per `validate()`'s definition of a valid string).
+   * Cleans the StringArray up, returning a new StringArray. Filters out any string that isn't valid (as per {@linkcode validate}'s definition of a valid string).
    *
    * @public
-   * @dynamic_mutability
+   * @dynamic_mutability 1st arg.
    * @returns {StringArray} Clean array.
    */
   public cleanup(mutate?: false): StringArray;
+  /**
+   * Cleans the StringArray up, mutating the existing StringArray. Filters out any string that isn't valid (as per {@linkcode validate}'s definition of a valid string).
+   *
+   * @public
+   * @dynamic_mutability 1st arg.
+   * @returns {StringArray} Clean array.
+   */
   public cleanup(mutate?: true): this;
   public cleanup(mutate?: boolean): this | StringArray {
     const _mt = mutate ?? true;
@@ -250,10 +271,10 @@ export class StringArray extends Array<string> {
   }
 
   /**
-   * Appends new strings to the end of the array, and returns the new length of the array.
+   * Appends new strings to the end of the array, and returns the new length of the array. This is an overridden method. It doesn't work the same way as `Array.push()` does.
    *
+   * @override
    * @param {...(any | any[])[]} items New elements to add to the array. If they aren't a string, they'll be ignored.
-   * @override This is an overridden method. It doesn't work the same way as `Array.push()` does.
    * @returns {number} Length of the StringArray after the push operation.
    */
   override push(...items: (any | any[])[]): number {
@@ -414,15 +435,15 @@ export function removeConsonants(str: string): string {
  * Truncates a string to a specified length and appends "..." if needed.
  * @param {string} str The string to truncate.
  * @param {number} length The length to truncate to.
- * @param {boolean} smartTruncate If true, instead of cutting to the exact length you specified, we'll shorten a bit if needed by removing trailing characters from the last word, leaving a clean string.
+ * @param {boolean} smartTruncate If true, instead of always truncating to the exact length you specified, we'll shorten the string a bit if needed by removing trailing characters from the last word, leaving a clean string.
  *
  * @example
  * ```ts
  * // normal (exact) truncate
- * const str = truncate("Hello, world!", 3);
- * console.log(str) // Hel...
+ * const str = truncate("Hello world!", 7);
+ * console.log(str) // Hello w...
  * // smart truncate
- * const strTwo = truncate("Hello, world!", 3, true);
+ * const strTwo = truncate("Hello world!", 7, true);
  * console.log(strTwo) // Hello...
  * ```
  *
@@ -454,16 +475,18 @@ export function truncateWords(str: string, length: number): string {
 }
 
 /**
- * Takes an argument that's _possibly_ a string and validates it.
+ * Takes an argument that's _possibly_ a string and returns true if it is valid. `null` and `undefined` are obviously not valid, but (here's the cool thing), things like `""` or `"        "` are also not valid. This function makes 100% you have _something_ in the string.
  * @param {string} str The string to test.
  *
  * @example
  * ```ts
- * const argument: UnknownString = Deno.args[1]; // Deno.args[1] is maybe not defined, or maybe an empty string which you might don't want
+ * const argument: UnknownString = Deno.args[1];
+ * // Deno.args[1] is maybe not defined, or maybe an empty string which you might don't want
+ *
  * if (!validate(argument)) {
  *    throw new Error("No argument given!");
  * }
- * console.log("Arg:", secondCliArgument); // here we know it's not null, not undefined, and not "" (or "     ")
+ * console.log("Arg:", secondCliArgument); // here we know it's valid
  * ```
  *
  * @returns True if it's valid and false if otherwise.
@@ -481,7 +504,7 @@ export function validate(str: UnknownString): str is string {
 
 /**
  * Takes an argument that's _possibly_ a string and validates it against a fixed array of strings.
- * If you passed ["a", "b"] as an array to the validator and the string is valid, return type won't be `string` but `"a" | "b"` instead.
+ * If you pass `["a", "b"]` to the validator and the string happens to be valid, the return type won't be `string` but `"a" | "b"` instead.
  *
  * @param {unknown} str The string to test.
  * @param {readonly T[]} against The array of valid strings to test against.
@@ -805,20 +828,20 @@ export function kominator(str: string, separator: string = ","): string[] {
 }
 
 /**
- * Takes a string and "reveals" it character by character. **Async.**
+ * Takes a string and "reveals" it - it shows it in the CLI making it appear character by character. **Async.**
  *
  * @async
  * @example
  * ```ts
  * await reveal("Loading...", 35);
- * // this will print a letter every 35 milliseconds
+ * // this will print a letter every 35 milliseconds until the string is fully printed.
  * ```
  *
  * @param {string} str String to be revealed.
  * @param {?number} [delay=50] Delay for each char to be shown, in milliseconds. Defaults to 50.
  * @returns {Promise<void>} A Promise. It `console.log()`s the string to the standard output.
  */
-export async function reveal(str: string, delay = 50): Promise<void> {
+export async function reveal(str: string, delay: number = 50): Promise<void> {
   for (const char of str) {
     await new Promise((resolve) => setTimeout(resolve, delay));
     process.stdout.write(new TextEncoder().encode(char));

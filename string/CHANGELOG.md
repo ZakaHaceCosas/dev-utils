@@ -1,5 +1,13 @@
 # `string-utils` CHANGELOG
 
+## 3.0.1 and 3.0.2
+
+(real men test in production, thus the 2 versions)
+
+### Fixed
+
+- Fixed some wrong JSDoc comments.
+
 ## 3.0.0
 
 ### Added
