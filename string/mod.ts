@@ -1,5 +1,5 @@
 /**
- * A great set of utilities for interacting with strings. Serving 53 functions.
+ * A great set of utilities for interacting with strings. Serving 55 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * @example
@@ -544,7 +544,8 @@ export function getLastChar(str: string): string {
 }
 
 /**
- * Returns the given string with all CLI coloring control characters removed. In case you have a formatted string (CLI-colored) and want to compare it to a regular string, use this function - otherwise control characters will make JS think strings are different even if they aren't.
+ * Returns the given string with all CLI coloring control characters removed (`\x1b` and `\e` codes).
+ * In case you have a formatted string (CLI-colored) and want to compare it to a regular string, use this function - otherwise control characters will make JS think strings are different even if they aren't.
  *
  * @param {string} str The string to strip CLI colors from.
  *
@@ -560,7 +561,8 @@ export function getLastChar(str: string): string {
 export function stripCliColors(str: string): string {
   return str
     // deno-lint-ignore no-control-regex
-    .replace(/\x1b\[[0-9;?]*[ -/]*[@-~]/g, "");
+    .replace(/\x1b\[[0-9;?]*[ -/]*[@-~]/g, "")
+    .replace(/\e\[[0-9;?]*[ -/]*[@-~]/g, "");
 }
 
 /**
@@ -574,10 +576,10 @@ export function stripCliColors(str: string): string {
  * const query = "   mY  sEaRcH      qUÉry_1  "
  *
  * const str1 = normalize(query)
- * const str2 = normalize(query, {strict: true})
- * const str3 = normalize(query, {preserveCase: true})
+ * const str2 = normalize(query, { strict: true })
+ * const str3 = normalize(query, { preserveCase: true })
  * console.log(str1); // "my search query_1"
- * console.log(str2); // "my search query1"
+ * console.log(str2); // "mysearchquery1"
  * console.log(str3); // "mY sEaRch qUEry_1"
  * ```
  *
@@ -590,14 +592,14 @@ export function normalize(
   const { preserveCase, strict, removeCliColors } = options ?? {
     preserveCase: false,
     strict: false,
-    stripCliColors: false,
+    removeCliColors: false,
   };
   const normalizedStr = str
     .normalize("NFD") // normalize á, é, etc.
     .replace(/[\u0300-\u036f]/g, "") // remove accentuation
     .replace(/\s+/g, " ") // turn "my      search  query" into "my search query"
-    .trim()
-    .replace(strict ? /[\s\W_]/g : "", "");
+    .trim() // turn "      my search query   " into "my search query"
+    .replace(strict ? /[\s\W_]/g : "", ""); // remove ANY special char
 
   const strippedStr = removeCliColors ? stripCliColors(normalizedStr) : normalizedStr;
   const finalStr = preserveCase ? strippedStr : strippedStr.toLowerCase();
@@ -1524,4 +1526,54 @@ export function replace(str: string, replacements: Record<string, string>): stri
   }
 
   return workingStr;
+}
+
+/**
+ * Gets a chunk of a string an returns it.
+ *
+ * @param {string} str String to divide.
+ * @param {number} start Character where the chunk starts.
+ * @param {number} end Character where the chunk ends.
+ *
+ * @example
+ * ```ts
+ * chunk("abcdef", 3, 5); // "cde"
+ * ```
+ *
+ * @returns {string[]} The desired chunk of the string.
+ */
+export function chunk(str: string, start: number, end: number): string {
+  return Array.from(str).slice(start, end).join("");
+}
+
+/**
+ * Divides a string into several chunks of the desired length and returns them into an array.
+ *
+ * If a chunk happened to be an invalid string (e.g. `"   "`) it won't be present in the final array, because of our string validation.
+ *
+ * @param {string} str String to divide.
+ * @param {number} length Length of each chunk.
+ *
+ * @example
+ * ```ts
+ * chunks("abcdef", 3); // ["abc", "def"]
+ * ```
+ *
+ * @returns {string[]} An array of chunks.
+ */
+export function chunks(str: string, length: number): string[] {
+  if (length <= 0) return [str];
+
+  const arr = Array.from(str);
+
+  const arrays = [];
+  const len = arr.length;
+  let i = 0;
+
+  while (i <= len) {
+    arrays.push(arr.splice(0, length));
+    i += length;
+  }
+
+  return arrays.map((i) => i.join("")).flat().filter(validate);
 }

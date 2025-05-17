@@ -241,6 +241,12 @@ Deno.test({
       ),
       "256-color text",
     );
+    assertEquals(
+      StringUtils.stripCliColors(
+        "\e[32mGreen text\e[0m",
+      ),
+      "Green text",
+    );
   },
 });
 
@@ -954,6 +960,51 @@ Deno.test({
       true,
     );
     assertEquals(StringUtils.testFlags(["-a", "--alpha"], "beta"), false);
+  },
+});
+
+Deno.test({
+  name: "chunk works",
+  fn: () => {
+    assertEquals(
+      StringUtils.chunk("abcdef", 0, 3),
+      "abc",
+    );
+
+    assertEquals(
+      StringUtils.chunk("abcdef", 3, 5),
+      "de",
+    );
+  },
+});
+
+Deno.test({
+  name: "chunks works",
+  fn: () => {
+    assertEquals(
+      StringUtils.chunks("abcdef", 3),
+      ["abc", "def"],
+    );
+
+    assertEquals(
+      StringUtils.chunks("abcdef", 6),
+      ["abcdef"],
+    );
+
+    assertEquals(
+      StringUtils.chunks("abcdef", 7),
+      ["abcdef"],
+    );
+
+    assertEquals(
+      StringUtils.chunks("abcdef", 5),
+      ["abcde", "f"],
+    );
+
+    assertEquals(
+      StringUtils.chunks("abcdef", 0),
+      ["abcdef"],
+    );
   },
 });
 

@@ -2,6 +2,7 @@
 
 ## NumberUtils
 
+- Refactor to follow StringUtils' design.
 - NumberArray
 - Combinatorial functions
   - Permutations
@@ -13,7 +14,6 @@
 
 ## StringUtils
 
-- Refactor to follow StringUtils' design.
 - Add more methods to StringArray
 
 ## GeoUtils

@@ -1,4 +1,19 @@
+<!-- markdownlint-disable md024 -->
+
 # `string-utils` CHANGELOG
+
+## 3.1.0
+
+### Added
+
+- `chunk()` to retrieve a chunk of a string.
+- `chunks()` to split a string into chunks.
+
+### Fixed
+
+- Another JSDoc wrong comment.
+- `normalize()` defaulting to wrong settings.
+- `stripCliColors()` not stripping `\e` codes.
 
 ## 3.0.1 and 3.0.2
 
