@@ -1,5 +1,5 @@
 /**
- * A great set of utilities for interacting with strings. Serving 55 functions.
+ * A great set of utilities for interacting with strings. Serving 57 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * @example
@@ -813,7 +813,7 @@ export function table(strArr: Record<string, string | number | unknown[]>[]): st
 }
 
 /**
- * Takes a string and splits it using commas (or a custom separator string), returning an array of separated strings.
+ * Takes a string and splits it using commas (or a custom separator string), returning an array of separated strings. Borrowed from [here](https://github.com/SokoraDesu/Sokora/blob/dev/src/utils/kominator.ts).
  *
  * @example
  * ```ts
@@ -872,6 +872,8 @@ export function countOccurrences(str: string, search: string): number {
 /**
  * Counts the amount of words in a string.
  *
+ * TODO - For next major, rename to `amountOfWords` and make `countWords` return a Record like `countChars` does.
+ *
  * @param str The string to count inside of.
  *
  * @example
@@ -884,6 +886,45 @@ export function countOccurrences(str: string, search: string): number {
  */
 export function countWords(str: string): number {
   return normalize(str).split(" ").length;
+}
+
+/**
+ * Counts all characters inside of a string and returns a record using each char as a key and its frequency as a value.
+ *
+ * Whitespace is included and split into characters - in other words, `"a  a"` returns `{ "a": 2, " ": 2 }` (two `a`s and two ` `s).
+ *
+ * @param {string} str String to count inside of.
+ *
+ * @example
+ * ```ts
+ * countChars("hello chat!");
+ * // {
+ * //    "h": 2,
+ * //    "e": 1,
+ * //    "l": 2,
+ * //    "o": 1,
+ * //    " ": 1,
+ * //    "c": 1,
+ * //    "a": 1,
+ * //    "t": 1,
+ * //    "!": 1,
+ * // }
+ * ```
+ *
+ * @returns {Record<string,number>} A record with char counts.
+ */
+export function countChars(str: string): Record<string, number> {
+  const o: Record<string, number> = {};
+
+  Array.from(str).forEach((i) => {
+    if (Object.keys(o).includes(i)) {
+      o[i] += 1;
+    } else {
+      o[i] = 1;
+    }
+  });
+
+  return o;
 }
 
 /**
@@ -1411,7 +1452,7 @@ export function getLongest(str: string | string[]): string {
  * @example
  * ```ts
  * const random = getRandomString(7);
- * console.log(random); // 8AmKñAl
+ * console.log(random); // 8AmKnAl
  * ```
  *
  * @returns A random string.
@@ -1576,4 +1617,34 @@ export function chunks(str: string, length: number): string[] {
   }
 
   return arrays.map((i) => i.join("")).flat().filter(validate);
+}
+
+/**
+ * Checks the similarity of two strings and returns a number between 0 and 1 (0 = totally different, 1 = exactly the same).
+ *
+ * Note: Current implementation is a bit basic and should be improved in further versions of StringUtils.
+ *
+ * @param {string} strA String to compare against of.
+ * @param {string} strB String to be tested.
+ * @returns {number} Similarity from 0 to 1.
+ */
+export function similarity(strA: string, strB: string): number {
+  const arrA = Array.from(strA);
+  const arrB = Array.from(strB);
+  let i = 0;
+  let s = 0;
+
+  for (const m of arrA) {
+    if (!arrB.at(i)) {
+      i++;
+      continue;
+    }
+    if (m === arrB.at(i)) s += 1;
+    else if (m.toLowerCase() === arrB.at(i)!.toLowerCase()) s += 0.25;
+    else if (normalize(m, { strict: true }) === normalize(arrB.at(i)!, { strict: true })) s += 0.25;
+    i++;
+    continue;
+  }
+
+  return s / arrA.length;
 }

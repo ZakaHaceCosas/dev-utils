@@ -1009,6 +1009,57 @@ Deno.test({
 });
 
 Deno.test({
+  name: "similarity works",
+  fn: () => {
+    assertEquals(
+      StringUtils.similarity("abc", "abc"),
+      1,
+    );
+
+    assertEquals(
+      StringUtils.similarity("abc", "123"),
+      0,
+    );
+
+    assertEquals(
+      StringUtils.similarity("abc", "abd"),
+      0.6666666666666666,
+    );
+  },
+});
+
+Deno.test({
+  name: "countChars works",
+  fn: () => {
+    assertEquals(
+      StringUtils.countChars("aaaaaa123"),
+      {
+        "a": 6,
+        "1": 1,
+        "2": 1,
+        "3": 1,
+      },
+    );
+
+    assertEquals(
+      StringUtils.countChars("a a"),
+      {
+        "a": 2,
+        " ": 1,
+      },
+    );
+
+    assertEquals(
+      StringUtils.countChars("a  a"),
+      {
+        "a": 2,
+        " ": 2,
+      },
+    );
+  },
+});
+
+Deno.test({
   name: "(class) StringArray works",
   fn: () => {
     const StringArray = StringUtils.StringArray;

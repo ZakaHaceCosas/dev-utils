@@ -2,6 +2,17 @@
 
 # `string-utils` CHANGELOG
 
+## 3.2.0
+
+### Added
+
+- `countChars()` to count each character individually.
+- `similarity()` to compare how similar two functions are.
+
+### Fixed
+
+- Missing attribution for borrowed snippet.
+
 ## 3.1.0
 
 ### Added
