@@ -2,6 +2,13 @@
 
 # `string-utils` CHANGELOG
 
+## 3.3.0
+
+### Added
+
+- Extended `StringArray` with `normalize()` and `sortAlphabetically()`.
+- You can now form a `StringArray` with the `kominator()` function using static method `StringArray.fromKominator()`. Parameters are the same as `kominator`s parameters.
+
 ## 3.2.0
 
 ### Added

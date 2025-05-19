@@ -178,6 +178,25 @@ export class StringArray extends Array<string> {
     Object.setPrototypeOf(this, StringArray.prototype);
   }
 
+  /** Internal method to mutate (overwrite) this instance of StringArray. */
+  #overwriteInstance(i: string[]) {
+    this.length = 0;
+    this.push(...i);
+    return this;
+  }
+
+  /**
+   * Generates a StringArray from the {@linkcode kominator} function.
+   *
+   * @static
+   * @param {string} st String to kominate.
+   * @param {string} [se=","] Separator. Defaults to a komma.
+   * @returns {StringArray} A new StringArray.
+   */
+  static fromKominator(st: string, se: string = ","): StringArray {
+    return new StringArray(kominator(st, se));
+  }
+
   /**
    * Turns the `StringArray` into a normal `Array<string>` / `string[]`, for the sake of compatibility.
    *
@@ -236,9 +255,37 @@ export class StringArray extends Array<string> {
 
     if (!_mt) return new StringArray(this.map((s) => s.toLowerCase()));
 
+    // this seems more efficient than #overwriteInstance, actually...
     for (let i = 0; i < this.length; i++) {
       this[i] = this[i].toLowerCase();
     }
+    return this;
+  }
+
+  /**
+   * Alphabetically sorts items within the StringArray, returning a new StringArray.
+   *
+   * @public
+   * @dynamic_mutability 1st arg.
+   * @returns {StringArray} Sorted StringArray
+   */
+  public sortAlphabetically(mutate?: false): StringArray;
+  /**
+   * Alphabetically sorts items within the StringArray, mutating the existing StringArray.
+   *
+   * @public
+   * @dynamic_mutability 1st arg.
+   * @returns {StringArray} Sorted StringArray
+   */
+  public sortAlphabetically(mutate?: true): this;
+  public sortAlphabetically(mutate?: boolean): this | StringArray {
+    const _mt = mutate ?? true;
+
+    if (!_mt) return new StringArray(sortAlphabetically(this));
+
+    const sorted = sortAlphabetically(this);
+    this.#overwriteInstance(sorted);
+
     return this;
   }
 
@@ -264,8 +311,37 @@ export class StringArray extends Array<string> {
 
     if (!_mt) return new StringArray(valid);
 
-    this.length = 0;
-    this.push(...valid);
+    this.#overwriteInstance(valid);
+
+    return this;
+  }
+
+  /**
+   * Normalizes items within the StringArray, returning a new StringArray.
+   *
+   * @public
+   * @param {"softer" | "soft" | "normal" | "strict"} [options] Options for the normalizer.
+   * @dynamic_mutability 2nd arg.
+   * @returns {StringArray} Normalized StringArray
+   */
+  public normalize(intensity?: "softer" | "soft" | "normal" | "strict", mutate?: false): StringArray;
+  /**
+   * Normalizes items within the StringArray, mutating the existing StringArray.
+   *
+   * @public
+   * @param {"softer" | "soft" | "normal" | "strict"} [options] Options for the normalizer.
+   * @dynamic_mutability 2nd arg.
+   * @returns {StringArray} Normalized StringArray
+   */
+  public normalize(intensity?: "softer" | "soft" | "normal" | "strict", mutate?: true): this;
+  public normalize(intensity?: "softer" | "soft" | "normal" | "strict", mutate?: boolean): this | StringArray {
+    const _mt = mutate ?? true;
+    const intensityToUse = intensity ?? "normal";
+
+    if (!_mt) return new StringArray(normalizeArray(this, intensityToUse));
+
+    const normalized = normalizeArray(this, intensityToUse);
+    this.#overwriteInstance(normalized);
 
     return this;
   }

@@ -1076,5 +1076,29 @@ Deno.test({
     const pushed = new StringArray(["a", {}, ["b"]]);
     pushed.push("c", 5, "d", ["e", [], "f"]);
     assertEquals(pushed.arr(), ["a", "b", "c", "d", "e", "f"]);
+
+    const kominated = new StringArray("alpha", "beta", "gamma", "delta");
+    assertEquals(
+      StringArray.fromKominator("alpha,beta,gamma,delta").arr(),
+      kominated.arr(),
+    );
+
+    const sorted = ["a", "b", "c", "d"];
+    assertEquals(
+      new StringArray("d", "c", "b", "a").sortAlphabetically().arr(),
+      sorted,
+    );
+
+    const abnormal = ["   aÁá", "  Bb*B_"];
+    const normal = ["aaa", "bb*b_"];
+    const strict = ["aaa", "bbb"];
+    assertEquals(
+      new StringArray(abnormal).normalize().arr(),
+      normal,
+    );
+    assertEquals(
+      new StringArray(abnormal).normalize("strict").arr(),
+      strict,
+    );
   },
 });
