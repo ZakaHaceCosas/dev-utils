@@ -2,12 +2,7 @@
 
 ## NumberUtils
 
-- Refactor to follow StringUtils' design.
 - NumberArray
-- Combinatorial functions
-  - Permutations
-  - Variations
-  - Combinations
 - Probability calculation
 - Roman to latin and Latin to roman number conversion
 - Rename to MathUtils?

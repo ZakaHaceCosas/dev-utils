@@ -143,7 +143,7 @@ We're currently serving 57 different functions, and that'd be a lot to write in 
 
 ## Documentation
 
-The module is fully documented in `jsr.io`, [click here for module documentation](https://jsr.io/@zakahacecosas/string-utils/doc/~/StringUtils).
+The module is fully documented in `jsr.io`, [click here for module documentation](https://jsr.io/@zakahacecosas/string-utils/doc/).
 
 All functions have rich JSDoc (examples included) anyway, so your editor itself works as your documentation.
 

@@ -190,7 +190,7 @@ export class StringArray extends Array<string> {
    *
    * @static
    * @param {string} st String to kominate.
-   * @param {string} [se=","] Separator. Defaults to a komma.
+   * @param {string} [se=","] Separator. Defaults to a comma.
    * @returns {StringArray} A new StringArray.
    */
   static fromKominator(st: string, se: string = ","): StringArray {

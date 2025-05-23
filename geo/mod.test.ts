@@ -1,5 +1,5 @@
 import { GeoUtils } from "./mod.ts";
-import { NumberUtils } from "../number/mod.ts";
+import * as NumberUtils from "../number/mod.ts";
 import { assertEquals } from "@std/assert";
 
 function assertKindaEquals(actual: number, expected: unknown, threshold?: number): void {

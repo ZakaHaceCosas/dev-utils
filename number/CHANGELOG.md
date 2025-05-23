@@ -1,5 +1,18 @@
 # `number-utils` CHANGELOG
 
+## 2.0.0
+
+### Added
+
+- All 5 combinatorial functions (C, V, P, VR, and PR), plus a utility function to calculate all possible combinations without needing to understand combinatorial.
+- Kilometers per hour to miles per hour, and vice versa.
+- Celsius to Fahrenheit and vice versa.
+
+### Changed
+
+- Refactored the package so functions can be separately imported, improving tree shaking and reducing verbosity. (BREAKS).
+- Renamed `randomInt()` to `random()`.
+
 ## 1.3.0
 
 - New functions:
