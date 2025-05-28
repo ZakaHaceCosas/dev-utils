@@ -1,5 +1,11 @@
 # `number-utils` CHANGELOG
 
+## 2.1.0 (Unreleased)
+
+### Added
+
+- `primeAt(n)` to get a prime number at the n-th index.
+
 ## 2.0.0
 
 ### Added

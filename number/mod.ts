@@ -253,11 +253,43 @@ export function random(min: number, max: number): number {
  * @returns {boolean} True if the given number is prime, false if otherwise.
  */
 export function isPrime(num: number): boolean {
-  if (num <= 1) return false;
+  if (num < 2) return false;
   for (let i = 2; i <= Math.sqrt(num); i++) {
     if (num % i === 0) return false;
   }
   return true;
+}
+
+
+/**
+ * Returns the n-th prime number. **Computationally expensive.**
+ *
+ * @export
+ * @param {number} index Index of the prime number, as in a JS array. Index 0 is number 2, for example.
+ * 
+ * @example
+ * ```ts
+ * primeAt(0); // 2
+ * primeAt(3); // 7
+ * primeAt(9999999999); // your PC has likely crashed at this point
+ * ```
+ * 
+ * @returns {number} The prime number at the given index.
+ */
+export function primeAt(index: number): number {
+  if (index < 0) throw new Error("Index must be a non-negative integer.");
+  const primes: number[] = []
+  let c = 0;
+  let i = 0;
+  while (primes.length <=  index) {
+    console.log(primes)
+    if (isPrime(c)) {
+      primes.push(c);
+      i++
+    }
+    c++;
+  }
+  return primes[index];
 }
 
 /**
