@@ -21,4 +21,4 @@
 
 ## HttpUtils
 
-- Refactor to follow StringUtils' design.
+Nothing as of now.

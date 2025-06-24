@@ -1,4 +1,4 @@
-import { HttpUtils } from "./mod.ts";
+import * as HttpUtils from "./mod.ts";
 import { assertEquals, assertRejects, assertStringIncludes } from "@std/assert";
 
 Deno.test({
@@ -38,7 +38,7 @@ Deno.test({
 Deno.test({
   name: "genCookie works",
   fn: () => {
-    const result = HttpUtils.genCookie("user", "John", 1);
+    const result = HttpUtils.genCookie({ name: "user", value: "John", days: 1 });
     assertStringIncludes(result, "user=John;");
     assertStringIncludes(result, "expires=");
     assertStringIncludes(result, "path=/");
@@ -51,19 +51,26 @@ Deno.test({
     const dummyJson = { success: true };
     const dummyBuffer = new TextEncoder().encode(JSON.stringify(dummyJson)).buffer;
 
+    const dummyRes = {
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(dummyJson),
+      arrayBuffer: () => Promise.resolve(dummyBuffer),
+      formData: () => Promise.resolve({}),
+    };
+
     globalThis.fetch = () =>
       Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve(dummyJson),
-        arrayBuffer: () => Promise.resolve(dummyBuffer),
+        ...dummyRes,
+        clone: () => dummyRes,
       } as Response);
 
-    const { json, uint } = await HttpUtils.request("POST", "https://api.example.com", { test: 1 }, {
+    const res = await HttpUtils.request("POST", "https://api.example.com", { test: 1 }, {
       "Content-Type": "application/json",
     });
 
-    assertEquals(json, dummyJson);
-    assertEquals(uint, new Uint8Array(dummyBuffer));
+    assertEquals(res.json(), dummyJson);
+    assertEquals(res.uint(), new Uint8Array(dummyBuffer));
 
     globalThis.fetch = () =>
       Promise.resolve({
