@@ -38,7 +38,7 @@ import fs from "node:fs";
 // * SECTION: TYPES * //
 
 /** A fulfilled response where, unlike with a regular `Response`, you can access `.text()`, `.json()`, and etcetera without needing to clone the response. */
-interface IResponse {
+export interface IResponse {
   /** Was the request successful? */
   ok: boolean;
   /** HTTP status code. */
@@ -60,7 +60,7 @@ interface IResponse {
 }
 
 /** Parameters for {@linkcode setCookie} and {@linkcode genCookie}. */
-interface ICookieParams {
+export interface ICookieParams {
   /** Name of the cookie. Doesn't need to go thru `encodeURIcomponent()`. */
   name: string;
   /** Value (content) of the cookie. Doesn't need to go thru `encodeURIcomponent()`. */

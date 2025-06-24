@@ -1,5 +1,11 @@
 # `http-utils` CHANGELOG
 
+## 2.0.1
+
+### Fixed
+
+- I forgot to `export` the new types, my bad.
+
 ## 2.0.0
 
 ### Added
