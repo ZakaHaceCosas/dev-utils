@@ -644,7 +644,7 @@ export function stripCliColors(str: string): string {
 /**
  * Normalizes a string so it's easier to work with it. Removes external and internal trailing spaces, lowercases the string, and normalizes accents too.
  *
- * @param {string} str The string to normalize.
+ * @param {UnknownString} str The string to normalize.
  * @param {?INormalizeOptions} options Options for the normalizer.
  *
  * @example
@@ -662,7 +662,7 @@ export function stripCliColors(str: string): string {
  * @returns {string} The normalized string.
  */
 export function normalize(
-  str: string,
+  str: UnknownString,
   options?: INormalizeOptions,
 ): string {
   const { preserveCase, strict, removeCliColors } = options ?? {
@@ -670,6 +670,7 @@ export function normalize(
     strict: false,
     removeCliColors: false,
   };
+  if (str === undefined || str === null || typeof str !== "string" || str.trim() == "") return "";
   const normalizedStr = str
     .normalize("NFD") // normalize á, é, etc.
     .replace(/[\u0300-\u036f]/g, "") // remove accentuation

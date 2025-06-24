@@ -2,6 +2,12 @@
 
 # `string-utils` CHANGELOG
 
+## 3.3.1
+
+### Fixed
+
+- Fixed an error happening when an invalid string / value was passed to `normalize()`. As a side effect, passing `undefined` or `null` will result in `""`.
+
 ## 3.3.0
 
 ### Added

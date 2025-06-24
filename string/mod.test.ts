@@ -199,6 +199,12 @@ Deno.test({
   fn: () => {
     assertEquals(
       StringUtils.normalize(
+        undefined
+      ),
+      ""
+    )
+    assertEquals(
+      StringUtils.normalize(
         "              heLLo mY    fAnTÁsTiC    AmiGO   ",
       ),
       "hello my fantastic amigo",
