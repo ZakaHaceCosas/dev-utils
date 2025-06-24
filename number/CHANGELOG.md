@@ -1,10 +1,16 @@
+<!-- markdownlint-disable md024 -->
+
 # `number-utils` CHANGELOG
 
-## 2.1.0 (Unreleased)
+## 2.1.0
 
 ### Added
 
 - `primeAt(n)` to get a prime number at the n-th index.
+
+### Fixed
+
+- Minor JSDoc issues.
 
 ## 2.0.0
 

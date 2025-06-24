@@ -1,4 +1,4 @@
-import { assertEquals } from "@std/assert";
+import { assertEquals, assertThrows } from "@std/assert";
 import * as NumberUtils from "./mod.ts";
 
 function assertKindaEquals(actual: number, expected: unknown, threshold?: number): void {
@@ -104,6 +104,16 @@ Deno.test({
   fn: () => {
     assertEquals(NumberUtils.isPrime(7), true);
     assertEquals(NumberUtils.isPrime(8), false);
+  },
+});
+
+Deno.test({
+  name: "primeAt works",
+  fn: () => {
+    assertEquals(NumberUtils.primeAt(1), 3);
+    assertEquals(NumberUtils.primeAt(0), 2);
+    assertEquals(NumberUtils.primeAt(2), 5);
+    assertThrows(() => NumberUtils.primeAt(-1));
   },
 });
 

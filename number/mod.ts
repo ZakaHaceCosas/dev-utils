@@ -1,5 +1,5 @@
 /**
- * A great set of utilities for interacting with numbers. Serving 35 functions.
+ * A great set of utilities for interacting with numbers. Serving 36 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * @example
@@ -260,32 +260,31 @@ export function isPrime(num: number): boolean {
   return true;
 }
 
-
 /**
  * Returns the n-th prime number. **Computationally expensive.**
  *
  * @export
  * @param {number} index Index of the prime number, as in a JS array. Index 0 is number 2, for example.
- * 
+ *
  * @example
  * ```ts
  * primeAt(0); // 2
  * primeAt(3); // 7
  * primeAt(9999999999); // your PC has likely crashed at this point
  * ```
- * 
+ *
  * @returns {number} The prime number at the given index.
  */
 export function primeAt(index: number): number {
   if (index < 0) throw new Error("Index must be a non-negative integer.");
-  const primes: number[] = []
+  const primes: number[] = [];
   let c = 0;
   let i = 0;
-  while (primes.length <=  index) {
-    console.log(primes)
+  while (primes.length <= index) {
+    console.log(primes);
     if (isPrime(c)) {
       primes.push(c);
-      i++
+      i++;
     }
     c++;
   }
@@ -325,6 +324,8 @@ export function average(arr: number[]): number {
 }
 
 /**
+ * Checks if a given number is between two numbers, both of them inclusive.
+ *
  * @param {number} num Number to check.
  * @param {number} min Minimum number. Inclusive.
  * @param {number} max Maximum number. Inclusive.
