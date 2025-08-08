@@ -139,7 +139,7 @@ It's basically `console.table()` the way it should be.
 
 ### There's a lot more
 
-We're currently serving 57 different functions, and that'd be a lot to write in here. You've got general utilities like `truncate(str)`, `mask(str, options)`, `pluralOrNot(str, number)` or `normalizeArray(str)`, splitting utilities like `kominator(str, separator)` or `splitKebabCase(str)`, as well as `reveal(str)` and `testFlag(str, target)` for CLIs, `slugify(str)` for URLs, _and the list goes on_.
+We're currently serving 58 different functions, and that'd be a lot to write in here. You've got general utilities like `truncate(str)`, `mask(str, options)`, `pluralOrNot(str, number)` or `normalizeArray(str)`, splitting utilities like `kominator(str, separator)` or `splitKebabCase(str)`, as well as `reveal(str)` and `testFlag(str, target)` for CLIs, `slugify(str)` for URLs, _and the list goes on_.
 
 ## Documentation
 

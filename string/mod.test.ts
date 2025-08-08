@@ -199,10 +199,10 @@ Deno.test({
   fn: () => {
     assertEquals(
       StringUtils.normalize(
-        undefined
+        undefined,
       ),
-      ""
-    )
+      "",
+    );
     assertEquals(
       StringUtils.normalize(
         "              heLLo mY    fAnTÁsTiC    AmiGO   ",
@@ -214,12 +214,19 @@ Deno.test({
         "              123_heLLo mY    fAnTÁsTiC    AmiGO   ",
         { strict: true },
       ),
+      "123hello my fantastic amigo",
+    );
+    assertEquals(
+      StringUtils.normalize(
+        "              123_heLLo mY    fAnTÁsTiC    AmiGO   ",
+        { strict: true, keepSpaces: false },
+      ),
       "123hellomyfantasticamigo",
     );
     assertEquals(
       StringUtils.normalize(
         "              123_heLLo mY    fAnTÁsTiC    AmiGO   ",
-        { strict: true, preserveCase: true },
+        { strict: true, preserveCase: true, keepSpaces: false },
       ),
       "123heLLomYfAnTAsTiCAmiGO",
     );
@@ -443,13 +450,35 @@ Deno.test({
 });
 
 Deno.test({
+  name: "wordAmount works",
+  fn: () => {
+    assertEquals(
+      StringUtils.wordAmount(
+        "JS    is everywhere, JS runs anywhere, JS works nowhere",
+      ),
+      9,
+    );
+  },
+});
+
+Deno.test({
   name: "countWords works",
   fn: () => {
     assertEquals(
       StringUtils.countWords(
-        "JS    is everywhere, JS runs anywhere, JS works nowhere",
+        "JS    is everywhere, JS runs anywhere, JS works nowhere. JS is cool, tho.",
       ),
-      9,
+      {
+        JS: 4,
+        anywhere: 1,
+        cool: 1,
+        everywhere: 1,
+        is: 2,
+        nowhere: 1,
+        runs: 1,
+        tho: 1,
+        works: 1,
+      },
     );
   },
 });

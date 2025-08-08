@@ -1,5 +1,5 @@
 /**
- * A great set of utilities for interacting with strings. Serving 57 functions.
+ * A great set of utilities for interacting with strings. Serving 58 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * @example
@@ -75,6 +75,13 @@ export interface INormalizeOptions {
    * @type {?boolean}
    */
   removeCliColors?: boolean;
+  /**
+   * If false (and `strict` is set to true), even spaces will be removed (turning `my string` into `mystring`).
+   *
+   * @default_value true;
+   * @type {?boolean}
+   */
+  keepSpaces?: boolean;
 }
 
 /**
@@ -320,7 +327,7 @@ export class StringArray extends Array<string> {
    * Normalizes items within the StringArray, returning a new StringArray.
    *
    * @public
-   * @param {"softer" | "soft" | "normal" | "strict"} [options] Options for the normalizer.
+   * @param {"softer" | "soft" | "normal" | "strict"} intensity Options for the normalizer.
    * @dynamic_mutability 2nd arg.
    * @returns {StringArray} Normalized StringArray
    */
@@ -329,7 +336,7 @@ export class StringArray extends Array<string> {
    * Normalizes items within the StringArray, mutating the existing StringArray.
    *
    * @public
-   * @param {"softer" | "soft" | "normal" | "strict"} [options] Options for the normalizer.
+   * @param {"softer" | "soft" | "normal" | "strict"} intensity Options for the normalizer.
    * @dynamic_mutability 2nd arg.
    * @returns {StringArray} Normalized StringArray
    */
@@ -665,21 +672,23 @@ export function normalize(
   str: UnknownString,
   options?: INormalizeOptions,
 ): string {
-  const { preserveCase, strict, removeCliColors } = options ?? {
+  const { preserveCase, strict, removeCliColors, keepSpaces } = {
     preserveCase: false,
     strict: false,
+    keepSpaces: true,
     removeCliColors: false,
+    ...options,
   };
   if (str === undefined || str === null || typeof str !== "string" || str.trim() == "") return "";
   const normalizedStr = str
     .normalize("NFD") // normalize á, é, etc.
     .replace(/[\u0300-\u036f]/g, "") // remove accentuation
     .replace(/\s+/g, " ") // turn "my      search  query" into "my search query"
-    .trim() // turn "      my search query   " into "my search query"
-    .replace(strict ? /[\s\W_]/g : "", ""); // remove ANY special char
+    .trim(); // turn "      my search query   " into "my search query"
 
   const strippedStr = removeCliColors ? stripCliColors(normalizedStr) : normalizedStr;
-  const finalStr = preserveCase ? strippedStr : strippedStr.toLowerCase();
+  const casedStr = preserveCase ? strippedStr : strippedStr.toLowerCase();
+  const finalStr = strict ? casedStr.replace(keepSpaces ? /[^a-zA-Z0-9 ]+/g : /[\s\W_]+/g, "") : casedStr;
 
   return finalStr;
 }
@@ -738,7 +747,7 @@ export function spaceString(str: string, spaceBefore: number, spaceAfter: number
  * @returns {boolean} Whether it's a palindrome or not.
  */
 export function isPalindrome(str: string, strict: boolean = false): boolean {
-  const normalized = normalize(str, { strict });
+  const normalized = normalize(str, { strict, keepSpaces: false }).toLowerCase();
   return normalized === reverseString(normalized);
 }
 
@@ -947,22 +956,51 @@ export function countOccurrences(str: string, search: string): number {
 }
 
 /**
- * Counts the amount of words in a string.
- *
- * TODO - For next major, rename to `amountOfWords` and make `countWords` return a Record like `countChars` does.
+ * Counts the amount of words in a string and returns it.
  *
  * @param str The string to count inside of.
  *
  * @example
  * ```ts
- * const count = countWords("this is a sentence");
+ * const count = wordAmount("this is a sentence");
  * console.log(count); // 4
  * ```
  *
  * @returns The number of words.
  */
-export function countWords(str: string): number {
-  return normalize(str).split(" ").length;
+export function wordAmount(str: string): number {
+  return normalize(str, { strict: true }).split(" ").length;
+}
+
+/**
+ * Counts all words inside of a string and returns a record using each word as a key and its frequency as a value.
+ *
+ * Whitespace is removed.
+ *
+ * @param {string} str String to count inside of.
+ *
+ * @example
+ * ```ts
+ * countChars("hello world, hi world, hello everyone!");
+ * // {
+ * //    "hello": 2,
+ * //    "world": 2,
+ * //    "everyone": 1,
+ * //    "hi": 1,
+ * // }
+ * ```
+ *
+ * @returns {Record<string,number>} A record with word counts.
+ */
+export function countWords(str: string): Record<string, number> {
+  const words = normalize(str, { preserveCase: true, strict: true }).split(" ");
+  const count: Record<string, number> = {};
+
+  for (const word of words) {
+    count[word] = (count[word] ?? 0) + 1;
+  }
+
+  return Object.fromEntries(Object.entries(count).sort());
 }
 
 /**
@@ -1199,7 +1237,7 @@ export function slugify(str: string): string {
  * @returns The masked string.
  */
 export function mask(str: string, options?: IMaskOptions): string {
-  const { visibleChars, maskChar } = options || { visibleChars: 2, maskChar: "*" };
+  const { visibleChars, maskChar } = { visibleChars: 2, maskChar: "*", ...options };
 
   const charsShown = Math.max(0, visibleChars || 0);
   if (charsShown >= str.length) return str; // directly return untouched
@@ -1227,7 +1265,7 @@ export function mask(str: string, options?: IMaskOptions): string {
 export function maskEmail(str: string, options?: IMaskOptions): string {
   if (!isValidEmail(str)) return str;
 
-  const { visibleChars, maskChar } = options || { visibleChars: 2, maskChar: "*" };
+  const { visibleChars, maskChar } = { visibleChars: 2, maskChar: "*", ...options };
 
   const split = str.split("@");
   const masked = mask(split[0], { visibleChars, maskChar });
@@ -1577,8 +1615,12 @@ export function getFirstWords(str: string, n: number): string {
  * @returns True if the `str` matches the `target`'s flag, false if otherwise.
  */
 export function testFlag(str: string, target: string, options?: ITestFlagOptions): boolean {
-  const { allowQuickFlag, allowSingleDash, allowNonExactString } = options ||
-    { allowQuickFlag: false, allowSingleDash: true, normalize: true };
+  const { allowQuickFlag, allowSingleDash, allowNonExactString } = {
+    allowQuickFlag: false,
+    allowSingleDash: true,
+    allowNonExactString: true,
+    ...options,
+  };
 
   const toTest = allowNonExactString ? normalize(str) : str.trim();
   const toTestAgainstOf = allowNonExactString ? normalize(target) : target.trim();

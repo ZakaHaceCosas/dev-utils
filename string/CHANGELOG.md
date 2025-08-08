@@ -2,6 +2,19 @@
 
 # `string-utils` CHANGELOG
 
+## 3.4.0
+
+### Added
+
+- [**breaking**] `countWords()`, to count the words in a string _and return an object showing the occurrences for each word._
+  - Previous `countWords()` got renamed to `wordAmount()` (this is the breaking part).
+- [**breaking**] Added `keepSpaces` option to `normalize()`, only applies when `strict` is `true`. It's enabled by default, meaning the output of normalizing with `strict: true` will now give slightly different output.
+
+### Fixed
+
+- Fixed default values not properly applying when passing an `I...Options` object to `normalize()`, `mask()`, `maskEmail()`, `testFlag()`, and `testFlags()`.
+- Fixed the `allowNonExactString` default value in `testFlag()` breaking the entire thing.
+
 ## 3.3.1
 
 ### Fixed
