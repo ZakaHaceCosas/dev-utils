@@ -1,5 +1,11 @@
 # `geo-utils` CHANGELOG
 
+## 2.0.0
+
+### Changed
+
+- Refactored the package so functions can be separately imported, improving tree shaking and reducing verbosity. (BREAKS).
+
 ## 1.2.0
 
 - New functions:

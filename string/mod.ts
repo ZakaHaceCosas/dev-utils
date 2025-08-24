@@ -1741,10 +1741,18 @@ export function chunks(str: string, length: number): string[] {
 /**
  * Checks the similarity of two strings and returns a number between 0 and 1 (0 = totally different, 1 = exactly the same).
  *
- * Note: Current implementation is a bit basic and should be improved in further versions of StringUtils.
- *
  * @param {string} strA String to compare against of.
  * @param {string} strB String to be tested.
+ *
+ * @example
+ * ```ts
+ * similarity("jacob", "jared"); // 0.4
+ * similarity("jacob", "jacab"); // 0.8
+ * similarity("jacob", "jeremy"); // 0.2
+ * similarity("jacob", "jacob"); // 1
+ * similarity("jacob", "hi"); // 0
+ * ```
+ *
  * @returns {number} Similarity from 0 to 1.
  */
 export function similarity(strA: string, strB: string): number {

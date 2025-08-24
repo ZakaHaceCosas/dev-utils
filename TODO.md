@@ -13,7 +13,6 @@
 
 ## GeoUtils
 
-- Refactor to follow StringUtils' design.
 - Add net strength calculation (including angles).
 - Add work (J) calculation based on strengths.
 - Add Uniform Rectilinear Motion and Uniformly Accelerated Rectilinear Motion calculations.

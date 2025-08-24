@@ -1,4 +1,4 @@
-import { GeoUtils } from "./mod.ts";
+import * as GeoUtils from "./mod.ts";
 import * as NumberUtils from "../number/mod.ts";
 import { assertEquals } from "@std/assert";
 
