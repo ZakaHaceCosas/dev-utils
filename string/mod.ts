@@ -1,5 +1,5 @@
 /**
- * A great set of utilities for interacting with strings. Serving 58 functions.
+ * A great set of utilities for interacting with strings. Serving 59 functions.
  * @author [ZakaHaceCosas](https://github.com/ZakaHaceCosas/)
  *
  * @example
@@ -563,18 +563,16 @@ export function truncateWords(str: string, length: number): string {
  *
  * @example
  * ```ts
- * const argument: UnknownString = Deno.args[1];
- * // Deno.args[1] is maybe not defined, or maybe an empty string which you might don't want
+ * const argument = Deno.args[1];
+ * // Deno.args[1] is maybe not defined, or an empty string which you might not want
  *
- * if (!validate(argument)) {
- *    throw new Error("No argument given!");
- * }
- * console.log("Arg:", secondCliArgument); // here we know it's valid
+ * if (!validate(argument)) throw new Error("No argument given!");
+ * console.log("Arg:", argument); // here we know it's valid
  * ```
  *
  * @returns True if it's valid and false if otherwise.
  */
-export function validate(str: UnknownString): str is string {
+export function validate(str: UnknownString | any): str is string {
   if (
     str === undefined || str === null || typeof str !== "string" ||
     normalize(str) === ""
@@ -1774,4 +1772,38 @@ export function similarity(strA: string, strB: string): number {
   }
 
   return s / arrA.length;
+}
+
+/**
+ * Gets two multiline strings and merges them **removing duplicates.**
+ *
+ * @param {UnknownString} str1 First string.
+ * @param {UnknownString} str2 Second string.
+ *
+ * @example
+ * ```ts
+ * // you know this is a multiline file
+ * const gitignore = Deno.readTextFileSync(".gitignore");
+ *
+ * // merges and dedupes
+ * const newGitignore: string = mergeLines(gitignore, `
+ * .vscode/
+ * .idea/
+ * .env
+ * `);
+ *
+ * // unlike appending or manually concatenating strings,
+ * // now you know .env or .vscode/ won't appear twice!
+ * Deno.writeTextFileSync(".gitignore", newGitignore);
+ * ```
+ *
+ * @returns {string} Merged result.
+ */
+export function mergeLines(str1: UnknownString, str2: UnknownString): string {
+  const lines1 = validate(str1) ? str1.split("\n") : [];
+  const lines2 = validate(str2) ? str2.split("\n") : [];
+
+  const arr = lines1.concat([""], lines2);
+
+  return Array.from(new Set(arr)).join("\n").trim();
 }

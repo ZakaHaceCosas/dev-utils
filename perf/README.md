@@ -23,9 +23,9 @@ bunx jsr add @zakahacecosas/perf-utils
 
 ## Features
 
-- Improvement percentage ("foobar is now 20% faster").
-- Time reduction percentage ("foobar now takes 20% less time").
-- Times faster! ("foobar is now 5 times faster!!").
+- Improvement percentage ("foobar is now 60% faster").
+- Time reduction percentage ("foobar now takes 40% less time").
+- Times faster! ("foobar is now 2 times faster!!").
 
 Uses basic math for this.
 

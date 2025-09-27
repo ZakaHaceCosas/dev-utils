@@ -2,6 +2,16 @@
 
 # `string-utils` CHANGELOG
 
+## 3.5.0
+
+### Added
+
+- `mergeLines()` to "deep-merge" multiline strings.
+
+### Fixed
+
+- Fixed a wrong JSDoc comment.
+
 ## 3.4.0
 
 ### Added

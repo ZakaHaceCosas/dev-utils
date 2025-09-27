@@ -1137,3 +1137,35 @@ Deno.test({
     );
   },
 });
+
+Deno.test({
+  name: "mergeLines works",
+  fn: () => {
+    assertEquals(
+      StringUtils.mergeLines(
+        `
+
+
+foo
+
+
+bar
+foobar
+baz
+`,
+        `
+bar
+foobar
+foo
+gas
+baz
+`,
+      ),
+      `foo
+bar
+foobar
+baz
+gas`,
+    );
+  },
+});

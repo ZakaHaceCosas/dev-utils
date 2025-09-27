@@ -22,7 +22,6 @@
     "exclude": [
       "LICENSE",
       "README.md",
-      "**/README.md",
       "count.ts",
       "deno.lock",
       "**/CHANGELOG.md",
