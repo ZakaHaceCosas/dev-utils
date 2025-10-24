@@ -2,6 +2,12 @@
 
 # `string-utils` CHANGELOG
 
+## 3.6.0
+
+### Added
+
+- `unquote()` to unquote a string.
+
 ## 3.5.0
 
 ### Added

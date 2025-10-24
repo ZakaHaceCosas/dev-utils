@@ -1807,3 +1807,28 @@ export function mergeLines(str1: UnknownString, str2: UnknownString): string {
 
   return Array.from(new Set(arr)).join("\n").trim();
 }
+
+/**
+ * Trims a string and removes surrounding double and single quotes. Only removes first and last ones.
+ *
+ * @param {string} str String to unquote.
+ *
+ * @example
+ * ```ts
+ * unquote("\"foobar\""); // foobar
+ * unquote("'foobar'"); // foobar
+ * unquote("''foobar''"); // 'foobar'
+ * ```
+ *
+ * @returns {string} Unquoted result.
+ */
+export function unquote(str: string): string {
+  const trimmed = str.trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1);
+  }
+  return trimmed;
+}

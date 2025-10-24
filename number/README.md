@@ -6,8 +6,6 @@
 
 A set of 30+ functions for numeric operation, conversion; among other uses. Works with NodeJS, Bun, Deno, and (if transpiled to JavaScript) with any web browser.
 
-###### Sponsored by [FuckingNode](#fun-fact)
-
 ## Installation
 
 ```bash
@@ -40,9 +38,3 @@ bunx jsr add @zakahacecosas/number-utils
 The module is fully documented in `jsr.io`, [click here for module documentation](https://jsr.io/@zakahacecosas/number-utils/doc/).
 
 All functions have rich JSDoc (examples included) anyway, so your editor itself works as your documentation.
-
----
-
-###### Fun fact
-
-> This project was originally made to test in production the `fkrelease` command, a feature for F\*ckingNode, a make-NodeJS-less-annoying CLI utility. See [this repo](https://github.com/FuckingNode/FuckingNode) to learn more.

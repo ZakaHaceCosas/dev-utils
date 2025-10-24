@@ -6,7 +6,7 @@ A monorepo with different packages that provide great utilities for common tasks
 
 | Package        |                                      Description |                                                                  Link |
 | :------------- | -----------------------------------------------: | --------------------------------------------------------------------: |
-| `string-utils` |            55+ string related utility functions. | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/number) |
+| `string-utils` |             60 string related utility functions. | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/number) |
 | `number-utils` |            35+ number related utility functions. | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/number) |
 | `geo-utils`    | 10+ vector & distance related utility functions. |    [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/geo) |
 | `http-utils`   |                9 HTTP related utility functions. |   [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/http) |

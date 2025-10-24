@@ -1169,3 +1169,13 @@ gas`,
     );
   },
 });
+
+Deno.test({
+  name: "unquote works",
+  fn: () => {
+    assertEquals(
+      StringUtils.unquote("'foo'"),
+      "foo",
+    );
+  },
+});

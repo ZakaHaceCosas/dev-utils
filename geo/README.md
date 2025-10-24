@@ -6,8 +6,6 @@
 
 A set of 10+ functions for interacting with vectors and distances. Works with NodeJS*, Bun, Deno, and (if transpiled to JavaScript) with any web browser.
 
-###### Sponsored by [FuckingNode](#fun-fact)
-
 ## Installation
 
 ```bash
@@ -47,9 +45,3 @@ bunx jsr add @zakahacecosas/geo-utils
 All functions have rich JSDoc (examples included), so the editor itself counts as "documentation".
 
 The module is fully documented in `jsr.io`, [click here for module documentation](https://jsr.io/@zakahacecosas/geo-utils/doc/~/GeoUtils).
-
----
-
-###### Fun fact
-
-> This project was originally made to test in production the `fkrelease` command, a feature for F\*ckingNode, a make-NodeJS-less-annoying CLI utility. See [this repo](https://github.com/FuckingNode/FuckingNode) to learn more.
