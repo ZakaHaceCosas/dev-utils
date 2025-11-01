@@ -9,7 +9,7 @@ function countMethods(obj: object): number {
   ).length;
 }
 
-const StringUtils = countMethods(S);
+const StringUtils = countMethods(S) + 1;
 const NumberUtils = countMethods(N);
 const HttpUtils = countMethods(H);
 const GeoUtils = countMethods(G);

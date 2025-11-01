@@ -2,6 +2,18 @@
 
 # `string-utils` CHANGELOG
 
+## 4.0.0
+
+### Breaking
+
+- `reveal()` is now exported from a separate `/cli` file, this is to improve tree-shaking by not requiring NodeJS process for all functions
+- `normalizeArray()` and `StringArray.normalize()` now take different parameters, accepting `INormalizeOptions` and specific strings
+
+### Added
+
+- `isValidURL()`, `isValidSlug()`, and `isValidIP()`
+- separately published the package to npm
+
 ## 3.6.0
 
 ### Added

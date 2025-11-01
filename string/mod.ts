@@ -37,7 +37,6 @@
  */
 
 // deno-lint-ignore-file no-explicit-any
-import process from "node:process";
 
 // * SECTION: TYPES * //
 
@@ -46,7 +45,7 @@ import process from "node:process";
  *
  * Use this for values you _don't know_ if they're a string or not. User-input-dependant variables are a good example. Functions like {@linkcode validate} use this and not `string` as the parameter type - speaking of which, **you should use {@linkcode validate} to check if an `UnknownString` is valid or not.**
  */
-export type UnknownString = undefined | null | string | "";
+export type UnknownString = undefined | null | string | "" | unknown;
 
 /**
  * Options for {@linkcode normalize}.
@@ -83,6 +82,8 @@ export interface INormalizeOptions {
    */
   keepSpaces?: boolean;
 }
+
+export type TArrayNormalizerIntensity = "just-trim" | "just-trim-lowercase" | INormalizeOptions;
 
 /**
  * Options for the {@linkcode testFlag} and {@linkcode testFlags}.
@@ -143,7 +144,7 @@ export interface IMaskOptions {
  *
  * It cannot be nested. Pushing operations that include nesting (`["a", ["b"]]`) will undergo flattening.
  *
- * **While it should resemble a normal JS array properly at all times, rarely it might behave differently (e.g. failing an equality assertion with an equal, standard array). Use the `.arr()` method of this class to generate a standard array.**
+ * **It works as a normal JS array, but it doesn't properly resemble one (and, e.g., fails equality assertions with an equal, standard array). Use the `.arr()` method to generate a standard array out of this class.**
  *
  * ---
  *
@@ -327,27 +328,26 @@ export class StringArray extends Array<string> {
    * Normalizes items within the StringArray, returning a new StringArray.
    *
    * @public
-   * @param {"softer" | "soft" | "normal" | "strict"} intensity Options for the normalizer.
+   * @param {TArrayNormalizerIntensity} intensity Options for the normalizer.
    * @dynamic_mutability 2nd arg.
    * @returns {StringArray} Normalized StringArray
    */
-  public normalize(intensity?: "softer" | "soft" | "normal" | "strict", mutate?: false): StringArray;
+  public normalize(intensity?: TArrayNormalizerIntensity, mutate?: false): StringArray;
   /**
    * Normalizes items within the StringArray, mutating the existing StringArray.
    *
    * @public
-   * @param {"softer" | "soft" | "normal" | "strict"} intensity Options for the normalizer.
+   * @param {TArrayNormalizerIntensity} intensity Options for the normalizer.
    * @dynamic_mutability 2nd arg.
    * @returns {StringArray} Normalized StringArray
    */
-  public normalize(intensity?: "softer" | "soft" | "normal" | "strict", mutate?: true): this;
-  public normalize(intensity?: "softer" | "soft" | "normal" | "strict", mutate?: boolean): this | StringArray {
+  public normalize(intensity?: TArrayNormalizerIntensity, mutate?: true): this;
+  public normalize(intensity?: TArrayNormalizerIntensity, mutate?: boolean): this | StringArray {
     const _mt = mutate ?? true;
-    const intensityToUse = intensity ?? "normal";
 
-    if (!_mt) return new StringArray(normalizeArray(this, intensityToUse));
+    if (!_mt) return new StringArray(normalizeArray(this, intensity));
 
-    const normalized = normalizeArray(this, intensityToUse);
+    const normalized = normalizeArray(this, intensity);
     this.#overwriteInstance(normalized);
 
     return this;
@@ -770,7 +770,7 @@ export function isAnagram(strA: string, strB: string): boolean {
  * Takes a string array and returns it with all strings normalized and invalid strings removed.
  *
  * @param {UnknownString[]} strArr Array of strings.
- * @param {"softer" | "soft" | "normal" | "strict"} [intensity="normal"] Optional, defaults to "normal". For better preservation of strings, use "soft" (or "softer" to preserve casing). For stricter normalization, use "strict".
+ * @param {TArrayNormalizerIntensity} intensity Optional. Defaults to {@linkcode normalize} defaults. Can be set to an {@linkcode INormalizeOptions} object, or to `just-trim` or `just-trim-lowercase` to do the obvious.
  *
  * @example
  * ```ts
@@ -782,20 +782,12 @@ export function isAnagram(strA: string, strB: string): boolean {
  */
 export function normalizeArray(
   strArr: UnknownString[],
-  intensity: "softer" | "soft" | "normal" | "strict" = "normal",
+  intensity?: TArrayNormalizerIntensity,
 ): string[] {
-  if (intensity === "soft" || intensity === "softer") {
-    return strArr.filter((str) => validate(str)).map((str) => {
-      return (intensity === "softer") ? str.trim().toLowerCase() : str.trim();
-    });
-  }
-
-  const options: INormalizeOptions = intensity === "strict"
-    ? { strict: true, removeCliColors: true, preserveCase: false }
-    : {};
-
-  const validated = strArr.filter((str) => validate(str));
-  return validated.map((str) => normalize(str, options));
+  const base = strArr.filter((str) => validate(str));
+  if (intensity === "just-trim-lowercase") return base.map((str) => str.trim().toLowerCase());
+  if (intensity === "just-trim") return base.map((str) => str.trim());
+  return base.map((str) => normalize(str, intensity));
 }
 
 /**
@@ -911,28 +903,6 @@ export function table(strArr: Record<string, string | number | unknown[]>[]): st
  */
 export function kominator(str: string, separator: string = ","): string[] {
   return str.split(separator).map((s) => s.replace('"', "").trim());
-}
-
-/**
- * Takes a string and "reveals" it - it shows it in the CLI making it appear character by character. **Async.**
- *
- * @async
- * @example
- * ```ts
- * await reveal("Loading...", 35);
- * // this will print a letter every 35 milliseconds until the string is fully printed.
- * ```
- *
- * @param {string} str String to be revealed.
- * @param {?number} [delay=50] Delay for each char to be shown, in milliseconds. Defaults to 50.
- * @returns {Promise<void>} A Promise. It `console.log()`s the string to the standard output.
- */
-export async function reveal(str: string, delay: number = 50): Promise<void> {
-  for (const char of str) {
-    await new Promise((resolve) => setTimeout(resolve, delay));
-    process.stdout.write(new TextEncoder().encode(char));
-  }
-  console.log(); // Move to the next line after completing
 }
 
 /**
@@ -1831,4 +1801,98 @@ export function unquote(str: string): string {
     return trimmed.slice(1, -1);
   }
   return trimmed;
+}
+
+/**
+ * Given a string (or not), checks if it's a valid URL string.
+ *
+ * @param {UnknownString} str String to check.
+ * @param {string | string[]} proto String you want to check the URL starts with. Can be an array of many strings, to check if any of them matches.
+ * @param {string | string[]} end String you want to check the URL ends with. Can be an array of many strings, to check if any of them matches.
+ *
+ * @example
+ * ```ts
+ * isValidURL("https://site.com/some-thing"); // true
+ * isValidURL("https://site.com/some—thing"); // false (invalid char)
+ * isValidURL("ftp://somewhere.com", "sftp"); // false
+ * ```
+ *
+ * @returns {str is `${string}://${string}`} True if it's a URL and false otherwise. Works as a type guard.
+ */
+export function isValidURL(
+  str: UnknownString,
+  proto?: string | string[] | null,
+  end?: string | string[] | null,
+): str is `${string}://${string}` {
+  if (!validate(str)) return false;
+  if (str.includes(" ")) return false;
+  const base = /[a-z]+\:\/\/\w+[a-zA-Z\.\/\&\?\=]+/.test(str);
+  if (!proto && !end) return base;
+  const protoMatch = proto
+    ? (
+      Array.isArray(proto) ? (proto.some((s) => str.startsWith(s))) : str.startsWith(proto)
+    )
+    : true;
+  const endMatch = end
+    ? (
+      Array.isArray(end) ? (end.some((s) => str.endsWith(s))) : str.endsWith(end)
+    )
+    : true;
+  return base && protoMatch && endMatch;
+}
+
+/**
+ * Given a string (or not), checks if it's a valid Internet Protocol address. Only checks IPv4 (for now).
+ *
+ * @param {UnknownString} ip IP to check.
+ *
+ * @example
+ * ```ts
+ * isValidIP("123.456.789.100"); // false (max is 255)
+ * isValidIP("123 . 0 . 0 . 0"); // false (why the spaces?)
+ * isValidIP("123.123.123.123"); // true
+ * ```
+ *
+ * @returns {ip is `${string}.${string}.${string}.${string}`} True if it's an IP and false otherwise. Works as a type guard.
+ */
+export function isValidIP(ip: UnknownString, _format?: 4): ip is `${string}.${string}.${string}.${string}` {
+  if (!validate(ip)) return false;
+  if (ip.trim().includes(" ")) return false;
+  const split = ip.split(".");
+  if (split.length !== 4) return false;
+  const [a, b, c, d] = split;
+  if (!a || !b || !c || !d) return false;
+  return [a, b, c, d].every((n) => Number(n) <= 255 && Number(n) >= 0);
+}
+
+/**
+ * Given a string (or not), checks if it's a valid, URL-friendly slug.
+ *
+ * @param {UnknownString} str String to check.
+ * @param {"-" | "_" | "-_"} [separator="-"] Whether to allow `-`, `_`, or both (`-_`) as separators within the slug.
+ * @param {boolean} [allowPercent=false] Wether to allow the `%` character to be present.
+ *
+ * @example
+ * ```ts
+ * isValidSlug("-foo"); // false
+ * isValidSlug("foo-bar", "_"); // false
+ * isValidSlug("foo-bar"); // true
+ * isValidSlug("123-456"); // true
+ * ```
+ *
+ * @returns {boolean} True if it's a valid slug and false if otherwise.
+ */
+export function isValidSlug(
+  str: UnknownString,
+  separator: "-" | "_" | "-_" = "-",
+  allowPercent: boolean = false,
+): boolean {
+  if (!validate(str)) return false;
+  if (str.trim().includes(" ")) return false;
+  if (separator === "-" && str.includes("_")) return false;
+  if (separator === "_" && str.includes("-")) return false;
+  if ((separator === "-" || separator === "-_") && (str.startsWith("-") || str.startsWith("-"))) return false;
+  if ((separator === "_" || separator === "-_") && (str.startsWith("_") || str.endsWith("_"))) return false;
+  if (!allowPercent && str.includes("%")) return false;
+  return /^[a-zA-Z0-9\-_%%]+$/.test(str);
 }

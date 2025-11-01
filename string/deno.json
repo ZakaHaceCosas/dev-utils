@@ -1,8 +1,9 @@
 {
   "name": "@zakahacecosas/string-utils",
-  "version": "3.6.0",
+  "version": "4.0.0",
   "license": "MIT",
   "exports": {
-    ".": "./mod.ts"
+    ".": "./mod.ts",
+    "./cli": "./cli.ts"
   }
 }

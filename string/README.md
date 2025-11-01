@@ -9,16 +9,15 @@ A great set of 60 functions for string capitalization, validation, and manipulat
 ## Installation
 
 ```bash
-# deno
+# deno, yarn, or pnpm
 deno add jsr:@zakahacecosas/string-utils
-# npm
-npx jsr add @zakahacecosas/string-utils
-# yarn
 yarn add jsr:@zakahacecosas/string-utils
-# pnpm
 pnpm add jsr:@zakahacecosas/string-utils
-# bun
-bunx jsr add @zakahacecosas/string-utils
+# npm or bun (the name here is different!)
+npm install strings-utils
+bun add strings-utils
+# you can use npx/bunx jsr add... too, but it doesn't work with every nodejs project
+# and the package name is different because someone holds an unmaintained "string-utils"
 ```
 
 ## Feature highlights

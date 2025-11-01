@@ -9,7 +9,7 @@
 
 ## StringUtils
 
-- Add more methods to StringArray
+Nothing as of now.
 
 ## GeoUtils
 

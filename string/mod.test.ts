@@ -1,5 +1,6 @@
 import { assertEquals } from "@std/assert";
 import * as StringUtils from "./mod.ts";
+import { reveal } from "./cli.ts";
 
 Deno.test({
   name: "toUpperCaseFirst works",
@@ -362,17 +363,22 @@ Deno.test({
     );
 
     assertEquals(
-      StringUtils.normalizeArray(abnormalStringArray, "soft"),
+      StringUtils.normalizeArray(abnormalStringArray, "just-trim"),
       ["hÉlLo", "wöRld", "123_abc"],
     );
 
     assertEquals(
-      StringUtils.normalizeArray(abnormalStringArray, "softer"),
+      StringUtils.normalizeArray(abnormalStringArray, "just-trim-lowercase"),
       ["héllo", "wörld", "123_abc"],
     );
 
     assertEquals(
-      StringUtils.normalizeArray(abnormalStringArray, "strict"),
+      StringUtils.normalizeArray(abnormalStringArray, {
+        keepSpaces: false,
+        preserveCase: false,
+        removeCliColors: true,
+        strict: true,
+      }),
       ["hello", "world", "123abc"],
     );
   },
@@ -398,14 +404,14 @@ Deno.test({
 
     assertEquals(
       StringUtils.table([{
-        "Key": "Value",
-        "Key2": "Value 2",
+        Key: "Value",
+        Key2: "Value 2",
       }, {
-        "Key": "Value3",
-        "Key2": "Value4",
+        Key: "Value3",
+        Key2: "Value4",
       }, {
-        "Key": "Value5",
-        "Key3": "Value6",
+        Key: "Value5",
+        Key3: "Value6",
       }]),
       "Error: Unable to represent data. Row Key,Value5,Key3,Value6 is not consistent with the rest of the table.",
     );
@@ -429,7 +435,7 @@ Deno.test({
 Deno.test({
   name: "reveal works",
   fn: async () => {
-    await StringUtils.reveal(
+    await reveal(
       "Test! This function does not return a value and instead writes to the stdout, making it harder to test.\nManually look at it!",
       5,
     );
@@ -1132,7 +1138,12 @@ Deno.test({
       normal,
     );
     assertEquals(
-      new StringArray(abnormal).normalize("strict").arr(),
+      new StringArray(abnormal).normalize({
+        strict: true,
+        removeCliColors: true,
+        preserveCase: false,
+        keepSpaces: false,
+      }).arr(),
       strict,
     );
   },
@@ -1177,5 +1188,114 @@ Deno.test({
       StringUtils.unquote("'foo'"),
       "foo",
     );
+  },
+});
+
+Deno.test({
+  name: "isValidURL works",
+  fn: () => {
+    assertEquals(StringUtils.isValidURL("http://example.com"), true);
+    assertEquals(StringUtils.isValidURL("https://example.com"), true);
+    assertEquals(StringUtils.isValidURL("https://example.com/path"), true);
+    assertEquals(StringUtils.isValidURL("https://example.com/path?query=123"), true);
+    assertEquals(StringUtils.isValidURL("https://sub.example.com"), true);
+    assertEquals(StringUtils.isValidURL("https://example.co.uk"), true);
+    assertEquals(StringUtils.isValidURL("ftp://example.com/file.txt"), true);
+    assertEquals(StringUtils.isValidURL("http://localhost:3000"), true);
+    assertEquals(StringUtils.isValidURL("http://127.0.0.1"), true);
+
+    assertEquals(StringUtils.isValidURL("example.com"), false); // missing scheme
+    assertEquals(StringUtils.isValidURL("://example.com"), false); // missing scheme name
+    assertEquals(StringUtils.isValidURL("http//example.com"), false); // missing colon
+    assertEquals(StringUtils.isValidURL("http:/example.com"), false); // missing slash
+    assertEquals(StringUtils.isValidURL(""), false); // empty string
+    assertEquals(StringUtils.isValidURL(" "), false); // whitespace only
+    assertEquals(StringUtils.isValidURL("http://"), false); // missing host
+    assertEquals(StringUtils.isValidURL("http://.com"), false); // invalid host
+    assertEquals(StringUtils.isValidURL("http://example .com"), false); // space in host
+
+    assertEquals(StringUtils.isValidURL("https://example.com", "https://"), true);
+    assertEquals(StringUtils.isValidURL("http://example.com", "https://"), false);
+
+    assertEquals(StringUtils.isValidURL("https://example.com", ["http://", "https://"]), true);
+    assertEquals(StringUtils.isValidURL("ftp://example.com", ["http://", "https://"]), false);
+
+    assertEquals(StringUtils.isValidURL("https://example.com", null, ".com"), true);
+    assertEquals(StringUtils.isValidURL("https://example.org", null, ".com"), false);
+
+    assertEquals(StringUtils.isValidURL("https://example.com", null, [".net", ".com"]), true);
+    assertEquals(StringUtils.isValidURL("https://example.org", null, [".net", ".com"]), false);
+
+    assertEquals(StringUtils.isValidURL("https://example.com", "https://", ".com"), true);
+    assertEquals(StringUtils.isValidURL("https://example.com", "http://", ".com"), false);
+    assertEquals(StringUtils.isValidURL("https://example.com", "https://", ".org"), false);
+    assertEquals(StringUtils.isValidURL("ftp://example.net", ["ftp://", "http://"], [".com", ".net"]), true);
+    assertEquals(StringUtils.isValidURL("ftp://example.net", ["ftp://", "http://"], [".com"]), false);
+
+    assertEquals(StringUtils.isValidURL("https://example.com/path", "https://example.com", "/path"), true);
+    assertEquals(StringUtils.isValidURL("https://example.com/path", "https://example.com", "/other"), false);
+    assertEquals(
+      StringUtils.isValidURL("https://example.com/path", ["https://example.com", "http://test.com"], [
+        "/path",
+        "/other",
+      ]),
+      true,
+    );
+    assertEquals(StringUtils.isValidURL("https://example.com/path", ["http://test.com"], ["/path", "/other"]), false);
+  },
+});
+
+Deno.test({
+  name: "isValidIP works (v4)",
+  fn: () => {
+    assertEquals(StringUtils.isValidIP("0.0.0.0"), true);
+    assertEquals(StringUtils.isValidIP("127.0.0.1"), true);
+    assertEquals(StringUtils.isValidIP("192.168.0.1"), true);
+    assertEquals(StringUtils.isValidIP("10.0.0.1"), true);
+    assertEquals(StringUtils.isValidIP("255.255.255.255"), true);
+
+    assertEquals(StringUtils.isValidIP("256.0.0.1"), false); // >255
+    assertEquals(StringUtils.isValidIP("-1.0.0.1"), false); // negative number
+    assertEquals(StringUtils.isValidIP("192.168.0"), false); // too few octets
+    assertEquals(StringUtils.isValidIP("192.168.0.1.1"), false); // too many octets
+    assertEquals(StringUtils.isValidIP("192.168.0.a"), false); // non-numeric
+    assertEquals(StringUtils.isValidIP("192.168..1"), false); // empty octet
+    assertEquals(StringUtils.isValidIP("192.168.01.1"), true); // leading zeros are allowed in some cases
+    assertEquals(StringUtils.isValidIP("192.168.0. 1"), false); // space inside
+    assertEquals(StringUtils.isValidIP(""), false); // empty string
+    assertEquals(StringUtils.isValidIP(" "), false); // whitespace
+    assertEquals(StringUtils.isValidIP("300.168.0.1"), false); // octet >255
+  },
+});
+
+Deno.test({
+  name: "isValidSlug works",
+  fn: () => {
+    assertEquals(StringUtils.isValidSlug("abc123", "-", false), true);
+    assertEquals(StringUtils.isValidSlug("abc123", "_", false), true);
+
+    assertEquals(StringUtils.isValidSlug("abc-123", "-", false), true);
+    assertEquals(StringUtils.isValidSlug("abc_123", "_", false), true);
+    assertEquals(StringUtils.isValidSlug("abc-123_def", "-_", false), true);
+
+    assertEquals(StringUtils.isValidSlug("abc%123", "-_", true), true);
+    assertEquals(StringUtils.isValidSlug("abc-123%", "-_", true), true);
+
+    assertEquals(StringUtils.isValidSlug("a", "-", false), true);
+    assertEquals(StringUtils.isValidSlug("a-b_c", "-_", false), true);
+
+    assertEquals(StringUtils.isValidSlug("abc-123", "_", false), false);
+    assertEquals(StringUtils.isValidSlug("abc_123", "-", false), false);
+
+    assertEquals(StringUtils.isValidSlug("abc%123", "-_", false), false);
+
+    assertEquals(StringUtils.isValidSlug("abc$123", "-_", false), false);
+    assertEquals(StringUtils.isValidSlug("abc!123", "-_", true), false);
+    assertEquals(StringUtils.isValidSlug("abc 123", "-_", false), false);
+
+    assertEquals(StringUtils.isValidSlug("", "-_", false), false);
+
+    assertEquals(StringUtils.isValidSlug("-abc123", "-", false), false);
+    assertEquals(StringUtils.isValidSlug("abc123_", "_", false), false);
   },
 });

@@ -8,7 +8,8 @@
     "proseWrap": "never",
     "semiColons": true,
     "singleQuote": false,
-    "useTabs": false
+    "useTabs": false,
+    "quoteProps": "consistent"
   },
   "tasks": {
     "prepublish": "deno fmt && deno test --allow-write --allow-read && deno count.ts"
