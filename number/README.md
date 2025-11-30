@@ -9,16 +9,15 @@ A set of 30+ functions for numeric operation, conversion; among other uses. Work
 ## Installation
 
 ```bash
-# deno
+# deno, yarn, or pnpm
 deno add jsr:@zakahacecosas/number-utils
-# npm
-npx jsr add @zakahacecosas/number-utils
-# yarn
 yarn add jsr:@zakahacecosas/number-utils
-# pnpm
 pnpm add jsr:@zakahacecosas/number-utils
-# bun
-bunx jsr add @zakahacecosas/number-utils
+# npm or bun (the name here is different!)
+npm install numeric-utils
+bun add numeric-utils
+# you can use npx/bunx jsr add... too, but it doesn't work with every nodejs project
+# and the package name is different because someone holds an unmaintained "number-utils"
 ```
 
 ## Feature highlights

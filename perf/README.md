@@ -9,16 +9,15 @@ Some functions to take results from your benchmarks and give you accurate "_we m
 ## Installation
 
 ```bash
-# deno
+# deno, yarn, or pnpm
 deno add jsr:@zakahacecosas/perf-utils
-# npm
-npx jsr add @zakahacecosas/perf-utils
-# yarn
 yarn add jsr:@zakahacecosas/perf-utils
-# pnpm
 pnpm add jsr:@zakahacecosas/perf-utils
-# bun
-bunx jsr add @zakahacecosas/perf-utils
+# npm or bun (the name here is different!)
+npm install perfs-utils
+bun add perfs-utils
+# you can use npx/bunx jsr add... too, but it doesn't work with every nodejs project
+# and the package name is different because someone holds an unmaintained "perf-utils"
 ```
 
 ## Features

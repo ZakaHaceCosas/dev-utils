@@ -1,3 +1,4 @@
+import { download } from "./download.ts";
 import * as HttpUtils from "./mod.ts";
 import { assertEquals, assertRejects, assertStringIncludes } from "@std/assert";
 
@@ -96,7 +97,7 @@ Deno.test({
       } as Response);
 
     const tmpFile = "./test_output.txt";
-    await HttpUtils.download("https://example.com/file", tmpFile);
+    await download("https://example.com/file", tmpFile);
 
     const saved = Deno.readFileSync(tmpFile);
     assertEquals(saved, new Uint8Array(dummyBuffer));
@@ -109,7 +110,7 @@ Deno.test({
       } as Response);
 
     await assertRejects(
-      () => HttpUtils.download("https://example.com/404", "./file.txt"),
+      () => download("https://example.com/404", "./file.txt"),
       Error,
       "Failed to fetch: Not Found",
     );

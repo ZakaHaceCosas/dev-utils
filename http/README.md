@@ -4,34 +4,21 @@
 
 # `http-utils`
 
-A few functions for helping with HTTP. Works with NodeJS*, Bun, Deno, and (if transpiled to JavaScript) with any web browser.
+A few functions for helping with HTTP. Works with NodeJS, Bun, Deno, and (if transpiled to JavaScript) with any web browser.
 
 ## Installation
 
 ```bash
-# deno
-deno add jsr:@zakahacecosas/http-utils
-# npm
-npx jsr add @zakahacecosas/http-utils
-# yarn
-yarn add jsr:@zakahacecosas/http-utils
-# pnpm
-pnpm add jsr:@zakahacecosas/http-utils
-# bun
-bunx jsr add @zakahacecosas/http-utils
+# deno, yarn, or pnpm
+deno add jsr:@zakahacecosas/https-utils
+yarn add jsr:@zakahacecosas/https-utils
+pnpm add jsr:@zakahacecosas/https-utils
+# npm or bun (the name here is different!)
+npm install https-utils
+bun add https-utils
+# you can use npx/bunx jsr add... too, but it doesn't work with every nodejs project
+# and the package name is different because someone holds an unmaintained "geo-utils"
 ```
-
-> [!WARNING]
-> Depending on what your project is based on, NodeJS with npm may not be able to recognize the package. React Native's Metro for example struggles to resolve it, for those cases we recommend the following approach:
->
-> ```ts
-> // (http.ts, or however you'd call this file)
-> import * as h from "./node_modules/@zakahacecosas/http_utils/mod.js";
->
-> // name this the way you like
-> // avoid exporting individual functions (like h.HttpUtils.request()) as some of them don't work if not used from the full object
-> export const HttpUtils = h.HttpUtils;
-> ```
 
 ## Feature highlights
 
@@ -44,4 +31,4 @@ bunx jsr add @zakahacecosas/http-utils
 
 All functions have rich JSDoc (examples included), so the editor itself counts as "documentation".
 
-The module is fully documented in `jsr.io`, [click here for module documentation](https://jsr.io/@zakahacecosas/http-utils/doc/~/HttpUtils).
+The module is fully documented in `jsr.io`, [click here for module documentation](https://jsr.io/@zakahacecosas/http-utils/doc/).

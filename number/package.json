@@ -1,0 +1,26 @@
+{
+  "author": {
+    "name": "ZakaHaceCosas",
+    "url": "https://zakahacecosas.github.io"
+  },
+  "bugs": {
+    "url": "https://github.com/ZakaHaceCosas/dev-utils/issues"
+  },
+  "description": "A great set of utilities for interacting with numbers. Serving 36 functions.",
+  "homepage": "https://github.com/ZakaHaceCosas/dev-utils",
+  "version": "2.1.0",
+  "type": "module",
+  "main": "./dist/mod.js",
+  "name": "numeric-utils",
+  "exports": {
+    ".": {
+      "import": "./dist/mod.js",
+      "types": "./dist/mod.d.ts"
+    }
+  },
+  "files": ["dist/*.js", "dist/*.d.ts"],
+  "types": "./dist/mod.d.ts",
+  "license": "MIT",
+  "keywords": ["numbers", "number", "math", "number utils", "math utils"],
+  "repository": "git+https://github.com/ZakaHaceCosas/dev-utils.git"
+}
