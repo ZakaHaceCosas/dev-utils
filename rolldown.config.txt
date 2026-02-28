@@ -1,0 +1,14 @@
+import { defineConfig } from "rolldown";
+
+export default defineConfig({
+  input: "$",
+  output: [
+    {
+      dir: "dist/",
+      format: "esm",
+      sourcemap: true,
+      minify: true,
+    },
+  ],
+  plugins: [],
+});

@@ -22,9 +22,16 @@
       "types": "./dist/download.d.ts"
     }
   },
-  "files": ["dist/*.js", "dist/*.d.ts"],
+  "files": [
+    "dist/*.js",
+    "dist/*.d.ts"
+  ],
   "types": "./dist/mod.d.ts",
   "license": "MIT",
-  "keywords": ["http", "https", "http utils"],
+  "keywords": [
+    "http",
+    "https",
+    "http utils"
+  ],
   "repository": "git+https://github.com/ZakaHaceCosas/dev-utils.git"
 }

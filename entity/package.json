@@ -18,9 +18,17 @@
       "types": "./dist/mod.d.ts"
     }
   },
-  "files": ["dist/*.js", "dist/*.d.ts"],
+  "files": [
+    "dist/*.js",
+    "dist/*.d.ts"
+  ],
   "types": "./dist/mod.d.ts",
   "license": "MIT",
-  "keywords": ["array", "array utils", "object", "object utils"],
+  "keywords": [
+    "array",
+    "array utils",
+    "object",
+    "object utils"
+  ],
   "repository": "git+https://github.com/ZakaHaceCosas/dev-utils.git"
 }
