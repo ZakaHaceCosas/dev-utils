@@ -1458,7 +1458,7 @@ export function isValidHexColor(
  *
  * @returns True if the HEX string is valid, false if otherwise.
  */
-export function isValidHex(str: UnknownString, hashtag: "require" | "exclude" | "whatever" = "whatever") {
+export function isValidHex(str: UnknownString, hashtag: "require" | "exclude" | "whatever" = "whatever"): boolean {
   if (!validate(str)) return false;
   const upStr = str.toUpperCase();
   const validHashtag = /^#[0-9A-F]+$/i.test(upStr);
