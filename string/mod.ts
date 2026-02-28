@@ -36,7 +36,7 @@
  * @module
  */
 
-// deno-lint-ignore-file no-explicit-any
+// deno-lint-ignore-file no-explicit-any no-unreachable
 
 // * SECTION: TYPES * //
 
@@ -1412,25 +1412,58 @@ export function isValidEmail(str: string): boolean {
 }
 
 /**
- * Validates if a given string is a valid HEX code.
+ * Validates if a given string is a valid HEX color code.
  *
- * @param str The string to validate.
+ * @param {UnknownString} str The string to validate.
+ * @param {"require" | "exclude" | "whatever"} [hashtag="whatever"] Whether to require the # be present or to be absent. `"whatever"` accepts both cases.
  *
  * @example
  * ```ts
- * const isValid = isValidHexColor("#ABCDEF");
- * console.log(isValid); // true
+ * isValidHexColor("#ABCDEF"); // true
+ * isValidHexColor("ABCDEF"); // true
+ * isValidHexColor("33"); // false
  * ```
  *
  * @returns True if the HEX string is valid, false if otherwise.
  */
-export function isValidHexColor(str: string): str is `#${string}` {
-  return /^#[0-9A-F]{3}$/i.test(str) ||
-    /^#[0-9A-F]{4}$/i.test(str) ||
-    /^#[0-9A-F]{6}$/i.test(str) ||
-    /^#[0-9A-F]{8}$/i.test(str);
-  // 3, 4, 6, and 8
-  // #FFF, #FFFF, #FFFFFF, and #FFFFFFFF are all valid
+export function isValidHexColor(
+  str: UnknownString,
+  hashtag: "require" | "exclude" | "whatever" = "whatever",
+): str is `#${string}` {
+  if (!validate(str)) return false;
+  const upStr = str.toUpperCase();
+  const validHashtag = /^#[0-9A-F]{3}$/i.test(upStr) ||
+    /^#[0-9A-F]{4}$/i.test(upStr) ||
+    /^#[0-9A-F]{6}$/i.test(upStr) ||
+    /^#[0-9A-F]{8}$/i.test(upStr);
+  const validNoHashtag = /^[0-9A-F]{3}$/i.test(upStr) ||
+    /^[0-9A-F]{4}$/i.test(upStr) ||
+    /^[0-9A-F]{6}$/i.test(upStr) ||
+    /^[0-9A-F]{8}$/i.test(upStr);
+  return hashtag == "require" ? validHashtag : hashtag == "exclude" ? validNoHashtag : (validHashtag || validNoHashtag);
+  // accepts 3, 4, 6, and 8 since #FFF, #FFFF, #FFFFFF, and #FFFFFFFF are all valid, at least in the web
+}
+
+/**
+ * Validates if a given string is a valid HEX code of any length.
+ *
+ * @param {UnknownString} str The string to validate.
+ * @param {"require" | "exclude" | "whatever"} [hashtag="whatever"] Whether to require the # be present or to be absent. `"whatever"` accepts both cases.
+ *
+ * @example
+ * ```ts
+ * isValidHex("ABCDEF832091ABB"); // true
+ * isValidHex("ABCDEF832091ABZ"); // false
+ * ```
+ *
+ * @returns True if the HEX string is valid, false if otherwise.
+ */
+export function isValidHex(str: UnknownString, hashtag: "require" | "exclude" | "whatever" = "whatever") {
+  if (!validate(str)) return false;
+  const upStr = str.toUpperCase();
+  const validHashtag = /^#[0-9A-F]+$/i.test(upStr);
+  const validNoHashtag = /^[0-9A-F]+$/i.test(upStr);
+  return hashtag == "require" ? validHashtag : hashtag == "exclude" ? validNoHashtag : (validHashtag || validNoHashtag);
 }
 
 /**
@@ -1845,6 +1878,7 @@ export function isValidURL(
  * Given a string (or not), checks if it's a valid Internet Protocol address. Only checks IPv4 (for now).
  *
  * @param {UnknownString} ip IP to check.
+ * @param {4 | 6} [format=4] IP address type. Defaults to 4.
  *
  * @example
  * ```ts
@@ -1853,16 +1887,28 @@ export function isValidURL(
  * isValidIP("123.123.123.123"); // true
  * ```
  *
- * @returns {ip is `${string}.${string}.${string}.${string}`} True if it's an IP and false otherwise. Works as a type guard.
+ * @returns {boolean} True if it's an IP and false otherwise.
  */
-export function isValidIP(ip: UnknownString, _format?: 4): ip is `${string}.${string}.${string}.${string}` {
+export function isValidIP(ip: UnknownString, format: 4 | 6 = 4): boolean {
   if (!validate(ip)) return false;
   if (ip.trim().includes(" ")) return false;
-  const split = ip.split(".");
-  if (split.length !== 4) return false;
-  const [a, b, c, d] = split;
-  if (!a || !b || !c || !d) return false;
-  return [a, b, c, d].every((n) => Number(n) <= 255 && Number(n) >= 0);
+  if (format == 4) {
+    const split = ip.split(".");
+    if (split.length !== 4) return false;
+    const [a, b, c, d] = split;
+    if (!a || !b || !c || !d) return false;
+    return [a, b, c, d].every((n) => Number(n) <= 255 && Number(n) >= 0);
+  }
+  throw new Error("IPv6 validation is not yet supported.");
+  if (ip == "::") return true;
+  const addr = (ip as string).toLowerCase();
+  const split = addr.split(":");
+  if (!addr.includes("::") && split.length != 8) return false;
+  if (!split.slice(0, -1).every((s) => isValidHex(s, "exclude") || s == "")) return false;
+  const last = split.slice(-1)[0];
+  if (!isValidHex(last, "exclude") && !isValidIP(last) && last != "") return false;
+  // TODO: not all cases handled
+  return true;
 }
 
 /**

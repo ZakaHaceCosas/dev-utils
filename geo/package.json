@@ -14,7 +14,7 @@
   "name": "geos-utils",
   "exports": {
     ".": {
-      "import": "./dist/mod.js",
+      "default": "./dist/mod.js",
       "types": "./dist/mod.d.ts"
     }
   },

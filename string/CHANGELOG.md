@@ -2,6 +2,17 @@
 
 # `string-utils` CHANGELOG
 
+## 4.1.0
+
+### Added
+
+- `isValidHex()` to validate variable-length Hex strings
+- now you can use `isValidHexColor(color, hashtag)` with `hashtag` set to `"exclude"` to disallow `#` from the string or to `"whatever"` to validate HEX colors with our without it; previous behavior available via `"require"`, default is now `"whatever"`
+
+### Fixed
+
+- (probably) fixed an issue with Jest somehow not recognizing how to import this package
+
 ## 4.0.0
 
 ### Breaking

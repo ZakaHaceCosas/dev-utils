@@ -790,42 +790,51 @@ Deno.test({
 Deno.test({
   name: "isValidHexColor works",
   fn: () => {
-    assertEquals(
-      StringUtils.isValidHexColor(
-        "something random",
-      ),
-      false,
-    );
-    assertEquals(
-      StringUtils.isValidHexColor(
-        "#000000",
-      ),
-      true,
-    );
-    assertEquals(
-      StringUtils.isValidHexColor(
-        "#47FA93",
-      ),
-      true,
-    );
-    assertEquals(
-      StringUtils.isValidHexColor(
-        "#JAD2AD",
-      ),
-      false,
-    );
-    assertEquals(
-      StringUtils.isValidHexColor(
-        "#FF332211",
-      ),
-      true,
-    );
-    assertEquals(
-      StringUtils.isValidHexColor(
-        "#JJK2LA2A",
-      ),
-      false,
-    );
+    assertEquals(StringUtils.isValidHexColor("something random"), false);
+    assertEquals(StringUtils.isValidHexColor("#000000"), true);
+    assertEquals(StringUtils.isValidHexColor("#47FA93"), true);
+    assertEquals(StringUtils.isValidHexColor("#JAD2AD"), false);
+    assertEquals(StringUtils.isValidHexColor("#FF332211"), true);
+    assertEquals(StringUtils.isValidHexColor("#JJK2LA2A"), false);
+
+    assertEquals(StringUtils.isValidHexColor("000000", "exclude"), true);
+    assertEquals(StringUtils.isValidHexColor("#000000", "exclude"), false);
+    assertEquals(StringUtils.isValidHexColor("FF332211", "exclude"), true);
+    assertEquals(StringUtils.isValidHexColor("#FF332211", "exclude"), false);
+    assertEquals(StringUtils.isValidHexColor("GGGGGG", "exclude"), false);
+
+    assertEquals(StringUtils.isValidHexColor("#ABCDEF", "whatever"), true);
+    assertEquals(StringUtils.isValidHexColor("ABCDEF", "whatever"), true);
+    assertEquals(StringUtils.isValidHexColor("ABCDE", "whatever"), false);
+    assertEquals(StringUtils.isValidHexColor("GGGGGG", "whatever"), false);
+  },
+});
+
+Deno.test({
+  name: "isValidHex works",
+  fn: () => {
+    assertEquals(StringUtils.isValidHex("something random"), false);
+    assertEquals(StringUtils.isValidHex("#000000"), true);
+    assertEquals(StringUtils.isValidHex("#47FA93"), true);
+    assertEquals(StringUtils.isValidHex("#JAD2AD"), false);
+    assertEquals(StringUtils.isValidHex("#FF332211"), true);
+    assertEquals(StringUtils.isValidHex("#JJK2LA2A"), false);
+
+    assertEquals(StringUtils.isValidHex("000000", "exclude"), true);
+    assertEquals(StringUtils.isValidHex("#000000", "exclude"), false);
+    assertEquals(StringUtils.isValidHex("FF332211", "exclude"), true);
+    assertEquals(StringUtils.isValidHex("#FF332211", "exclude"), false);
+    assertEquals(StringUtils.isValidHex("GGGGGG", "exclude"), false);
+
+    assertEquals(StringUtils.isValidHex("#ABCDEF", "whatever"), true);
+    assertEquals(StringUtils.isValidHex("ABCDEF", "whatever"), true);
+    assertEquals(StringUtils.isValidHex("ABCDE", "whatever"), true);
+    assertEquals(StringUtils.isValidHex("GGGGGG", "whatever"), false);
+
+    assertEquals(StringUtils.isValidHex("#ABAAAAAAAAAA231321CDEF", "whatever"), true);
+    assertEquals(StringUtils.isValidHex("AF", "whatever"), true);
+    assertEquals(StringUtils.isValidHex("3", "whatever"), true);
+    assertEquals(StringUtils.isValidHex("090912AZ", "whatever"), false);
   },
 });
 
@@ -1265,6 +1274,75 @@ Deno.test({
     assertEquals(StringUtils.isValidIP(""), false); // empty string
     assertEquals(StringUtils.isValidIP(" "), false); // whitespace
     assertEquals(StringUtils.isValidIP("300.168.0.1"), false); // octet >255
+  },
+});
+
+Deno.test({
+  name: "isValidIP works (v6)",
+  ignore: true,
+  fn: () => {
+    // Full (8 groups, 4 hex digits each)
+    assertEquals(StringUtils.isValidIP("2001:0db8:85a3:0000:0000:8a2e:0370:7334", 6), true);
+    assertEquals(StringUtils.isValidIP("FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF", 6), true);
+    assertEquals(StringUtils.isValidIP("0000:0000:0000:0000:0000:0000:0000:0000", 6), true);
+    assertEquals(StringUtils.isValidIP("1234:5678:9abc:def0:1234:5678:9abc:def0", 6), true);
+
+    // Mixed case hex
+    assertEquals(StringUtils.isValidIP("2001:0Db8:85A3:0000:0000:8A2E:0370:7334", 6), true);
+
+    // Leading zeros omitted
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3:0:0:8a2e:370:7334", 6), true);
+
+    // Loopback
+    assertEquals(StringUtils.isValidIP("::1", 6), true);
+
+    // Unspecified
+    assertEquals(StringUtils.isValidIP("::", 6), true);
+
+    // Compressed (single :: in various positions)
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3::8a2e:370:7334", 6), true);
+    assertEquals(StringUtils.isValidIP("2001:db8::8a2e:370:7334", 6), true);
+    assertEquals(StringUtils.isValidIP("2001::8a2e:370:7334", 6), true);
+    assertEquals(StringUtils.isValidIP("::8a2e:370:7334", 6), true);
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3:8a2e:370:7334::", 6), true);
+    assertEquals(StringUtils.isValidIP("2001:db8::", 6), true);
+
+    // Single zero group compression
+    assertEquals(StringUtils.isValidIP("2001:db8:0:0:0:0:2:1", 6), true);
+    assertEquals(StringUtils.isValidIP("2001:db8::2:1", 6), true);
+
+    // Link-local
+    assertEquals(StringUtils.isValidIP("fe80::1", 6), true);
+
+    // IPv4-mapped IPv6
+    assertEquals(StringUtils.isValidIP("::ffff:192.168.1.1", 6), true);
+    assertEquals(StringUtils.isValidIP("2001:db8::192.168.1.1", 6), true);
+
+    // Minimal groups
+    assertEquals(StringUtils.isValidIP("0:0:0:0:0:0:0:1", 6), true);
+    assertEquals(StringUtils.isValidIP("::ffff:0:0", 6), true);
+
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3:0:0:8a2e:370", 6), false); // only 7 groups
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3:0:0:8a2e:370:7334:1234", 6), false); // 9 groups
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3::8a2e::7334", 6), false); // multiple ::
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3:::7334", 6), false); // triple colon
+    assertEquals(StringUtils.isValidIP(":2001:db8::1", 6), false); // leading single :
+    assertEquals(StringUtils.isValidIP("2001:db8::1:", 6), false); // trailing single :
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3:0:0:8a2e:370:7334:", 6), false); // trailing colon
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3:0:0:8a2e:370:zzzz", 6), false); // invalid hex chars
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3:0:0:8a2e:370:12345", 6), false); // group > 4 hex digits
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3:0:0:8a2e:370:-1", 6), false); // negative value
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3:0:0:8a2e:370:1.2.3.4", 6), false); // IPv4 not in correct position
+    assertEquals(StringUtils.isValidIP("::ffff:192.168.1.256", 6), false); // invalid IPv4 octet
+    assertEquals(StringUtils.isValidIP("::ffff:192.168.1", 6), false); // incomplete IPv4
+    assertEquals(StringUtils.isValidIP("12345::", 6), false); // group too long
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3:0:0:8a2e:370:g", 6), false); // non-hex character
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3:0:0:8a2e:370: 7334", 6), false); // space inside
+    assertEquals(StringUtils.isValidIP("", 6), false); // empty string
+    assertEquals(StringUtils.isValidIP(":::", 6), false); // invalid compression
+    assertEquals(StringUtils.isValidIP("2001::85a3::7334", 6), false); // double compression
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3:0:0:8a2e:370:", 6), false); // ends with colon
+    assertEquals(StringUtils.isValidIP("2001:db8:85a3:0:0:8a2e:370:7334: ", 6), false); // trailing space
   },
 });
 
