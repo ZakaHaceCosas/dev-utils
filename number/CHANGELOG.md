@@ -2,6 +2,12 @@
 
 # `number-utils` CHANGELOG
 
+## 2.1.1
+
+### fixed
+
+- (probably) fixed an issue with Jest somehow not recognizing how to import this package
+
 ## 2.1.0
 
 ### Added
