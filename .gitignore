@@ -4,3 +4,4 @@ deno.json.bak
 dist
 node_modules
 package-lock.json
+.env

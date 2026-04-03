@@ -11,7 +11,10 @@
   "version": "1.0.0",
   "type": "module",
   "main": "./dist/mod.js",
-  "name": "perfs-utils",
+  "name": "@zhc.js/perf-utils",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "default": "./dist/mod.js",

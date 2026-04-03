@@ -1,5 +1,5 @@
 # `entity-utils` CHANGELOG
 
-## 1.0.0
+## 1.0.1
 
-- Initial release. Says `1.0.1` because of a publishing error.
+- Initial release. Says `1.0.1` instead of `1.0.0.` because of a publishing error.

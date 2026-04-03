@@ -1,6 +1,6 @@
 <!-- markdownlint-disable md001 md041 -->
 
-`@zakahacecosas/`
+`@zakahacecosas/` | `@zhc.js/`
 
 # `http-utils`
 
@@ -10,14 +10,13 @@ A few functions for helping with HTTP. Works with NodeJS, Bun, Deno, and (if tra
 
 ```bash
 # deno, yarn, or pnpm
-deno add jsr:@zakahacecosas/https-utils
-yarn add jsr:@zakahacecosas/https-utils
-pnpm add jsr:@zakahacecosas/https-utils
-# npm or bun (the name here is different!)
-npm install https-utils
-bun add https-utils
+deno add jsr:@zakahacecosas/http-utils
+yarn add jsr:@zakahacecosas/http-utils
+pnpm add jsr:@zakahacecosas/http-utils
+# npm or bun (the org here is different)
+npm install @zhc.js/http-utils
+bun add @zhc.js/http-utils
 # you can use npx/bunx jsr add... too, but it doesn't work with every nodejs project
-# and the package name is different because someone holds an unmaintained "geo-utils"
 ```
 
 ## Feature highlights

@@ -11,7 +11,10 @@
   "version": "4.1.0",
   "type": "module",
   "main": "./dist/mod.js",
-  "name": "strings-utils",
+  "name": "@zhc.js/string-utils",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "default": "./dist/mod.js",
@@ -33,5 +36,8 @@
     "string",
     "string utils"
   ],
-  "repository": "git+https://github.com/ZakaHaceCosas/dev-utils.git"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZakaHaceCosas/dev-utils.git"
+  }
 }

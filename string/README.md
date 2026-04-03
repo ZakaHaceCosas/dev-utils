@@ -1,6 +1,6 @@
 <!-- markdownlint-disable md001 md041 -->
 
-`@zakahacecosas/`
+`@zakahacecosas/` | `@zhc.js/`
 
 # `string-utils`
 
@@ -14,10 +14,9 @@ deno add jsr:@zakahacecosas/string-utils
 yarn add jsr:@zakahacecosas/string-utils
 pnpm add jsr:@zakahacecosas/string-utils
 # npm or bun (the name here is different!)
-npm install strings-utils
-bun add strings-utils
+npm install @zhc.js/string-utils
+bun add @zhc.js/string-utils
 # you can use npx/bunx jsr add... too, but it doesn't work with every nodejs project
-# and the package name is different because someone holds an unmaintained "string-utils"
 ```
 
 ## Feature highlights

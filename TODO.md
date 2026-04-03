@@ -9,7 +9,7 @@
 
 ## StringUtils
 
-Nothing as of now.
+Nothing as of now. Maybe more methods to StringArray.
 
 ## GeoUtils
 

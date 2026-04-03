@@ -1,6 +1,6 @@
 <!-- markdownlint-disable md001 md041 -->
 
-`@zakahacecosas/`
+`@zakahacecosas/` | `@zhc.js/`
 
 # `geo-utils`
 
@@ -13,11 +13,10 @@ A set of 10+ functions for interacting with vectors and distances. Works with No
 deno add jsr:@zakahacecosas/geo-utils
 yarn add jsr:@zakahacecosas/geo-utils
 pnpm add jsr:@zakahacecosas/geo-utils
-# npm or bun (the name here is different!)
-npm install geos-utils
-bun add geos-utils
+# npm or bun (the org here is different)
+npm install @zhc.js/geo-utils
+bun add @zhc.js/geo-utils
 # you can use npx/bunx jsr add... too, but it doesn't work with every nodejs project
-# and the package name is different because someone holds an unmaintained "geo-utils"
 ```
 
 ## Feature highlights

@@ -1,6 +1,6 @@
 <!-- markdownlint-disable md001 md041 -->
 
-`@zakahacecosas/`
+`@zakahacecosas/` | `@zhc.js/`
 
 # `number-utils`
 
@@ -13,11 +13,10 @@ A set of 30+ functions for numeric operation, conversion; among other uses. Work
 deno add jsr:@zakahacecosas/number-utils
 yarn add jsr:@zakahacecosas/number-utils
 pnpm add jsr:@zakahacecosas/number-utils
-# npm or bun (the name here is different!)
-npm install numeric-utils
-bun add numeric-utils
+# npm or bun (the org here is different)
+npm install @zhc.js/number-utils
+bun add @zhc.js/number-utils
 # you can use npx/bunx jsr add... too, but it doesn't work with every nodejs project
-# and the package name is different because someone holds an unmaintained "number-utils"
 ```
 
 ## Feature highlights

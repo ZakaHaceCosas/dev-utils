@@ -12,7 +12,10 @@
     "quoteProps": "consistent"
   },
   "tasks": {
-    "prepublish": "deno fmt && deno test --allow-write --allow-read && deno count.ts"
+    "build": {
+      "description": "Formats, tests, builds and counts all modules.",
+      "command": "deno fmt && deno test --allow-write --allow-read && deno -A build.ts --all && deno count.ts "
+    }
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@^1.0.19",
@@ -23,8 +26,7 @@
     "./string",
     "./geo",
     "./http",
-    "./perf",
-    "./entity"
+    "./perf"
   ],
   "publish": {
     "exclude": [

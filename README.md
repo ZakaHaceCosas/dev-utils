@@ -1,6 +1,6 @@
 # Utils monorepo
 
-A monorepo with different packages that provide great utilities for common tasks. They're all written in TypeScript and Deno (using NodeJS-compatible TypeScript code) and published to `jsr` under [the `@zakahacecosas` scope](https://jsr.io/@zakahacecosas), and to `npm` as standalone packages.
+A monorepo with different packages that provide great utilities for common tasks. They're all written in TypeScript and Deno (using NodeJS-compatible TypeScript code) and published to `jsr` under [the `@zakahacecosas` scope](https://jsr.io/@zakahacecosas), and to `npm` under the `@zhc.js/` scope.
 
 ## Packages
 
@@ -10,10 +10,7 @@ A monorepo with different packages that provide great utilities for common tasks
 | `number-utils` |            35+ number related utility functions. | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/number) |
 | `geo-utils`    | 10+ vector & distance related utility functions. |    [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/geo) |
 | `http-utils`   |                9 HTTP related utility functions. |   [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/http) |
-| `entity-utils` |                9 HTTP related utility functions. | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/entity) |
-
-> [!WARNING]
-> \* Due to the nature of npm (by this I mean package names claimed by unmaintained stuff); all names had to be changed in npm (table shows JSR name). In short, names in npm are in plural rather than singular (_strings_-utils, _https_-utils, _entities_-utils, and so on).
+| `entity-utils` |                        (Yet a work in progress). | [Repo](https://github.com/ZakaHaceCosas/dev-utils/tree/master/entity) |
 
 `string-utils` includes tools for CLI-targeted string formatting, validation, formatting, casing, counting, replacing, etc... It is, to be fair, a VERY powerful string toolkit.
 

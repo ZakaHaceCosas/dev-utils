@@ -1,6 +1,6 @@
 <!-- markdownlint-disable md001 md041 -->
 
-`@zakahacecosas/`
+`@zakahacecosas/` | `@zhc.js/`
 
 # `entity-utils`
 
@@ -13,11 +13,10 @@ A few functions for helping with arrays and objects. Works with NodeJS, Bun, Den
 deno add jsr:@zakahacecosas/entity-utils
 yarn add jsr:@zakahacecosas/entity-utils
 pnpm add jsr:@zakahacecosas/entity-utils
-# npm or bun (the name here is different!)
-npm install entities-utils
-bun add entities-utils
+# npm or bun (the org here is different)
+npm install @zhc.js/entity-utils
+bun add @zhc.js/entity-utils
 # you can use npx/bunx jsr add... too, but it doesn't work with every nodejs project
-# and the package name is different because someone holds an unmaintained "entity-utils"
 ```
 
 ## Feature highlights
