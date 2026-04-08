@@ -1279,7 +1279,6 @@ Deno.test({
 
 Deno.test({
   name: "isValidIP works (v6)",
-  ignore: true,
   fn: () => {
     // Full (8 groups, 4 hex digits each)
     assertEquals(StringUtils.isValidIP("2001:0db8:85a3:0000:0000:8a2e:0370:7334", 6), true);

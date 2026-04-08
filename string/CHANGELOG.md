@@ -2,6 +2,12 @@
 
 # `string-utils` CHANGELOG
 
+## 4.2.0
+
+### Added
+
+- `isValidIP("...", 6)` now works, you can validate IPv6 addresses with it
+
 ## 4.1.0
 
 ### Added

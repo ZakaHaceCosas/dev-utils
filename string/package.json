@@ -8,7 +8,7 @@
   },
   "description": "A great set of 60 functions for string manipulation.",
   "homepage": "https://github.com/ZakaHaceCosas/dev-utils",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "type": "module",
   "main": "./dist/mod.js",
   "name": "@zhc.js/string-utils",

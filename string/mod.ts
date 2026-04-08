@@ -36,7 +36,7 @@
  * @module
  */
 
-// deno-lint-ignore-file no-explicit-any no-unreachable
+// deno-lint-ignore-file no-explicit-any
 
 // * SECTION: TYPES * //
 
@@ -1875,7 +1875,7 @@ export function isValidURL(
 }
 
 /**
- * Given a string (or not), checks if it's a valid Internet Protocol address. Only checks IPv4 (for now).
+ * Given a string (or not), checks if it's a valid Internet Protocol address. Checks IPv4 by default, IPv6 if you pass the number 6 as the second arg.
  *
  * @param {UnknownString} ip IP to check.
  * @param {4 | 6} [format=4] IP address type. Defaults to 4.
@@ -1885,6 +1885,9 @@ export function isValidURL(
  * isValidIP("123.456.789.100"); // false (max is 255)
  * isValidIP("123 . 0 . 0 . 0"); // false (why the spaces?)
  * isValidIP("123.123.123.123"); // true
+ * 
+ * isValidIP("2001:db8:85a3:0:0:8a2e:370", 6); // false (missing a group)
+ * isValidIP("2001:db8:85a3::8a2e:370:7334", 6); // true
  * ```
  *
  * @returns {boolean} True if it's an IP and false otherwise.
@@ -1899,15 +1902,38 @@ export function isValidIP(ip: UnknownString, format: 4 | 6 = 4): boolean {
     if (!a || !b || !c || !d) return false;
     return [a, b, c, d].every((n) => Number(n) <= 255 && Number(n) >= 0);
   }
-  throw new Error("IPv6 validation is not yet supported.");
-  if (ip == "::") return true;
+  if (ip[0] == ":" && ip[1] != ":") return false;
+  if (ip.at(-1) == ":" && ip.at(-2) != ":") return false;
   const addr = (ip as string).toLowerCase();
-  const split = addr.split(":");
-  if (!addr.includes("::") && split.length != 8) return false;
-  if (!split.slice(0, -1).every((s) => isValidHex(s, "exclude") || s == "")) return false;
-  const last = split.slice(-1)[0];
-  if (!isValidHex(last, "exclude") && !isValidIP(last) && last != "") return false;
-  // TODO: not all cases handled
+  if (addr.includes(":::")) return false;
+  const arrays = addr.split("::");
+  if (arrays.length > 2) return false;
+  const hasShortening = arrays.length > 1;
+  let hasV4: boolean = false;
+  const subArrays: string[][] = [];
+  for (const [i, v] of arrays.entries()) {
+    const nSpl = v.split(":");
+    subArrays.push(nSpl);
+    for (const [j, w] of nSpl.entries()) {
+      if (w == "") continue; // for IPs starting with ::
+      if (isValidIP(w)) {
+        if (j == nSpl.length - 1 && i == arrays.length - 1) {
+          hasV4 = true;
+          continue;
+        } else return false;
+      }
+      if (!isValidHex(w, "exclude")) return false;
+      if (w.length > 4) return false;
+    }
+  }
+  const len = subArrays.map((v) => v.length).reduce((acc, curr) => acc + curr);
+  if (hasV4) {
+    if (len > 6) return false;
+    if (!hasShortening && len != 6) return false;
+  } else {
+    if (len > 8) return false;
+    if (!hasShortening && len != 8) return false;
+  }
   return true;
 }
 
