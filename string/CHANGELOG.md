@@ -2,6 +2,13 @@
 
 # `string-utils` CHANGELOG
 
+## 4.2.1
+
+### Fixed
+
+- `isValidIP()` failing when part of the IP isn’t valid but can be converted to a number via JS string-to-number coercion within range (e.g. `10.10.10.10x2`, invalid, was being read as `10.10.10.20`)
+- smart truncate not working for single words above length
+
 ## 4.2.0
 
 ### Added
