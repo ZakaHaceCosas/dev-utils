@@ -103,6 +103,14 @@ Deno.test({
       ),
       "Fun fact: This...",
     );
+    assertEquals(
+      StringUtils.truncate(
+        "Internationalization is hard",
+        10,
+        true,
+      ),
+      "Internatio...",
+    );
   },
 });
 
@@ -1274,6 +1282,17 @@ Deno.test({
     assertEquals(StringUtils.isValidIP(""), false); // empty string
     assertEquals(StringUtils.isValidIP(" "), false); // whitespace
     assertEquals(StringUtils.isValidIP("300.168.0.1"), false); // octet >255
+
+    assertEquals(
+      ["1.2.3.0x10", "1.2.3.1e2", "1.2.3.+4", "1.2.3.-0", "1.2.3.0b11"].map((ip) => StringUtils.isValidIP(ip)),
+      [
+        false,
+        false,
+        false,
+        false,
+        false,
+      ],
+    ); // non decimal forms
   },
 });
 

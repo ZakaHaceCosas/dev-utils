@@ -535,8 +535,10 @@ export function removeConsonants(str: string): string {
 export function truncate(str: string, length: number, smartTruncate: boolean = false): string {
   if (str.length <= length) return str;
   const exactCut = str.substring(0, length) + "...";
-  const smartCut = str.slice(0, str.lastIndexOf(" ", length)) + "...";
-  return smartTruncate ? smartCut : exactCut;
+  if (!smartTruncate) return exactCut;
+  const smartCutIndex = str.lastIndexOf(" ", length);
+  if (smartCutIndex == -1) return exactCut;
+  return str.slice(0, smartCutIndex) + "...";
 }
 
 /**
@@ -1885,7 +1887,7 @@ export function isValidURL(
  * isValidIP("123.456.789.100"); // false (max is 255)
  * isValidIP("123 . 0 . 0 . 0"); // false (why the spaces?)
  * isValidIP("123.123.123.123"); // true
- * 
+ *
  * isValidIP("2001:db8:85a3:0:0:8a2e:370", 6); // false (missing a group)
  * isValidIP("2001:db8:85a3::8a2e:370:7334", 6); // true
  * ```
@@ -1900,7 +1902,9 @@ export function isValidIP(ip: UnknownString, format: 4 | 6 = 4): boolean {
     if (split.length !== 4) return false;
     const [a, b, c, d] = split;
     if (!a || !b || !c || !d) return false;
-    return [a, b, c, d].every((n) => Number(n) <= 255 && Number(n) >= 0);
+    const newArray = [a, b, c, d];
+    if (!newArray.every((c) => /^(\d+\.?\d*|\.\d+)$/.test(c))) return false;
+    return newArray.every((n) => Number.parseInt(n) <= 255 && Number.parseInt(n) >= 0);
   }
   if (ip[0] == ":" && ip[1] != ":") return false;
   if (ip.at(-1) == ":" && ip.at(-2) != ":") return false;
